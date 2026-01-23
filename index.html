@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechFix Pro | Servicio Técnico Premium de Celulares</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+    <style>
+        /* Variables y Reset */
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --success: #4cc9f0;
+            --warning: #ff9e00;
+            --danger: #f72585;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 15px 40px rgba(0, 0, 0, 0.12);
+            --radius: 12px;
+            --radius-lg: 20px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.8rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 5px;
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 14px 32px;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            box-shadow: var(--shadow);
+            gap: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            background: linear-gradient(90deg, var(--primary-dark), var(--secondary));
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Marquesina de Redes Sociales */
+        .marquee-container {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 12px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .marquee-content {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            animation: marquee 25s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .marquee-text {
+            font-weight: 500;
+            margin-right: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .social-icons {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .social-icon {
+            color: white;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .social-icon:hover {
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        /* Header y Navegación */
+        header {
+            background-color: white;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+        }
+
+        .logo-text h1 {
+            font-size: 1.8rem;
+            color: var(--dark);
+            line-height: 1;
+        }
+
+        .logo-text span {
+            color: var(--primary);
+        }
+
+        .logo-text p {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        /* Menú Hamburguesa */
+        .hamburger-menu {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger-menu span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: var(--dark);
+            border-radius: 3px;
+            transition: var(--transition);
+        }
+
+        .hamburger-menu.active span:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+
+        .hamburger-menu.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-menu.active span:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 1.05rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), 
+                        url('https://images.unsplash.com/photo-1593640408182-31c70c8268f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 120px 0;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.1), rgba(114, 9, 183, 0.1));
+            z-index: -1;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 40px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        /* Servicios */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            height: 100%;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .service-icon {
+            height: 120px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .service-content {
+            padding: 30px;
+        }
+
+        .service-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .service-content p {
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+
+        .service-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Repuestos y Ofertas */
+        .offers {
+            background-color: #f8f9fa;
+        }
+
+        .offers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .offer-card {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .offer-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .offer-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--accent);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .offer-img {
+            height: 200px;
+            background-color: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: var(--primary);
+            position: relative;
+        }
+
+        .offer-content {
+            padding: 25px;
+        }
+
+        .offer-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .offer-price {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .current-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .old-price {
+            font-size: 1.1rem;
+            color: var(--gray);
+            text-decoration: line-through;
+        }
+
+        /* Garantía */
+        .guarantee {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .guarantee::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,255,255,0.05)" d="M0,0 L100,0 L100,100 Z"/></svg>');
+            background-size: cover;
+        }
+
+        .guarantee .section-title h2,
+        .guarantee .section-title p {
+            color: white;
+        }
+
+        .guarantee-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .guarantee-icon {
+            font-size: 5rem;
+            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .guarantee-features {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .guarantee-feature {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius);
+            padding: 25px;
+            width: 200px;
+        }
+
+        /* Lista de Espera */
+        .waitlist-form {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: var(--radius-lg);
+            padding: 50px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid var(--light-gray);
+            border-radius: var(--radius);
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+        }
+
+        /* Diagnóstico Virtual */
+        .diagnostic {
+            background-color: #f8f9fa;
+        }
+
+        .diagnostic-container {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .diagnostic-content {
+            flex: 1;
+        }
+
+        .diagnostic-image {
+            flex: 1;
+            height: 400px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 5rem;
+        }
+
+        .diagnostic-steps {
+            margin-top: 40px;
+        }
+
+        .diagnostic-step {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 25px;
+            background-color: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .diagnostic-step:hover {
+            transform: translateX(10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        /* Programa de Fidelización */
+        .loyalty-program {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+        }
+
+        .loyalty-container {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .loyalty-content {
+            flex: 1;
+        }
+
+        .loyalty-card {
+            flex: 1;
+            background-color: white;
+            color: var(--dark);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .points-display {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px;
+            border-radius: var(--radius);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .points-value {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin: 10px 0;
+        }
+
+        .benefits-list {
+            list-style: none;
+            margin: 30px 0;
+        }
+
+        .benefits-list li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .benefits-list i {
+            color: var(--success);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 80px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-bottom: 60px;
+        }
+
+        .footer-logo .logo-icon {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links h3, .footer-contact h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            color: white;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+
+        .footer-contact p {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #adb5bd;
+        }
+
+        .footer-contact i {
+            color: var(--primary);
+        }
+
+        .social-footer {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-footer a {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .social-footer a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1002;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            color: var(--accent);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .section-title h2 {
+                font-size: 2.5rem;
+            }
+            
+            .diagnostic-container,
+            .loyalty-container {
+                flex-direction: column;
+                gap: 40px;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding: 80px 0;
+            }
+            
+            .hero h2 {
+                font-size: 2.8rem;
+            }
+            
+            .hamburger-menu {
+                display: flex;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background-color: white;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 100px 40px 40px;
+                box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+                transition: var(--transition);
+                z-index: 1000;
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            .nav-links a {
+                font-size: 1.1rem;
+                padding: 10px 0;
+                width: 100%;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-buttons .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .waitlist-form {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .services-grid,
+            .offers-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .guarantee-features {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .guarantee-feature {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        /* Animaciones */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Marquesina de Redes Sociales -->
+    <div class="marquee-container">
+        <div class="marquee-content">
+            <div class="marquee-text">
+                <i class="fas fa-hashtag"></i>
+                <span>Síguenos en redes sociales</span>
+            </div>
+            <div class="social-icons">
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-tiktok"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+            </div>
+            <div class="marquee-text">
+                <i class="fas fa-gift"></i>
+                <span>¡Ofertas exclusivas por tiempo limitado!</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header con Menú Hamburguesa -->
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>TechFix<span>Pro</span></h1>
+                    <p>Servicio Técnico Premium</p>
+                </div>
+            </a>
+
+            <!-- Menú Hamburguesa -->
+            <div class="hamburger-menu" id="hamburgerMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <!-- Navegación -->
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#home" class="active">Inicio</a></li>
+                    <li><a href="#services">Servicios</a></li>
+                    <li><a href="#offers">Repuestos</a></li>
+                    <li><a href="#guarantee">Garantía</a></li>
+                    <li><a href="#waitlist">Sacar Hora</a></li>
+                    <li><a href="#diagnostic">Diagnóstico</a></li>
+                    <li><a href="#loyalty">Puntos</a></li>
+                    <li><a href="administrador.html" class="btn-outline btn">Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container hero-content fade-in">
+            <h2>Reparación Express de Celulares</h2>
+            <p>Servicio técnico especializado con tecnología de punta, repuestos originales y garantía extendida. Recupera tu dispositivo en menos de 24 horas.</p>
+            <div class="hero-buttons">
+                <a href="#waitlist" class="btn">
+                    <i class="fas fa-calendar-check"></i>
+                    Sacar Hora Ahora
+                </a>
+                <a href="#diagnostic" class="btn btn-outline">
+                    <i class="fas fa-stethoscope"></i>
+                    Diagnóstico Virtual
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Servicios -->
+    <section id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nuestros Servicios</h2>
+                <p>Soluciones completas para todos los problemas de tu dispositivo móvil</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card fade-in">
+                    <div class="service-icon">
+                        <i class="fas fa-mobile"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Cambio de Pantalla</h3>
+                        <p>Reemplazo profesional de pantallas rotas con componentes originales y garantía.</p>
+                        <div class="service-price">Desde $39.990</div>
+                        <button class="btn" onclick="showModal('service1')" style="margin-top: 15px; width: 100%;">
+                            <i class="fas fa-info-circle"></i> Más Info
+                        </button>
+                    </div>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon">
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Cambio de Batería</h3>
+                        <p>Baterías de alta capacidad con 12 meses de garantía y prueba de desempeño.</p>
+                        <div class="service-price">Desde $24.990</div>
+                        <button class="btn" onclick="showModal('service2')" style="margin-top: 15px; width: 100%;">
+                            <i class="fas fa-info-circle"></i> Más Info
+                        </button>
+                    </div>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Daño por Agua</h3>
+                        <p>Limpieza ultrasónica y recuperación de dispositivos mojados o con humedad.</p>
+                        <div class="service-price">Desde $29.990</div>
+                        <button class="btn" onclick="showModal('service3')" style="margin-top: 15px; width: 100%;">
+                            <i class="fas fa-info-circle"></i> Más Info
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Repuestos y Ofertas -->
+    <section id="offers" class="offers">
+        <div class="container">
+            <div class="section-title">
+                <h2>Repuestos y Ofertas</h2>
+                <p>Componentes originales y de alta calidad con los mejores precios del mercado</p>
+            </div>
+            <div class="offers-grid">
+                <div class="offer-card fade-in">
+                    <div class="offer-img">
+                        <div class="offer-badge">-25%</div>
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="offer-content">
+                        <h3>Pantalla Samsung S22 Ultra</h3>
+                        <p>Pantalla Dynamic AMOLED 2X original con Gorilla Glass Victus+</p>
+                        <div class="offer-price">
+                            <span class="current-price">$129.990</span>
+                            <span class="old-price">$169.990</span>
+                        </div>
+                        <button class="btn" onclick="showModal('offer1')" style="width: 100%;">
+                            <i class="fas fa-shopping-cart"></i> Comprar Ahora
+                        </button>
+                    </div>
+                </div>
+                <div class="offer-card fade-in">
+                    <div class="offer-img">
+                        <div class="offer-badge">-15%</div>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                    <div class="offer-content">
+                        <h3>Batería iPhone 13 Pro Max</h3>
+                        <p>Batería original con capacidad aumentada a 4352 mAh</p>
+                        <div class="offer-price">
+                            <span class="current-price">$44.990</span>
+                            <span class="old-price">$52.990</span>
+                        </div>
+                        <button class="btn" onclick="showModal('offer2')" style="width: 100%;">
+                            <i class="fas fa-shopping-cart"></i> Comprar Ahora
+                        </button>
+                    </div>
+                </div>
+                <div class="offer-card fade-in">
+                    <div class="offer-img">
+                        <div class="offer-badge">OFERTA</div>
+                        <i class="fas fa-headphones"></i>
+                    </div>
+                    <div class="offer-content">
+                        <h3>Kit Reparación Premium</h3>
+                        <p>Set completo con herramientas profesionales y accesorios</p>
+                        <div class="offer-price">
+                            <span class="current-price">$34.990</span>
+                        </div>
+                        <button class="btn" onclick="showModal('offer3')" style="width: 100%;">
+                            <i class="fas fa-shopping-cart"></i> Comprar Ahora
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Garantía -->
+    <section id="guarantee" class="guarantee">
+        <div class="container">
+            <div class="section-title">
+                <h2>Garantía Extendida 3+3</h2>
+                <p>Confianza total en nuestro trabajo y en la calidad de nuestros repuestos</p>
+            </div>
+            <div class="guarantee-content">
+                <div class="guarantee-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <p style="font-size: 1.2rem; margin-bottom: 30px;">
+                    Ofrecemos garantía extendida de 3 meses en todas nuestras reparaciones, 
+                    más 3 meses adicionales en repuestos originales. Si tu dispositivo presenta 
+                    problemas relacionados con la reparación dentro de este período, 
+                    lo reparamos completamente gratis.
+                </p>
+                <div class="guarantee-features">
+                    <div class="guarantee-feature">
+                        <h3>3 Meses</h3>
+                        <p>Garantía en mano de obra</p>
+                    </div>
+                    <div class="guarantee-feature">
+                        <h3>+3 Meses</h3>
+                        <p>En repuestos originales</p>
+                    </div>
+                    <div class="guarantee-feature">
+                        <h3>100% Gratis</h3>
+                        <p>Reparaciones en garantía</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lista de Espera -->
+    <section id="waitlist">
+        <div class="container">
+            <div class="section-title">
+                <h2>Reserva tu Hora</h2>
+                <p>Agenda tu reparación de forma rápida y evita largas esperas</p>
+            </div>
+            <div class="waitlist-form fade-in">
+                <form id="appointmentForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="name">Nombre Completo *</label>
+                            <input type="text" id="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Teléfono *</label>
+                            <input type="tel" id="phone" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Correo Electrónico *</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="device">Modelo del Dispositivo *</label>
+                            <input type="text" id="device" class="form-control" required placeholder="Ej: iPhone 14 Pro, Samsung Galaxy S23, etc.">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="problem">Problema a Reparar *</label>
+                            <select id="problem" class="form-control" required>
+                                <option value="">Seleccione el problema</option>
+                                <option value="screen">Pantalla rota/agrietada</option>
+                                <option value="battery">Batería no carga/dura poco</option>
+                                <option value="water">Daño por agua/líquidos</option>
+                                <option value="camera">Cámara no funciona</option>
+                                <option value="charging">Problemas de carga</option>
+                                <option value="other">Otro problema</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Fecha Preferida *</label>
+                            <input type="date" id="date" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="time">Hora Preferida *</label>
+                            <select id="time" class="form-control" required>
+                                <option value="">Seleccione hora</option>
+                                <option value="09:00">09:00 AM</option>
+                                <option value="10:00">10:00 AM</option>
+                                <option value="11:00">11:00 AM</option>
+                                <option value="12:00">12:00 PM</option>
+                                <option value="14:00">02:00 PM</option>
+                                <option value="15:00">03:00 PM</option>
+                                <option value="16:00">04:00 PM</option>
+                                <option value="17:00">05:00 PM</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%; margin-top: 20px;">
+                        <i class="fas fa-calendar-plus"></i>
+                        Reservar Hora Ahora
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diagnóstico Virtual -->
+    <section id="diagnostic" class="diagnostic">
+        <div class="container">
+            <div class="diagnostic-container">
+                <div class="diagnostic-content">
+                    <div class="section-title" style="text-align: left;">
+                        <h2>Diagnóstico Virtual Inteligente</h2>
+                        <p>Identifica el problema de tu dispositivo en minutos con nuestra herramienta avanzada</p>
+                    </div>
+                    <div class="diagnostic-steps">
+                        <div class="diagnostic-step">
+                            <div class="step-number">1</div>
+                            <div>
+                                <h3>Describe el Problema</h3>
+                                <p>Selecciona los síntomas que presenta tu dispositivo</p>
+                            </div>
+                        </div>
+                        <div class="diagnostic-step">
+                            <div class="step-number">2</div>
+                            <div>
+                                <h3>Diagnóstico Automático</h3>
+                                <p>Nuestra IA analiza y identifica las posibles causas</p>
+                            </div>
+                        </div>
+                        <div class="diagnostic-step">
+                            <div class="step-number">3</div>
+                            <div>
+                                <h3>Presupuesto y Solución</h3>
+                                <p>Recibe un diagnóstico preciso y cotización inmediata</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn" onclick="startDiagnostic()" style="margin-top: 20px;">
+                        <i class="fas fa-robot"></i>
+                        Iniciar Diagnóstico Inteligente
+                    </button>
+                </div>
+                <div class="diagnostic-image">
+                    <i class="fas fa-laptop-medical"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programa de Fidelización -->
+    <section id="loyalty" class="loyalty-program">
+        <div class="container">
+            <div class="loyalty-container">
+                <div class="loyalty-content">
+                    <div class="section-title" style="text-align: left;">
+                        <h2 style="color: white;">TechFix Rewards</h2>
+                        <p style="color: rgba(255,255,255,0.8);">Acumula puntos con cada reparación y disfruta de beneficios exclusivos</p>
+                    </div>
+                    
+                    <div class="benefits-list">
+                        <li><i class="fas fa-check-circle"></i> <span>10 puntos por cada $1.000 en reparaciones</span></li>
+                        <li><i class="fas fa-check-circle"></i> <span>Canjea puntos por descuentos y servicios gratis</span></li>
+                        <li><i class="fas fa-check-circle"></i> <span>Estado VIP con prioridad en atención</span></li>
+                        <li><i class="fas fa-check-circle"></i> <span>Acceso a promociones y lanzamientos exclusivos</span></li>
+                        <li><i class="fas fa-check-circle"></i> <span>Sorteos mensuales para clientes frecuentes</span></li>
+                    </div>
+                    
+                    <p style="margin-top: 30px; color: rgba(255,255,255,0.8);">
+                        ¡Regístrate ahora y obtén 100 puntos de bienvenida para tu primera reparación!
+                    </p>
+                </div>
+                
+                <div class="loyalty-card fade-in">
+                    <div class="points-display">
+                        <h3>Mis Puntos</h3>
+                        <div class="points-value" id="userPoints">0</div>
+                        <p>Ingresa tu número de cliente para consultar</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="clientId">Número de Cliente</label>
+                        <input type="text" id="clientId" class="form-control" placeholder="Ej: TECHFIX-2023-001">
+                    </div>
+                    
+                    <button class="btn" onclick="checkPoints()" style="width: 100%; margin-top: 20px;">
+                        <i class="fas fa-star"></i>
+                        Ver Mis Puntos y Beneficios
+                    </button>
+                    
+                    <div id="pointsResult" style="margin-top: 20px; text-align: center; min-height: 50px;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h2 style="color: white; margin-bottom: 20px;">TechFix<span style="color: var(--primary);">Pro</span></h2>
+                    <p style="color: #adb5bd; margin-bottom: 20px;">
+                        Servicio técnico especializado en reparación de dispositivos móviles con tecnología de punta y atención personalizada.
+                    </p>
+                    <div class="social-footer">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="#home">Inicio</a></li>
+                        <li><a href="#services">Servicios</a></li>
+                        <li><a href="#offers">Repuestos</a></li>
+                        <li><a href="#guarantee">Garantía</a></li>
+                        <li><a href="#waitlist">Sacar Hora</a></li>
+                        <li><a href="#diagnostic">Diagnóstico</a></li>
+                        <li><a href="#loyalty">Programa de Puntos</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h3>Contacto</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Av. Tecnológica 1234, Santiago Centro</p>
+                    <p><i class="fas fa-phone"></i> +56 9 7654 3210</p>
+                    <p><i class="fas fa-envelope"></i> contacto@techfixpro.cl</p>
+                    <p><i class="fas fa-clock"></i> Lunes a Viernes: 9:00 - 20:00 hrs</p>
+                    <p><i class="fas fa-clock"></i> Sábados: 10:00 - 18:00 hrs</p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 TechFix Pro - Servicio Técnico de Celulares. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Detalles del Producto</h2>
+            <div id="modalContent" style="margin-top: 20px;">
+                <!-- Contenido dinámico -->
+            </div>
+            <button class="btn" onclick="closeModal()" style="width: 100%; margin-top: 30px;">
+                <i class="fas fa-times"></i>
+                Cerrar
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Datos de ejemplo para clientes
+        const clientsData = {
+            "TECHFIX-2023-001": { name: "María González", points: 650, status: "VIP" },
+            "TECHFIX-2023-002": { name: "Carlos López", points: 320, status: "Regular" },
+            "TECHFIX-2023-003": { name: "Ana Silva", points: 1250, status: "VIP Gold" },
+            "TECHFIX-2023-004": { name: "Roberto Díaz", points: 85, status: "Nuevo" }
+        };
+
+        // Menú Hamburguesa
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        const navLinks = document.getElementById('navLinks');
+        
+        hamburgerMenu.addEventListener('click', () => {
+            hamburgerMenu.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+        
+        // Cerrar menú al hacer clic en un enlace
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburgerMenu.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // Animación al hacer scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+        
+        // Observar elementos para animación
+        document.querySelectorAll('.service-card, .offer-card, .waitlist-form, .loyalty-card').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Función para verificar puntos del cliente
+        function checkPoints() {
+            const clientId = document.getElementById('clientId').value.trim();
+            const pointsResult = document.getElementById('pointsResult');
+            
+            if (!clientId) {
+                pointsResult.innerHTML = `<p style="color: var(--danger);">Por favor ingresa tu número de cliente</p>`;
+                return;
+            }
+            
+            if (clientsData[clientId]) {
+                const client = clientsData[clientId];
+                document.getElementById('userPoints').textContent = client.points;
+                
+                let benefits = '';
+                if (client.points >= 1000) {
+                    benefits = `<p><strong>¡Eres cliente VIP Gold!</strong> Tienes 30% de descuento en todas las reparaciones.</p>`;
+                } else if (client.points >= 500) {
+                    benefits = `<p><strong>¡Eres cliente VIP!</strong> Tienes 20% de descuento y atención prioritaria.</p>`;
+                } else if (client.points >= 200) {
+                    benefits = `<p>Tienes ${client.points} puntos. Con 500 puntos alcanzas el estado VIP.</p>`;
+                } else {
+                    benefits = `<p>Sigue acumulando puntos para obtener beneficios exclusivos.</p>`;
+                }
+                
+                pointsResult.innerHTML = `
+                    <div style="background-color: #f8f9fa; padding: 15px; border-radius: var(--radius);">
+                        <p style="color: var(--primary); font-weight: 600;">¡Hola ${client.name}!</p>
+                        <p>Tu estado actual: <strong>${client.status}</strong></p>
+                        <p>Puntos acumulados: <strong>${client.points}</strong></p>
+                        ${benefits}
+                    </div>
+                `;
+            } else {
+                pointsResult.innerHTML = `
+                    <div style="background-color: #fff3cd; padding: 15px; border-radius: var(--radius);">
+                        <p style="color: #856404;">Cliente no encontrado. Verifica tu número o regístrate en nuestro sistema.</p>
+                        <button class="btn" onclick="registerClient()" style="margin-top: 10px; width: 100%;">
+                            <i class="fas fa-user-plus"></i> Registrarme Ahora
+                        </button>
+                    </div>
+                `;
+            }
+        }
+        
+        function registerClient() {
+            alert("Registro de cliente - En una aplicación real, esto abriría un formulario de registro");
+        }
+        
+        // Función para iniciar diagnóstico virtual
+        function startDiagnostic() {
+            const diagnosticSteps = [
+                {question: "¿Qué problema presenta tu dispositivo?", options: ["Pantalla rota/agrietada", "Batería no carga", "No enciende", "Problemas de rendimiento", "Otro"]},
+                {question: "¿Tu dispositivo ha estado en contacto con agua o líquidos?", options: ["Sí", "No", "No estoy seguro"]},
+                {question: "¿Cuándo comenzó el problema?", options: ["Hoy", "Esta semana", "Este mes", "Hace más de un mes"]}
+            ];
+            
+            let currentStep = 0;
+            let answers = [];
+            
+            function showStep(step) {
+                const stepData = diagnosticSteps[step];
+                let optionsHTML = stepData.options.map(option => 
+                    `<button class="btn btn-outline" onclick="selectOption('${option}')" style="margin: 5px; width: 100%; text-align: left; justify-content: flex-start;">
+                        ${option}
+                    </button>`
+                ).join('');
+                
+                document.getElementById('modalTitle').textContent = `Diagnóstico - Paso ${step + 1} de ${diagnosticSteps.length}`;
+                document.getElementById('modalContent').innerHTML = `
+                    <h3>${stepData.question}</h3>
+                    <div style="margin-top: 20px;">
+                        ${optionsHTML}
+                    </div>
+                `;
+                document.getElementById('productModal').style.display = 'flex';
+            }
+            
+            window.selectOption = function(option) {
+                answers.push(option);
+                currentStep++;
+                
+                if (currentStep < diagnosticSteps.length) {
+                    showStep(currentStep);
+                } else {
+                    // Mostrar resultados del diagnóstico
+                    showDiagnosticResults(answers);
+                }
+            };
+            
+            showStep(0);
+        }
+        
+        function showDiagnosticResults(answers) {
+            let diagnosis = "Problema general del dispositivo";
+            let recommendation = "Recomendamos traer tu dispositivo para un diagnóstico presencial completo";
+            let estimatedCost = "$25.000 - $45.000";
+            
+            if (answers[0] === "Pantalla rota/agrietada") {
+                diagnosis = "Pantalla dañada";
+                recommendation = "Necesitas cambio de pantalla. Tenemos pantallas originales en stock.";
+                estimatedCost = "$39.990 - $129.990";
+            } else if (answers[0] === "Batería no carga") {
+                diagnosis = "Batería defectuosa";
+                recommendation = "Reemplazo de batería recomendado. Garantía de 12 meses.";
+                estimatedCost = "$24.990 - $44.990";
+            } else if (answers[1] === "Sí") {
+                diagnosis = "Daño por líquidos";
+                recommendation = "Limpieza ultrasónica urgente para evitar corrosión.";
+                estimatedCost = "$29.990 - $79.990";
+            }
+            
+            document.getElementById('modalTitle').textContent = "Resultado del Diagnóstico";
+            document.getElementById('modalContent').innerHTML = `
+                <div style="background-color: #f8f9fa; padding: 25px; border-radius: var(--radius); margin-bottom: 20px;">
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">Diagnóstico: ${diagnosis}</h3>
+                    <p><strong>Recomendación:</strong> ${recommendation}</p>
+                    <p><strong>Costo estimado:</strong> ${estimatedCost}</p>
+                </div>
+                <p>Para una evaluación precisa y cotización exacta, te recomendamos agendar una hora con nuestros técnicos especializados.</p>
+                <button class="btn" onclick="closeModalAndSchedule()" style="width: 100%; margin-top: 20px;">
+                    <i class="fas fa-calendar-check"></i>
+                    Agendar Hora Ahora
+                </button>
+            `;
+        }
+        
+        function closeModalAndSchedule() {
+            closeModal();
+            document.getElementById('waitlist').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Funcionalidad del formulario de reserva
+        document.getElementById('appointmentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const device = document.getElementById('device').value;
+            const date = document.getElementById('date').value;
+            
+            // Mostrar confirmación
+            document.getElementById('modalTitle').textContent = "¡Hora Reservada!";
+            document.getElementById('modalContent').innerHTML = `
+                <div style="text-align: center; padding: 20px;">
+                    <div style="width: 80px; height: 80px; background-color: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: white; font-size: 2.5rem;">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">¡Perfecto, ${name}!</h3>
+                    <p>Tu hora ha sido reservada exitosamente para el <strong>${date}</strong>.</p>
+                    <p>Dispositivo: <strong>${device}</strong></p>
+                    <p>Te contactaremos al <strong>${phone}</strong> para confirmar los detalles.</p>
+                    <p style="margin-top: 20px; color: var(--gray); font-size: 0.9rem;">Recuerda llegar 10 minutos antes de tu hora agendada.</p>
+                </div>
+            `;
+            
+            document.getElementById('productModal').style.display = 'flex';
+            
+            // Limpiar formulario
+            this.reset();
+            
+            // Configurar fecha mínima (mañana)
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            document.getElementById('date').min = tomorrow.toISOString().split('T')[0];
+            document.getElementById('date').value = tomorrow.toISOString().split('T')[0];
+        });
+        
+        // Configurar fecha mínima en el formulario (mañana)
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        document.getElementById('date').min = tomorrow.toISOString().split('T')[0];
+        document.getElementById('date').value = tomorrow.toISOString().split('T')[0];
+        
+        // Funciones del modal
+        function showModal(productId) {
+            let title = "";
+            let content = "";
+            
+            switch(productId) {
+                case 'service1':
+                    title = "Cambio de Pantalla Profesional";
+                    content = `
+                        <p><strong>Incluye:</strong></p>
+                        <ul style="margin-left: 20px; margin-bottom: 20px;">
+                            <li>Pantalla original o equivalente de alta calidad</li>
+                            <li>Instalación profesional con garantía</li>
+                            <li>Pruebas de funcionalidad completas</li>
+                            <li>Limpieza interna del dispositivo</li>
+                        </ul>
+                        <p><strong>Garantía:</strong> 3 meses en mano de obra + 3 meses en repuesto</p>
+                        <p><strong>Tiempo estimado:</strong> 1-2 horas</p>
+                    `;
+                    break;
+                case 'offer1':
+                    title = "Pantalla Samsung S22 Ultra";
+                    content = `
+                        <p><strong>Especificaciones:</strong></p>
+                        <ul style="margin-left: 20px; margin-bottom: 20px;">
+                            <li>Dynamic AMOLED 2X de 6.8"</li>
+                            <li>Resolución 3088x1440 (500 PPI)</li>
+                            <li>Tasa de refresco adaptativa 1-120Hz</li>
+                            <li>Gorilla Glass Victus+</li>
+                            <li>Incluye marco y herramientas</li>
+                        </ul>
+                        <p><strong>Garantía:</strong> 6 meses</p>
+                        <p><strong>Disponibilidad:</strong> Inmediata</p>
+                    `;
+                    break;
+                default:
+                    title = "Detalles del Producto";
+                    content = "<p>Información detallada del producto o servicio seleccionado.</p>";
+            }
+            
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalContent').innerHTML = content;
+            document.getElementById('productModal').style.display = 'flex';
+        }
+        
+        function closeModal() {
+            document.getElementById('productModal').style.display = 'none';
+        }
+        
+        // Cerrar modal al hacer clic fuera
+        window.onclick = function(event) {
+            const modal = document.getElementById('productModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+        
+        // Navegación suave
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Actualizar enlace activo en navegación
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const scrollPosition = window.scrollY + 100;
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                const sectionId = section.getAttribute('id');
+                
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    document.querySelectorAll('.nav-links a').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${sectionId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
