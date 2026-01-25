@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Términos y Garantías - 911repair</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@900&display=swap" rel="stylesheet">
+    <style>
+        /* Variables y Reset */
+        :root {
+            --primary: #dc2626;
+            --primary-dark: #b91c1c;
+            --secondary: #1e40af;
+            --accent: #f59e0b;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            line-height: 1.2;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .terms-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .terms-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,255,255,0.05)" d="M0,0 L100,0 L100,100 Z"/></svg>');
+            background-size: cover;
+        }
+
+        .header-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.8rem;
+            box-shadow: var(--shadow);
+        }
+
+        .logo-text h1 {
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        .logo-text span {
+            color: #ffd700;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Contenido Principal */
+        .terms-content {
+            padding: 50px 0;
+        }
+
+        .section-title {
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .section-title h2 {
+            font-size: 1.8rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title h2 i {
+            color: var(--primary);
+        }
+
+        /* Tarjetas de Términos */
+        .terms-card {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--light-gray);
+            transition: var(--transition);
+        }
+
+        .terms-card:hover {
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .terms-card h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .terms-card h3 i {
+            color: var(--secondary);
+        }
+
+        .terms-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .terms-list li {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .terms-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .terms-list.warning li::before {
+            content: '⚠';
+            color: var(--warning);
+        }
+
+        .terms-list.danger li::before {
+            content: '✗';
+            color: var(--danger);
+        }
+
+        /* Tabla de Garantías */
+        .guarantee-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .guarantee-table th {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .guarantee-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--light-gray);
+            background-color: white;
+        }
+
+        .guarantee-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .guarantee-table tr:nth-child(even) td {
+            background-color: #f8fafc;
+        }
+
+        /* Sección de Aceptación */
+        .acceptance-section {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            margin: 50px 0;
+            text-align: center;
+            border: 2px solid var(--light-gray);
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1.1rem;
+            color: var(--dark);
+        }
+
+        .checkbox-custom {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--gray);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            background: white;
+        }
+
+        .checkbox-input {
+            display: none;
+        }
+
+        .checkbox-input:checked + .checkbox-custom {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .checkbox-input:checked + .checkbox-custom::after {
+            content: '✓';
+            color: white;
+            font-weight: bold;
+        }
+
+        .checkbox-label:hover .checkbox-custom {
+            border-color: var(--primary);
+        }
+
+        /* Botones */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 14px 32px;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            box-shadow: var(--shadow);
+            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            background: linear-gradient(135deg, var(--primary-dark), #991b1b);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--secondary), #1e3a8a);
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #1e3a8a, #1e3a8a);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-large {
+            padding: 18px 40px;
+            font-size: 1.1rem;
+        }
+
+        .btn-disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-disabled:hover {
+            transform: none;
+            box-shadow: var(--shadow);
+        }
+
+        /* Footer */
+        .terms-footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 40px 0 20px;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo-text h1 {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .terms-card {
+                padding: 20px;
+            }
+            
+            .acceptance-section {
+                padding: 25px;
+            }
+            
+            .guarantee-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .checkbox-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .checkbox-label {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .terms-header {
+                padding: 30px 0;
+            }
+            
+            .logo {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .btn-large {
+                width: 100%;
+                padding: 16px;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        /* Animaciones */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        /* Scrollspy para navegación */
+        .terms-nav {
+            position: sticky;
+            top: 20px;
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            border: 1px solid var(--light-gray);
+        }
+
+        .terms-nav h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .nav-links {
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-bottom: 10px;
+        }
+
+        .nav-links a {
+            color: var(--gray);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background-color: #f1f5f9;
+            color: var(--primary);
+        }
+
+        .nav-links a i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Nota importante */
+        .important-note {
+            background: linear-gradient(135deg, #fff7ed, #fed7aa);
+            border-left: 4px solid var(--warning);
+            padding: 20px;
+            border-radius: var(--radius);
+            margin: 20px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .important-note i {
+            color: var(--warning);
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="terms-header">
+        <div class="container header-container">
+            <div class="logo fade-in">
+                <div class="logo-icon">
+                    911
+                </div>
+                <div class="logo-text">
+                    <h1>911<span>repair</span></h1>
+                </div>
+            </div>
+            <p class="subtitle fade-in">
+                Términos, Condiciones y Garantías de Nuestros Servicios
+            </p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Navegación -->
+        <aside class="terms-nav fade-in">
+            <h3><i class="fas fa-bookmark"></i> Navegación Rápida</h3>
+            <ul class="nav-links">
+                <li><a href="#garantias" class="active"><i class="fas fa-shield-alt"></i> Garantías</a></li>
+                <li><a href="#terminos-reparacion"><i class="fas fa-tools"></i> Reparaciones</a></li>
+                <li><a href="#terminos-venta"><i class="fas fa-shopping-cart"></i> Ventas</a></li>
+                <li><a href="#planes"><i class="fas fa-crown"></i> Planes VIP</a></li>
+                <li><a href="#aceptacion"><i class="fas fa-check-circle"></i> Aceptación</a></li>
+            </ul>
+        </aside>
+
+        <!-- Contenido Principal -->
+        <main class="terms-content">
+            <!-- Introducción -->
+            <div class="terms-card fade-in">
+                <div class="important-note">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>
+                        <h3 style="color: var(--warning); margin-bottom: 10px;">Nota Importante</h3>
+                        <p>Por favor, lea detenidamente los siguientes términos y condiciones. Al utilizar nuestros servicios, usted acepta estar sujeto a estos términos. Si tiene alguna pregunta, contáctenos antes de proceder.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección 1: Garantías -->
+            <section id="garantias" class="terms-section fade-in">
+                <div class="section-title">
+                    <h2><i class="fas fa-shield-alt"></i> Política de Garantías 911repair</h2>
+                </div>
+                
+                <div class="terms-card">
+                    <h3><i class="fas fa-award"></i> Garantía en Reparaciones</h3>
+                    <p>Todas nuestras reparaciones están respaldadas por nuestra <strong>Garantía 911</strong>, que incluye:</p>
+                    
+                    <table class="guarantee-table">
+                        <thead>
+                            <tr>
+                                <th>Tipo de Reparación</th>
+                                <th>Garantía</th>
+                                <th>Cobertura</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Cambio de Pantalla</strong></td>
+                                <td>90 días</td>
+                                <td>Mano de obra y repuesto</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cambio de Batería</strong></td>
+                                <td>180 días</td>
+                                <td>Capacidad de carga y funcionamiento</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Reparación de Placa</strong></td>
+                                <td>60 días</td>
+                                <td>Componentes reparados</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Daño por Agua</strong></td>
+                                <td>30 días</td>
+                                <td>Componentes limpiados/reemplazados</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Repuestos Originales</strong></td>
+                                <td>6 meses</td>
+                                <td>Defectos de fabricación</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4 style="color: var(--primary); margin-bottom: 10px;">Condiciones de la Garantía:</h4>
+                        <ul class="terms-list">
+                            <li>La garantía cubre únicamente el problema original reparado</li>
+                            <li>No cubre daños por mal uso, golpes o manipulación inadecuada</li>
+                            <li>Requiere presentación de ticket de reparación original</li>
+                            <li>No aplica si el dispositivo ha sido abierto o reparado por terceros</li>
+                            <li>La garantía es válida solo para el cliente original</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección 2: Términos de Reparación -->
+            <section id="terminos-reparacion" class="terms-section fade-in">
+                <div class="section-title">
+                    <h2><i class="fas fa-tools"></i> Términos de Servicio de Reparación</h2>
+                </div>
+                
+                <div class="terms-card">
+                    <h3><i class="fas fa-file-contract"></i> Condiciones Generales</h3>
+                    <ul class="terms-list">
+                        <li>El diagnóstico inicial tiene un costo de $5.000, reembolsable si procede con la reparación</li>
+                        <li>El tiempo estimado de reparación es de 24-48 horas, sujeto a disponibilidad de repuestos</li>
+                        <li>No nos hacemos responsables por datos perdidos durante el proceso de reparación</li>
+                        <li>El cliente debe realizar backup de su información antes de entregar el equipo</li>
+                        <li>Los dispositivos no reclamados dentro de 30 días serán considerados abandonados</li>
+                    </ul>
+                </div>
+                
+                <div class="terms-card">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Limitaciones de Responsabilidad</h3>
+                    <ul class="terms-list warning">
+                        <li>No reparamos dispositivos con IMEI bloqueado o reportados como robados</li>
+                        <li>Nos reservamos el derecho de rechazar reparaciones en equipos con daños extremos</li>
+                        <li>Los repuestos utilizados pueden ser originales, de alta calidad o equivalentes</li>
+                        <li>El cliente debe verificar el funcionamiento del equipo antes de retirarlo</li>
+                        <li>Cualquier reclamo posterior al retiro del equipo requiere diagnóstico adicional</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Sección 3: Términos de Venta -->
+            <section id="terminos-venta" class="terms-section fade-in">
+                <div class="section-title">
+                    <h2><i class="fas fa-shopping-cart"></i> Términos y Condiciones de Venta</h2>
+                </div>
+                
+                <div class="terms-card">
+                    <h3><i class="fas fa-box-open"></i> Política de Devoluciones y Cambios</h3>
+                    <ul class="terms-list">
+                        <li>Periodo de devolución: 7 días calendario desde la compra</li>
+                        <li>El producto debe estar en perfecto estado, con todos sus accesorios y empaque original</li>
+                        <li>Se requiere ticket de compra original para cualquier devolución o cambio</li>
+                        <li>Los productos personalizados o instalados no tienen cambio ni devolución</li>
+                        <li>Las devoluciones están sujetas a una verificación técnica del producto</li>
+                    </ul>
+                </div>
+                
+                <div class="terms-card">
+                    <h3><i class="fas fa-truck"></i> Envíos y Entregas</h3>
+                    <ul class="terms-list">
+                        <li>Envíos gratuitos en compras superiores a $50.000 dentro de Santiago</li>
+                        <li>Tiempo de entrega: 1-3 días hábiles para Santiago, 3-7 días para regiones</li>
+                        <li>El cliente es responsable de verificar la dirección de entrega</li>
+                        <li>Los retrasos por causas externas no son responsabilidad de 911repair</li>
+                        <li>Para envíos internacionales, contactar para cotización especial</li>
+                    </ul>
+                </div>
+                
+                <div class="terms-card">
+                    <h3><i class="fas fa-credit-card"></i> Métodos de Pago</h3>
+                    <ul class="terms-list">
+                        <li>Aceptamos todas las tarjetas de crédito y débito</li>
+                        <li>Transferencias bancarias (el envío se realiza una vez confirmado el pago)</li>
+                        <li>Webpay Plus y otros métodos de pago online seguros</li>
+                        <li>Efectivo (solo en tienda física)</li>
+                        <li>No aceptamos cheques ni pagos diferidos sin autorización previa</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Sección 4: Planes VIP -->
+            <section id="planes" class="terms-section fade-in">
+                <div class="section-title">
+                    <h2><i class="fas fa-crown"></i> Términos de Planes VIP y Programa de Puntos</h2>
+                </div>
+                
+                <div class="terms-card">
+                    <h3><i class="fas fa-star"></i> Programa 911 Puntos</h3>
+                    <ul class="terms-list">
+                        <li>Acumulación: 10 puntos por cada $1.000 en compras o reparaciones</li>
+                        <li>Los puntos tienen validez de 12 meses desde su acumulación</li>
+                        <li>Los puntos no son transferibles ni canjeables por dinero en efectivo</li>
+                        <li>El canje de puntos debe realizarse al momento de la compra o reparación</li>
+                        <li>Nos reservamos el derecho de modificar el valor de los puntos con aviso previo</li>
+                    </ul>
+                    
+                    <div style="margin-top: 20px; padding: 15px; background-color: #f0f9ff; border-radius: var(--radius); border-left: 4px solid var(--secondary);">
+                        <h4 style="color: var(--secondary); margin-bottom: 10px;">Niveles del Programa:</h4>
+                        <ul class="terms-list">
+                            <li><strong>Nivel Básico (0-199 puntos):</strong> 5% descuento en repuestos</li>
+                            <li><strong>Nivel VIP (200-499 puntos):</strong> 10% descuento + atención prioritaria</li>
+                            <li><strong>Nivel VIP Gold (500+ puntos):</strong> 15% descuento + envío gratis + soporte 24/7</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="terms-card">
+                    <h3><i class="fas fa-user-shield"></i> Plan de Mantenimiento Anual</h3>
+                    <ul class="terms-list">
+                        <li>El plan tiene validez por 12 meses desde la contratación</li>
+                        <li>Incluye: 2 limpiezas internas anuales + 1 cambio de protector de pantalla</li>
+                        <li>No cubre daños por mal uso, golpes o líquidos</li>
+                        <li>Requiere diagnóstico previo para activar cobertura</li>
+                        <li>No reembolsable una vez activado el plan</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Sección 5: Aceptación -->
+            <section id="aceptacion" class="terms-section fade-in">
+                <div class="acceptance-section">
+                    <h2 style="color: var(--primary); margin-bottom: 15px;"><i class="fas fa-file-signature"></i> Confirmación de Lectura y Aceptación</h2>
+                    <p style="margin-bottom: 20px; color: var(--gray);">
+                        Por favor, confirme que ha leído y comprendido los términos y condiciones anteriores:
+                    </p>
+                    
+                    <div class="checkbox-container">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="acceptTerms" class="checkbox-input">
+                            <span class="checkbox-custom"></span>
+                            He leído y acepto los <strong>Términos y Condiciones de Reparación</strong>
+                        </label>
+                        
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="acceptWarranty" class="checkbox-input">
+                            <span class="checkbox-custom"></span>
+                            He leído y acepto la <strong>Política de Garantías 911</strong>
+                        </label>
+                        
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="acceptSales" class="checkbox-input">
+                            <span class="checkbox-custom"></span>
+                            He leído y acepto los <strong>Términos de Venta y Devolución</strong>
+                        </label>
+                    </div>
+                    
+                    <div style="margin: 30px 0;">
+                        <button id="acceptAllBtn" class="btn btn-secondary">
+                            <i class="fas fa-check-double"></i>
+                            Aceptar Todos los Términos
+                        </button>
+                    </div>
+                    
+                    <div id="acceptanceMessage" style="display: none; margin: 20px 0; padding: 15px; background-color: #d1fae5; border-radius: var(--radius); color: #065f46;">
+                        <i class="fas fa-check-circle"></i>
+                        <strong>Todos los términos han sido aceptados correctamente.</strong>
+                        <p style="margin-top: 5px; font-size: 0.9rem;">Ahora puede continuar utilizando nuestros servicios.</p>
+                    </div>
+                    
+                    <div style="margin-top: 40px;">
+                        <a href="index.html" id="backToIndex" class="btn btn-large btn-outline" style="display: none;">
+                            <i class="fas fa-arrow-left"></i>
+                            Volver al Sitio Principal
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="terms-footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="index.html"><i class="fas fa-home"></i> Inicio</a>
+                <a href="#"><i class="fas fa-question-circle"></i> Preguntas Frecuentes</a>
+                <a href="#"><i class="fas fa-phone-alt"></i> Contacto</a>
+                <a href="#"><i class="fas fa-user-shield"></i> Política de Privacidad</a>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 911repair - Servicio Técnico Especializado. Todos los derechos reservados.</p>
+                <p style="margin-top: 10px; font-size: 0.8rem;">Estos términos y condiciones están sujetos a cambios sin previo aviso. Última actualización: Noviembre 2023</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navegación suave entre secciones
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // Remover clase active de todos los enlaces
+                    document.querySelectorAll('.nav-links a').forEach(a => {
+                        a.classList.remove('active');
+                    });
+                    
+                    // Agregar clase active al enlace clickeado
+                    this.classList.add('active');
+                    
+                    // Desplazamiento suave
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Actualizar enlace activo al hacer scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.terms-section');
+            const scrollPosition = window.scrollY + 150;
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                const sectionId = section.getAttribute('id');
+                
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    document.querySelectorAll('.nav-links a').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${sectionId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        });
+
+        // Checkboxes y aceptación
+        const acceptTerms = document.getElementById('acceptTerms');
+        const acceptWarranty = document.getElementById('acceptWarranty');
+        const acceptSales = document.getElementById('acceptSales');
+        const acceptAllBtn = document.getElementById('acceptAllBtn');
+        const acceptanceMessage = document.getElementById('acceptanceMessage');
+        const backToIndex = document.getElementById('backToIndex');
+        
+        // Función para verificar si todos los checkboxes están marcados
+        function checkAllAccepted() {
+            return acceptTerms.checked && acceptWarranty.checked && acceptSales.checked;
+        }
+        
+        // Función para actualizar el estado del botón de volver
+        function updateAcceptanceState() {
+            if (checkAllAccepted()) {
+                acceptanceMessage.style.display = 'block';
+                backToIndex.style.display = 'inline-flex';
+                
+                // Guardar aceptación en localStorage
+                localStorage.setItem('911repair_terms_accepted', 'true');
+                localStorage.setItem('911repair_terms_accepted_date', new Date().toISOString());
+            } else {
+                acceptanceMessage.style.display = 'none';
+                backToIndex.style.display = 'none';
+            }
+        }
+        
+        // Event listeners para checkboxes individuales
+        acceptTerms.addEventListener('change', updateAcceptanceState);
+        acceptWarranty.addEventListener('change', updateAcceptanceState);
+        acceptSales.addEventListener('change', updateAcceptanceState);
+        
+        // Botón "Aceptar Todos"
+        acceptAllBtn.addEventListener('click', () => {
+            acceptTerms.checked = true;
+            acceptWarranty.checked = true;
+            acceptSales.checked = true;
+            
+            // Disparar eventos de cambio
+            acceptTerms.dispatchEvent(new Event('change'));
+            acceptWarranty.dispatchEvent(new Event('change'));
+            acceptSales.dispatchEvent(new Event('change'));
+            
+            // Mostrar mensaje de confirmación
+            const alertDiv = document.createElement('div');
+            alertDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, var(--success), #059669);
+                color: white;
+                padding: 15px 25px;
+                border-radius: var(--radius);
+                box-shadow: var(--shadow-lg);
+                z-index: 1000;
+                animation: slideInRight 0.5s ease;
+            `;
+            alertDiv.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-check-circle" style="font-size: 1.2rem;"></i>
+                    <div>
+                        <strong>Términos aceptados</strong>
+                        <p style="margin: 5px 0 0; font-size: 0.9rem;">Gracias por leer y aceptar nuestros términos</p>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(alertDiv);
+            
+            // Remover alerta después de 5 segundos
+            setTimeout(() => {
+                alertDiv.style.animation = 'slideOutRight 0.5s ease forwards';
+                setTimeout(() => alertDiv.remove(), 500);
+            }, 5000);
+            
+            // Desplazar a la sección de aceptación
+            document.getElementById('aceptacion').scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        // Verificar si ya se aceptaron términos previamente
+        window.addEventListener('DOMContentLoaded', () => {
+            const alreadyAccepted = localStorage.getItem('911repair_terms_accepted');
+            
+            if (alreadyAccepted === 'true') {
+                acceptTerms.checked = true;
+                acceptWarranty.checked = true;
+                acceptSales.checked = true;
+                updateAcceptanceState();
+                
+                // Mostrar mensaje informativo
+                const infoDiv = document.createElement('div');
+                infoDiv.style.cssText = `
+                    position: fixed;
+                    bottom: 20px;
+                    left: 20px;
+                    background: linear-gradient(135deg, var(--secondary), #1e3a8a);
+                    color: white;
+                    padding: 12px 20px;
+                    border-radius: var(--radius);
+                    box-shadow: var(--shadow);
+                    z-index: 999;
+                    font-size: 0.9rem;
+                `;
+                infoDiv.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Términos aceptados previamente</span>
+                    </div>
+                `;
+                document.body.appendChild(infoDiv);
+                
+                setTimeout(() => infoDiv.remove(), 3000);
+            }
+            
+            // Agregar animación CSS para las alertas
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideInRight {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOutRight {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Animación de entrada para elementos
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                    }
+                });
+            }, observerOptions);
+            
+            // Observar elementos para animación
+            document.querySelectorAll('.terms-section, .terms-nav, .terms-card').forEach(el => {
+                observer.observe(el);
+            });
+        });
+        
+        // Botón de volver con confirmación
+        backToIndex.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            if (checkAllAccepted()) {
+                // Redirigir al index
+                window.location.href = 'index.html';
+            } else {
+                alert('Por favor, acepte todos los términos antes de continuar.');
+            }
+        });
+        
+        // Validación antes de abandonar la página si no se aceptaron términos
+        window.addEventListener('beforeunload', (e) => {
+            if (!checkAllAccepted()) {
+                // Solo mostrar alerta si el usuario intenta salir sin aceptar
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
+    </script>
+</body>
+</html>
