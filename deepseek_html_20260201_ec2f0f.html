@@ -1,0 +1,2395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboard Admin — TecnoFix Solutions</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --border: #e2e8f0;
+      --text-strong: #0f172a;
+      --text-normal: #334155;
+      --text-muted: #64748b;
+      --accent: #1e40af;
+      --accent-light: #3b82f6;
+      --accent-bg: #eff6ff;
+      --ok: #059669;
+      --warn: #d97706;
+      --alert: #dc2626;
+      --repair: #7c3aed;
+      --sale: #0891b2;
+      --appointment: #db2777;
+      --points: #c2410c;
+      --sidebar-width: 240px;
+      --header-height: 64px;
+      --bottom-nav-height: 70px;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+      background: var(--bg);
+      color: var(--text-normal);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-weight: 400;
+      line-height: 1.5;
+      padding-bottom: var(--bottom-nav-height);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-width);
+      background: var(--card-bg);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow);
+      z-index: 10;
+    }
+
+    .logo {
+      padding: 20px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--text-strong);
+    }
+
+    .nav-menu {
+      flex: 1;
+      padding: 16px 0;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      border-left: 3px solid transparent;
+    }
+
+    .nav-item:hover {
+      background: var(--accent-bg);
+      color: var(--accent);
+    }
+
+    .nav-item.active {
+      background: var(--accent-bg);
+      color: var(--accent);
+      border-left-color: var(--accent);
+      font-weight: 500;
+    }
+
+    .nav-item i {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Main content */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .header {
+      height: var(--header-height);
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .header-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-strong);
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 500;
+    }
+
+    .content {
+      flex: 1;
+      overflow: auto;
+      padding: 24px;
+    }
+
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: var(--bottom-nav-height);
+      background: var(--card-bg);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 8px 12px;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+      z-index: 100;
+    }
+
+    .nav-btn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 4px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--text-muted);
+      min-height: 54px;
+    }
+
+    .nav-btn:hover {
+      background: var(--accent-bg);
+      color: var(--accent);
+    }
+
+    .nav-btn.active {
+      color: var(--accent);
+      background: var(--accent-bg);
+    }
+
+    .nav-btn i {
+      width: 20px;
+      height: 20px;
+      margin-bottom: 4px;
+    }
+
+    .nav-btn div {
+      font-size: 11px;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .nav-btn.active div {
+      font-weight: 600;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      margin-bottom: 20px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1px solid var(--border);
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-strong);
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text-normal);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn:hover {
+      background: var(--accent-bg);
+      color: var(--accent);
+      border-color: var(--accent-light);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-light);
+    }
+
+    .btn-success {
+      background: var(--ok);
+      color: white;
+      border-color: var(--ok);
+    }
+
+    .btn-warning {
+      background: var(--warn);
+      color: white;
+      border-color: var(--warn);
+    }
+
+    .btn-appointment {
+      background: var(--appointment);
+      color: white;
+      border-color: var(--appointment);
+    }
+
+    .btn-points {
+      background: var(--points);
+      color: white;
+      border-color: var(--points);
+    }
+
+    /* Tabs */
+    .tab {
+      display: none;
+    }
+
+    .tab.active {
+      display: block;
+    }
+
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s;
+      cursor: pointer;
+      border-top: 4px solid var(--accent);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .stat-card.appointments {
+      border-top-color: var(--appointment);
+    }
+
+    .stat-card.repairs {
+      border-top-color: var(--repair);
+    }
+
+    .stat-card.revenue {
+      border-top-color: var(--sale);
+    }
+
+    .stat-card.clients {
+      border-top-color: var(--ok);
+    }
+
+    .stat-card.points {
+      border-top-color: var(--points);
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .stat-card.appointments .stat-value {
+      color: var(--appointment);
+    }
+
+    .stat-card.repairs .stat-value {
+      color: var(--repair);
+    }
+
+    .stat-card.revenue .stat-value {
+      color: var(--sale);
+    }
+
+    .stat-card.clients .stat-value {
+      color: var(--ok);
+    }
+
+    .stat-card.points .stat-value {
+      color: var(--points);
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .stat-trend {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .trend-up {
+      color: var(--ok);
+    }
+
+    .trend-down {
+      color: var(--alert);
+    }
+
+    /* Chips */
+    .chip-box {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .chip {
+      padding: 6px 12px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: all 0.15s;
+      font-size: 13px;
+    }
+
+    .chip.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th, td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+
+    th {
+      background: var(--accent-bg);
+      color: var(--text-strong);
+      cursor: pointer;
+      font-weight: 500;
+      position: relative;
+    }
+
+    tr:hover {
+      background: #f8fafc;
+    }
+
+    th.sort-asc::after {
+      content: " ▲";
+      font-size: 11px;
+      position: absolute;
+      right: 8px;
+    }
+
+    th.sort-desc::after {
+      content: " ▼";
+      font-size: 11px;
+      position: absolute;
+      right: 8px;
+    }
+
+    /* Charts */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .chart-container {
+      position: relative;
+      height: 300px;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    /* Status indicators */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .status-pending {
+      background: #fffbeb;
+      color: var(--warn);
+    }
+
+    .status-progress {
+      background: #eff6ff;
+      color: var(--accent);
+    }
+
+    .status-completed {
+      background: #f0fdf4;
+      color: var(--ok);
+    }
+
+    .status-delivered {
+      background: #f0fdf9;
+      color: #0d9488;
+    }
+
+    .status-scheduled {
+      background: #fdf2f8;
+      color: var(--appointment);
+    }
+
+    .status-low {
+      background: #fef2f2;
+      color: var(--alert);
+    }
+
+    .status-medium {
+      background: #fffbeb;
+      color: var(--warn);
+    }
+
+    .status-good {
+      background: #f0fdf4;
+      color: var(--ok);
+    }
+
+    /* Priority indicators */
+    .priority-high {
+      color: var(--alert);
+      font-weight: 600;
+    }
+
+    .priority-medium {
+      color: var(--warn);
+      font-weight: 600;
+    }
+
+    .priority-low {
+      color: var(--ok);
+      font-weight: 600;
+    }
+
+    /* Accordion */
+    .accordion {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.3s ease;
+    }
+
+    .accordion.open {
+      max-height: 400px;
+    }
+
+    .accordion ul {
+      margin: 8px 0 0;
+      padding-left: 18px;
+      color: var(--text-normal);
+    }
+
+    /* Hamburger Menu */
+    .hamburger-menu {
+      position: relative;
+    }
+
+    .hamburger-btn {
+      display: flex;
+      flex-direction:column;
+      justify-content: space-between;
+      width: 24px;
+      height: 18px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .hamburger-btn span {
+      display: block;
+      height: 2px;
+      width: 100%;
+      background-color: var(--text-strong);
+      transition: all 0.3s ease;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      width: 200px;
+      padding: 8px 0;
+      z-index: 1000;
+      display: none;
+    }
+
+    .dropdown-menu.active {
+      display: block;
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      color: var(--text-normal);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .dropdown-item:hover {
+      background: var(--accent-bg);
+      color: var(--accent);
+    }
+
+    .dropdown-item i {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 200px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+      
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .bottom-nav {
+        display: flex;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .header {
+        padding: 0 16px;
+      }
+      
+      .content {
+        padding: 16px;
+      }
+      
+      .nav-btn div {
+        font-size: 10px;
+      }
+    }
+
+    @media (min-width: 769px) {
+      .bottom-nav {
+        display: none;
+      }
+    }
+
+    /* Progress bar */
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+
+    /* Device icons */
+    .device-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 8px;
+    }
+
+    .device-phone {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .device-laptop {
+      background: #f0fdf4;
+      color: #059669;
+    }
+
+    .device-tablet {
+      background: #faf5ff;
+      color: #7c3aed;
+    }
+
+    /* Points table */
+    .points-input {
+      width: 80px;
+      padding: 4px 8px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      text-align: center;
+    }
+
+    .points-action {
+      padding: 4px 8px;
+      border: none;
+      border-radius: 4px;
+      background: var(--accent-bg);
+      color: var(--accent);
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .points-action:hover {
+      background: var(--accent);
+      color: white;
+    }
+
+    /* Analytics cards */
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .analytics-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .analytics-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-strong);
+      margin-bottom: 16px;
+    }
+
+    /* Quick stats */
+    .quick-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .quick-stat {
+      background: var(--accent-bg);
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .quick-stat-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .quick-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar Navigation -->
+  <div class="sidebar">
+    <div class="logo">
+      <div class="logo-icon">
+        <i data-lucide="settings"></i>
+      </div>
+      <div class="logo-text">TecnoFix Admin</div>
+    </div>
+    
+    <div class="nav-menu">
+      <div class="nav-item active" data-tab="dashboard">
+        <i data-lucide="home"></i>
+        <span>Dashboard</span>
+      </div>
+      <div class="nav-item" data-tab="citas">
+        <i data-lucide="calendar"></i>
+        <span>Citas de Hoy</span>
+      </div>
+      <div class="nav-item" data-tab="reparaciones">
+        <i data-lucide="wrench"></i>
+        <span>Reparaciones</span>
+      </div>
+      <div class="nav-item" data-tab="ventas">
+        <i data-lucide="shopping-cart"></i>
+        <span>Ventas</span>
+      </div>
+      <div class="nav-item" data-tab="inventario">
+        <i data-lucide="package"></i>
+        <span>Inventario</span>
+      </div>
+      <div class="nav-item" data-tab="clientes">
+        <i data-lucide="users"></i>
+        <span>Clientes</span>
+      </div>
+      <div class="nav-item" data-tab="puntos">
+        <i data-lucide="award"></i>
+        <span>Puntos Clientes</span>
+      </div>
+      <div class="nav-item" data-tab="analitica">
+        <i data-lucide="bar-chart-2"></i>
+        <span>Análitica</span>
+      </div>
+      <div class="nav-item" data-tab="reportes">
+        <i data-lucide="file-text"></i>
+        <span>Reportes</span>
+      </div>
+    </div>
+    
+    <div style="padding: 16px; border-top: 1px solid var(--border);">
+      <div class="user-info">
+        <div class="user-avatar">AD</div>
+        <div>
+          <div style="font-weight: 500; font-size: 14px;">Administrador</div>
+          <div style="font-size: 12px; color: var(--text-muted);">TecnoFix Solutions</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="header">
+      <div class="header-title" id="title">Dashboard Administrativo</div>
+      <div style="display: flex; gap: 12px; align-items: center;">
+        <div style="font-size: 14px; color: var(--text-muted);" id="currentDate">15/01/2025</div>
+        <div class="btn btn-primary" id="exportExcelBtn">
+          <i data-lucide="download"></i>
+          <span>Exportar Reporte</span>
+        </div>
+        <div class="hamburger-menu">
+          <button class="hamburger-btn" id="hamburgerBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <div class="dropdown-item">
+              <i data-lucide="settings"></i>
+              <span>Configuración</span>
+            </div>
+            <div class="dropdown-item">
+              <i data-lucide="users"></i>
+              <span>Usuarios</span>
+            </div>
+            <div class="dropdown-item">
+              <i data-lucide="log-out"></i>
+              <span>Cerrar Sesión</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- DASHBOARD -->
+      <section id="tab-dashboard" class="tab active">
+        <div class="stats-grid">
+          <div class="stat-card appointments">
+            <div class="stat-value" id="today-appointments">8</div>
+            <div class="stat-label">Citas de Hoy</div>
+            <div class="stat-trend trend-up">
+              <i data-lucide="trending-up"></i>
+              <span>+2 vs ayer</span>
+            </div>
+            <div class="accordion" id="accordion-appointments"></div>
+          </div>
+          <div class="stat-card repairs">
+            <div class="stat-value" id="active-repairs">14</div>
+            <div class="stat-label">Equipos en Reparación</div>
+            <div class="stat-trend trend-down">
+              <i data-lucide="trending-down"></i>
+              <span>-3 vs ayer</span>
+            </div>
+            <div class="accordion" id="accordion-repairs"></div>
+          </div>
+          <div class="stat-card revenue">
+            <div class="stat-value" id="today-revenue">$1,250,000</div>
+            <div class="stat-label">Ingresos de Hoy</div>
+            <div class="stat-trend trend-up">
+              <i data-lucide="trending-up"></i>
+              <span>+15% vs ayer</span>
+            </div>
+            <div class="accordion" id="accordion-revenue"></div>
+          </div>
+          <div class="stat-card clients">
+            <div class="stat-value" id="new-clients">5</div>
+            <div class="stat-label">Clientes Nuevos</div>
+            <div class="stat-trend trend-up">
+              <i data-lucide="trending-up"></i>
+              <span>+2 vs semana pasada</span>
+            </div>
+            <div class="accordion" id="accordion-clients"></div>
+          </div>
+        </div>
+
+        <div class="analytics-grid">
+          <div class="analytics-card">
+            <div class="analytics-title">Citas del Día</div>
+            <div id="todayAppointmentsList"></div>
+            <div class="quick-stats">
+              <div class="quick-stat">
+                <div class="quick-stat-value">3</div>
+                <div class="quick-stat-label">Confirmadas</div>
+              </div>
+              <div class="quick-stat">
+                <div class="quick-stat-value">2</div>
+                <div class="quick-stat-label">Pendientes</div>
+              </div>
+              <div class="quick-stat">
+                <div class="quick-stat-value">2</div>
+                <div class="quick-stat-label">En Progreso</div>
+              </div>
+              <div class="quick-stat">
+                <div class="quick-stat-value">1</div>
+                <div class="quick-stat-label">Completadas</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="analytics-card">
+            <div class="analytics-title">Reparaciones Urgentes</div>
+            <div id="urgentRepairs"></div>
+            <div class="quick-stats">
+              <div class="quick-stat">
+                <div class="quick-stat-value">4</div>
+                <div class="quick-stat-label">Alta Prioridad</div>
+              </div>
+              <div class="quick-stat">
+                <div class="quick-stat-value">6</div>
+                <div class="quick-stat-label">Media Prioridad</div>
+              </div>
+              <div class="quick-stat">
+                <div class="quick-stat-value">3</div>
+                <div class="quick-stat-label">Baja Prioridad</div>
+              </div>
+              <div class="quick-stat">
+                <div class="quick-stat-value">1</div>
+                <div class="quick-stat-label">Atrasadas</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="charts-grid">
+          <div class="chart-container">
+            <canvas id="chartDailyRevenue"></canvas>
+          </div>
+          <div class="chart-container">
+            <canvas id="chartRepairStatus"></canvas>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Actividad Reciente</div>
+            <div class="btn">
+              <i data-lucide="refresh-cw"></i>
+              <span>Actualizar</span>
+            </div>
+          </div>
+          <div id="recentActivity"></div>
+        </div>
+      </section>
+
+      <!-- CITAS DE HOY -->
+      <section id="tab-citas" class="tab">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Citas Programadas para Hoy</div>
+            <div class="card-actions">
+              <div class="btn btn-appointment">
+                <i data-lucide="calendar-plus"></i>
+                <span>Nueva Cita</span>
+              </div>
+              <div class="btn">
+                <i data-lucide="filter"></i>
+                <span>Filtrar</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="chip-box" id="appointmentChips">
+            <div class="chip active" data-filter="Todas">Todas</div>
+            <div class="chip" data-filter="Confirmada">Confirmadas</div>
+            <div class="chip" data-filter="Pendiente">Pendientes</div>
+            <div class="chip" data-filter="En Progreso">En Progreso</div>
+            <div class="chip" data-filter="Completada">Completadas</div>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th data-key="hora">Hora</th>
+                  <th data-key="cliente">Cliente</th>
+                  <th data-key="telefono">Teléfono</th>
+                  <th data-key="dispositivo">Dispositivo</th>
+                  <th data-key="problema">Problema</th>
+                  <th data-key="tecnico">Técnico</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="appointmentsBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- REPARACIONES -->
+      <section id="tab-reparaciones" class="tab">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Gestión de Reparaciones</div>
+            <div class="card-actions">
+              <div class="btn btn-primary">
+                <i data-lucide="plus"></i>
+                <span>Nueva Reparación</span>
+              </div>
+              <div class="btn">
+                <i data-lucide="filter"></i>
+                <span>Filtrar</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="chip-box" id="repairChips">
+            <div class="chip active" data-filter="Todos">Todos</div>
+            <div class="chip" data-filter="Pendiente">Pendientes</div>
+            <div class="chip" data-filter="En Progreso">En Progreso</div>
+            <div class="chip" data-filter="Completado">Completados</div>
+            <div class="chip" data-filter="Entregado">Entregados</div>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th data-key="id">ID</th>
+                  <th data-key="cliente">Cliente</th>
+                  <th data-key="dispositivo">Dispositivo</th>
+                  <th data-key="problema">Problema</th>
+                  <th data-key="fechaIngreso">Fecha Ingreso</th>
+                  <th data-key="dias">Días</th>
+                  <th>Estado</th>
+                  <th>Prioridad</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="repairsBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- VENTAS -->
+      <section id="tab-ventas" class="tab">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Ventas Recientes</div>
+            <div class="card-actions">
+              <div class="btn btn-primary">
+                <i data-lucide="plus"></i>
+                <span>Nueva Venta</span>
+              </div>
+              <div class="btn btn-success">
+                <i data-lucide="printer"></i>
+                <span>Imprimir Reporte</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th data-key="id">ID Venta</th>
+                  <th data-key="cliente">Cliente</th>
+                  <th data-key="productos">Productos</th>
+                  <th data-key="total">Total</th>
+                  <th data-key="fecha">Fecha</th>
+                  <th data-key="vendedor">Vendedor</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody id="salesBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- INVENTARIO -->
+      <section id="tab-inventario" class="tab">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Control de Inventario</div>
+            <div class="card-actions">
+              <div class="btn btn-primary">
+                <i data-lucide="plus"></i>
+                <span>Agregar Producto</span>
+              </div>
+              <div class="btn">
+                <i data-lucide="refresh-cw"></i>
+                <span>Actualizar</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="chip-box" id="inventoryChips">
+            <div class="chip active" data-filter="Todos">Todos</div>
+            <div class="chip" data-filter="Celulares">Celulares</div>
+            <div class="chip" data-filter="Computadores">Computadores</div>
+            <div class="chip" data-filter="Accesorios">Accesorios</div>
+            <div class="chip" data-filter="Repuestos">Repuestos</div>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th data-key="producto">Producto</th>
+                  <th data-key="categoria">Categoría</th>
+                  <th data-key="stock">Stock</th>
+                  <th data-key="minimo">Mínimo</th>
+                  <th data-key="precio">Precio</th>
+                  <th data-key="valor">Valor Total</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody id="inventoryBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- CLIENTES -->
+      <section id="tab-clientes" class="tab">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Base de Clientes</div>
+            <div class="card-actions">
+              <div class="btn btn-primary">
+                <i data-lucide="user-plus"></i>
+                <span>Nuevo Cliente</span>
+              </div>
+              <div class="btn">
+                <i data-lucide="search"></i>
+                <span>Buscar</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th data-key="nombre">Nombre</th>
+                  <th data-key="telefono">Teléfono</th>
+                  <th data-key="email">Email</th>
+                  <th data-key="tipo">Tipo</th>
+                  <th data-key="compras">Total Compras</th>
+                  <th data-key="reparaciones">Reparaciones</th>
+                  <th data-key="puntos">Puntos</th>
+                  <th>Última Visita</th>
+                </tr>
+              </thead>
+              <tbody id="clientsBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PUNTOS CLIENTES -->
+      <section id="tab-puntos" class="tab">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Gestión de Puntos de Clientes</div>
+            <div class="card-actions">
+              <div class="btn btn-points">
+                <i data-lucide="award"></i>
+                <span>Asignar Puntos</span>
+              </div>
+              <div class="btn">
+                <i data-lucide="download"></i>
+                <span>Exportar</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Configuración del Sistema de Puntos</div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 16px;">
+              <div>
+                <label style="display: block; margin-bottom: 8px; font-weight: 500;">Puntos por $1.000 en compras</label>
+                <input type="number" class="points-input" value="10" min="0">
+              </div>
+              <div>
+                <label style="display: block; margin-bottom: 8px; font-weight: 500;">Puntos por reparación completada</label>
+                <input type="number" class="points-input" value="50" min="0">
+              </div>
+              <div>
+                <label style="display: block; margin-bottom: 8px; font-weight: 500;">$ de descuento por 100 puntos</label>
+                <input type="number" class="points-input" value="1000" min="0">
+              </div>
+              <div>
+                <button class="btn btn-primary" style="margin-top: 24px;">
+                  <i data-lucide="save"></i>
+                  <span>Guardar Configuración</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Cliente</th>
+                  <th>Email</th>
+                  <th>Teléfono</th>
+                  <th>Puntos Actuales</th>
+                  <th>Puntos Acumulados</th>
+                  <th>Última Actualización</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="pointsBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ANALITICA -->
+      <section id="tab-analitica" class="tab">
+        <div class="charts-grid">
+          <div class="chart-container">
+            <canvas id="chartRevenueTrend"></canvas>
+          </div>
+          <div class="chart-container">
+            <canvas id="chartDeviceTypes"></canvas>
+          </div>
+        </div>
+
+        <div class="charts-grid">
+          <div class="chart-container">
+            <canvas id="chartCustomerAcquisition"></canvas>
+          </div>
+          <div class="chart-container">
+            <canvas id="chartRepairTime"></canvas>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Métricas Clave</div>
+            <div class="btn">
+              <i data-lucide="calendar"></i>
+              <span>Últimos 30 días</span>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px;">
+            <div>
+              <div style="font-size: 14px; color: var(--text-muted);">Tasa de Conversión</div>
+              <div style="font-size: 24px; font-weight: 700; color: var(--ok);">68%</div>
+            </div>
+            <div>
+              <div style="font-size: 14px; color: var(--text-muted);">Ticket Promedio</div>
+              <div style="font-size: 24px; font-weight: 700; color: var(--accent);">$125,000</div>
+            </div>
+            <div>
+              <div style="font-size: 14px; color: var(--text-muted);">Tiempo Prom. Reparación</div>
+              <div style="font-size: 24px; font-weight: 700; color: var(--repair);">3.2 días</div>
+            </div>
+            <div>
+              <div style="font-size: 14px; color: var(--text-muted);">Satisfacción Cliente</div>
+              <div style="font-size: 24px; font-weight: 700; color: var(--appointment);">4.8/5</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- REPORTES -->
+      <section id="tab-reportes" class="tab">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value" id="report-sales">$24,750,000</div>
+            <div class="stat-label">Ventas Trimestre</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="report-repairs">156</div>
+            <div class="stat-label">Reparaciones Trimestre</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="report-clients">42</div>
+            <div class="stat-label">Clientes Nuevos</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="report-profit">$7,425,000</div>
+            <div class="stat-label">Utilidad Neta</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Reportes Disponibles</div>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px;">
+            <div class="card">
+              <h4 style="margin-bottom: 12px;">Reporte de Ventas Mensual</h4>
+              <p style="color: var(--text-muted); margin-bottom: 16px;">Análisis detallado de ventas por producto y vendedor</p>
+              <button class="btn btn-primary" style="width: 100%;" onclick="generateSalesReport()">
+                <i data-lucide="download"></i>
+                <span>Generar Reporte</span>
+              </button>
+            </div>
+            <div class="card">
+              <h4 style="margin-bottom: 12px;">Reporte de Reparaciones</h4>
+              <p style="color: var(--text-muted); margin-bottom: 16px;">Eficiencia del servicio técnico y tiempos de reparación</p>
+              <button class="btn btn-primary" style="width: 100%;" onclick="generateRepairsReport()">
+                <i data-lucide="download"></i>
+                <span>Generar Reporte</span>
+              </button>
+            </div>
+            <div class="card">
+              <h4 style="margin-bottom: 12px;">Inventario Crítico</h4>
+              <p style="color: var(--text-muted); margin-bottom: 16px;">Productos con stock bajo y necesidades de reabastecimiento</p>
+              <button class="btn btn-primary" style="width: 100%;" onclick="generateInventoryReport()">
+                <i data-lucide="download"></i>
+                <span>Generar Reporte</span>
+              </button>
+            </div>
+            <div class="card">
+              <h4 style="margin-bottom: 12px;">Clientes Frecuentes</h4>
+              <p style="color: var(--text-muted); margin-bottom: 16px;">Top 20 clientes por compras y programa de fidelización</p>
+              <button class="btn btn-primary" style="width: 100%;" onclick="generateClientsReport()">
+                <i data-lucide="download"></i>
+                <span>Generar Reporte</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav" role="navigation" aria-label="Navegación principal">
+    <div class="nav-btn active" data-tab="dashboard">
+      <i data-lucide="home"></i>
+      <div>Dashboard</div>
+    </div>
+    <div class="nav-btn" data-tab="citas">
+      <i data-lucide="calendar"></i>
+      <div>Citas</div>
+    </div>
+    <div class="nav-btn" data-tab="reparaciones">
+      <i data-lucide="wrench"></i>
+      <div>Reparaciones</div>
+    </div>
+    <div class="nav-btn" data-tab="ventas">
+      <i data-lucide="shopping-cart"></i>
+      <div>Ventas</div>
+    </div>
+    <div class="nav-btn" data-tab="puntos">
+      <i data-lucide="award"></i>
+      <div>Puntos</div>
+    </div>
+  </div>
+
+  <script>
+    // Initialize icons
+    lucide.createIcons();
+
+    // Set current date
+    const now = new Date();
+    document.getElementById('currentDate').textContent = 
+      `${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
+
+    // Sample data for appointments
+    const appointmentsData = [
+      {id: "CITA-001", hora: "09:00", cliente: "Juan Pérez", telefono: "+569 1234 5678", dispositivo: "iPhone 14 Pro", problema: "Pantalla rota", tecnico: "Carlos", estado: "Confirmada"},
+      {id: "CITA-002", hora: "10:30", cliente: "María González", telefono: "+569 8765 4321", dispositivo: "Samsung S23", problema: "Batería no carga", tecnico: "Ana", estado: "En Progreso"},
+      {id: "CITA-003", hora: "11:45", cliente: "Carlos López", telefono: "+569 5555 8888", dispositivo: "MacBook Air M2", problema: "Teclado no funciona", tecnico: "Luis", estado: "Pendiente"},
+      {id: "CITA-004", hora: "14:00", cliente: "Ana Silva", telefono: "+569 4444 7777", dispositivo: "iPad Air 5", problema: "Puerto de carga dañado", tecnico: "Carlos", estado: "Confirmada"},
+      {id: "CITA-005", hora: "15:30", cliente: "Roberto Díaz", telefono: "+569 2222 3333", dispositivo: "Dell XPS 15", problema: "Sistema operativo corrupto", tecnico: "Ana", estado: "Pendiente"},
+      {id: "CITA-006", hora: "16:45", cliente: "Laura Martínez", telefono: "+569 6666 9999", dispositivo: "Google Pixel 7", problema: "Cámara trasera no enfoca", tecnico: "Luis", estado: "Completada"},
+      {id: "CITA-007", hora: "17:30", cliente: "Pedro Sánchez", telefono: "+569 7777 1111", dispositivo: "HP Pavilion", problema: "Disco duro dañado", tecnico: "Carlos", estado: "Confirmada"},
+      {id: "CITA-008", hora: "18:15", cliente: "Sofía Ramírez", telefono: "+569 8888 2222", dispositivo: "iPhone 13", problema: "Audio no funciona", tecnico: "Ana", estado: "Pendiente"}
+    ];
+
+    // Sample data for repairs
+    const repairsData = [
+      {id: "REP-2025-001", cliente: "Juan Pérez", dispositivo: "iPhone 14 Pro", problema: "Pantalla rota", fechaIngreso: "10/01/2025", estado: "En Progreso", prioridad: "Alta", dias: 5},
+      {id: "REP-2025-002", cliente: "María González", dispositivo: "Samsung S23", problema: "Batería no carga", fechaIngreso: "12/01/2025", estado: "Pendiente", prioridad: "Media", dias: 3},
+      {id: "REP-2025-003", cliente: "Carlos López", dispositivo: "MacBook Air M2", problema: "Teclado no funciona", fechaIngreso: "05/01/2025", estado: "Completado", prioridad: "Alta", dias: 10},
+      {id: "REP-2025-004", cliente: "Ana Silva", dispositivo: "iPad Air 5", problema: "Puerto de carga dañado", fechaIngreso: "14/01/2025", estado: "En Progreso", prioridad: "Media", dias: 1},
+      {id: "REP-2025-005", cliente: "Roberto Díaz", dispositivo: "Dell XPS 15", problema: "Sistema operativo corrupto", fechaIngreso: "08/01/2025", estado: "Entregado", prioridad: "Baja", dias: 7},
+      {id: "REP-2025-006", cliente: "Laura Martínez", dispositivo: "Google Pixel 7", problema: "Cámara trasera no enfoca", fechaIngreso: "13/01/2025", estado: "Pendiente", prioridad: "Alta", dias: 2},
+      {id: "REP-2025-007", cliente: "Pedro Sánchez", dispositivo: "HP Pavilion", problema: "Disco duro dañado", fechaIngreso: "03/01/2025", estado: "Completado", prioridad: "Media", dias: 12},
+      {id: "REP-2025-008", cliente: "Sofía Ramírez", dispositivo: "iPhone 13", problema: "Audio no funciona", fechaIngreso: "15/01/2025", estado: "Pendiente", prioridad: "Baja", dias: 0},
+      {id: "REP-2025-009", cliente: "David Torres", dispositivo: "MacBook Pro M1", problema: "Pantalla con líneas", fechaIngreso: "11/01/2025", estado: "En Progreso", prioridad: "Alta", dias: 4},
+      {id: "REP-2025-010", cliente: "Elena Castro", dispositivo: "Samsung Tab S9", problema: "No enciende", fechaIngreso: "09/01/2025", estado: "En Progreso", prioridad: "Media", dias: 6},
+      {id: "REP-2025-011", cliente: "Fernando Ruiz", dispositivo: "iPhone 15 Pro", problema: "Cámara trasera rota", fechaIngreso: "13/01/2025", estado: "Pendiente", prioridad: "Alta", dias: 2},
+      {id: "REP-2025-012", cliente: "Gabriela Mora", dispositivo: "Dell Latitude", problema: "Sobrecalentamiento", fechaIngreso: "07/01/2025", estado: "Completado", prioridad: "Media", dias: 8},
+      {id: "REP-2025-013", cliente: "Héctor Vargas", dispositivo: "iPad Pro", problema: "Touch screen no responde", fechaIngreso: "14/01/2025", estado: "En Progreso", prioridad: "Alta", dias: 1},
+      {id: "REP-2025-014", cliente: "Isabel Ríos", dispositivo: "Asus Zenbook", problema: "Teclas fallan", fechaIngreso: "10/01/2025", estado: "En Progreso", prioridad: "Media", dias: 5}
+    ];
+
+    // Sample data for sales
+    const salesData = [
+      {id: "VTA-2025-001", cliente: "Juan Pérez", productos: "Laptop Dell Inspiron + Mouse", total: "$1,250,000", fecha: "15/01/2025", vendedor: "Carlos", estado: "Completada"},
+      {id: "VTA-2025-002", cliente: "TechCorp SA", productos: "5 iPhone 15 + Accesorios", total: "$6,750,000", fecha: "14/01/2025", vendedor: "Ana", estado: "Completada"},
+      {id: "VTA-2025-003", cliente: "María González", productos: "Tablet Samsung S9", total: "$450,000", fecha: "13/01/2025", vendedor: "Luis", estado: "Completada"},
+      {id: "VTA-2025-004", cliente: "Escuela San José", productos: "30 Computadores HP", total: "$18,000,000", fecha: "10/01/2025", vendedor: "Carlos", estado: "Pendiente"},
+      {id: "VTA-2025-005", cliente: "Roberto Díaz", productos: "Monitor 27\" + Teclado", total: "$320,000", fecha: "08/01/2025", vendedor: "Ana", estado: "Completada"},
+      {id: "VTA-2025-006", cliente: "Laura Martínez", productos: "iPhone 15 128GB", total: "$799,990", fecha: "15/01/2025", vendedor: "Luis", estado: "Completada"},
+      {id: "VTA-2025-007", cliente: "Carlos López", productos: "Cargador iPhone + Case", total: "$45,000", fecha: "15/01/2025", vendedor: "Ana", estado: "Completada"}
+    ];
+
+    // Sample data for inventory
+    const inventoryData = [
+      {producto: "iPhone 15 128GB", categoria: "Celulares", stock: 8, minimo: 5, precio: "$799,990", valor: "$6,399,920", estado: "stock-good"},
+      {producto: "Samsung Galaxy S24", categoria: "Celulares", stock: 12, minimo: 8, precio: "$899,990", valor: "$10,799,880", estado: "stock-good"},
+      {producto: "MacBook Air M3", categoria: "Computadores", stock: 3, minimo: 4, precio: "$1,299,990", valor: "$3,899,970", estado: "stock-low"},
+      {producto: "Dell Inspiron 15", categoria: "Computadores", stock: 6, minimo: 5, precio: "$749,990", valor: "$4,499,940", estado: "stock-medium"},
+      {producto: "Cargador iPhone", categoria: "Accesorios", stock: 45, minimo: 20, precio: "$24,990", valor: "$1,124,550", estado: "stock-good"},
+      {producto: "Case Samsung S24", categoria: "Accesorios", stock: 8, minimo: 15, precio: "$19,990", valor: "$159,920", estado: "stock-low"},
+      {producto: "Pantalla iPhone 14", categoria: "Repuestos", stock: 2, minimo: 5, precio: "$149,990", valor: "$299,980", estado: "stock-low"},
+      {producto: "Batería MacBook", categoria: "Repuestos", stock: 7, minimo: 6, precio: "$89,990", valor: "$629,930", estado: "stock-medium"}
+    ];
+
+    // Sample data for clients with points
+    const clientsData = [
+      {nombre: "Juan Pérez", telefono: "+569 1234 5678", email: "juan@email.com", tipo: "Particular", compras: "$8,450,000", reparaciones: 3, puntos: 1250, ultimaVisita: "15/01/2025"},
+      {nombre: "María González", telefono: "+569 8765 4321", email: "maria@email.com", tipo: "Empresa", compras: "$15,200,000", reparaciones: 7, puntos: 2850, ultimaVisita: "14/01/2025"},
+      {nombre: "Carlos López", telefono: "+569 5555 8888", email: "carlos@email.com", tipo: "Particular", compras: "$3,750,000", reparaciones: 2, puntos: 650, ultimaVisita: "10/01/2025"},
+      {nombre: "TechCorp SA", telefono: "+569 2222 3333", email: "compras@techcorp.cl", tipo: "Empresa", compras: "$42,500,000", reparaciones: 12, puntos: 8500, ultimaVisita: "08/01/2025"},
+      {nombre: "Ana Silva", telefono: "+569 4444 7777", email: "ana@email.com", tipo: "Particular", compras: "$2,100,000", reparaciones: 5, puntos: 420, ultimaVisita: "05/01/2025"},
+      {nombre: "Roberto Díaz", telefono: "+569 3333 4444", email: "roberto@email.com", tipo: "Particular", compras: "$1,800,000", reparaciones: 1, puntos: 280, ultimaVisita: "15/01/2025"},
+      {nombre: "Laura Martínez", telefono: "+569 6666 9999", email: "laura@email.com", tipo: "Particular", compras: "$950,000", reparaciones: 0, puntos: 150, ultimaVisita: "15/01/2025"},
+      {nombre: "Pedro Sánchez", telefono: "+569 7777 1111", email: "pedro@email.com", tipo: "Particular", compras: "$3,200,000", reparaciones: 4, puntos: 580, ultimaVisita: "12/01/2025"}
+    ];
+
+    // Sample data for points management
+    const pointsData = [
+      {cliente: "Juan Pérez", email: "juan@email.com", telefono: "+569 1234 5678", puntosActuales: 1250, puntosAcumulados: 2850, ultimaActualizacion: "15/01/2025"},
+      {cliente: "María González", email: "maria@email.com", telefono: "+569 8765 4321", puntosActuales: 2850, puntosAcumulados: 4200, ultimaActualizacion: "14/01/2025"},
+      {cliente: "Carlos López", email: "carlos@email.com", telefono: "+569 5555 8888", puntosActuales: 650, puntosAcumulados: 1200, ultimaActualizacion: "10/01/2025"},
+      {cliente: "TechCorp SA", email: "compras@techcorp.cl", telefono: "+569 2222 3333", puntosActuales: 8500, puntosAcumulados: 12500, ultimaActualizacion: "08/01/2025"},
+      {cliente: "Ana Silva", email: "ana@email.com", telefono: "+569 4444 7777", puntosActuales: 420, puntosAcumulados: 850, ultimaActualizacion: "05/01/2025"},
+      {cliente: "Roberto Díaz", email: "roberto@email.com", telefono: "+569 3333 4444", puntosActuales: 280, puntosAcumulados: 500, ultimaActualizacion: "15/01/2025"},
+      {cliente: "Laura Martínez", email: "laura@email.com", telefono: "+569 6666 9999", puntosActuales: 150, puntosAcumulados: 150, ultimaActualizacion: "15/01/2025"},
+      {cliente: "Pedro Sánchez", email: "pedro@email.com", telefono: "+569 7777 1111", puntosActuales: 580, puntosAcumulados: 980, ultimaActualizacion: "12/01/2025"}
+    ];
+
+    // Initialize the application
+    let currentRepairsList = [...repairsData];
+    let currentAppointmentsList = [...appointmentsData];
+    let currentInventoryList = [...inventoryData];
+    let lastSortKey = null;
+    let lastSortDir = 1;
+
+    // Initialize dashboard stats
+    function initStats() {
+      document.getElementById('today-appointments').textContent = appointmentsData.length;
+      document.getElementById('active-repairs').textContent = repairsData.filter(r => r.estado === "En Progreso").length;
+      
+      // Calculate today's revenue
+      const todayRevenue = salesData
+        .filter(s => s.fecha === "15/01/2025")
+        .reduce((sum, sale) => sum + parseInt(sale.total.replace(/[^\d]/g, '')), 0);
+      document.getElementById('today-revenue').textContent = `$${todayRevenue.toLocaleString('es-CL')}`;
+      
+      // Calculate new clients (last 7 days)
+      document.getElementById('new-clients').textContent = "5";
+      
+      // Report stats
+      document.getElementById('report-sales').textContent = "$24,750,000";
+      document.getElementById('report-repairs').textContent = "156";
+      document.getElementById('report-clients').textContent = "42";
+      document.getElementById('report-profit').textContent = "$7,425,000";
+    }
+
+    // Load today's appointments
+    function loadTodayAppointments() {
+      const container = document.getElementById('todayAppointmentsList');
+      const appointmentsToday = appointmentsData.slice(0, 5);
+      
+      let html = '<div style="display: grid; gap: 12px;">';
+      appointmentsToday.forEach(appointment => {
+        const statusClass = appointment.estado === "Confirmada" ? "status-scheduled" : 
+                           appointment.estado === "En Progreso" ? "status-progress" : 
+                           appointment.estado === "Completada" ? "status-completed" : "status-pending";
+        
+        html += `
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--accent-bg); border-radius: 8px;">
+            <div>
+              <div style="font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                <span style="color: var(--text-muted); font-size: 13px;">${appointment.hora}</span>
+                ${appointment.cliente}
+              </div>
+              <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">${appointment.dispositivo}</div>
+            </div>
+            <div>
+              <span class="status-badge ${statusClass}">${appointment.estado}</span>
+            </div>
+          </div>
+        `;
+      });
+      html += '</div>';
+      container.innerHTML = html;
+    }
+
+    // Load urgent repairs
+    function loadUrgentRepairs() {
+      const urgentDiv = document.getElementById('urgentRepairs');
+      const urgent = repairsData.filter(r => r.prioridad === "Alta" && (r.estado === "Pendiente" || r.estado === "En Progreso"));
+      
+      if (urgent.length === 0) {
+        urgentDiv.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 20px;">No hay reparaciones urgentes pendientes.</p>';
+        return;
+      }
+      
+      let html = '<div style="display: grid; gap: 12px;">';
+      urgent.slice(0, 4).forEach(repair => {
+        const statusClass = repair.estado === "Pendiente" ? "status-pending" : "status-progress";
+        html += `
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #fef2f2; border-radius: 8px; border-left: 4px solid #dc2626;">
+            <div>
+              <div style="font-weight: 600;">${repair.id}</div>
+              <div style="font-size: 13px; color: var(--text-muted);">${repair.cliente} - ${repair.dispositivo}</div>
+            </div>
+            <div>
+              <span class="status-badge ${statusClass}">${repair.estado}</span>
+              <span style="margin-left: 8px; font-size: 13px; color: var(--text-muted);">${repair.dias} días</span>
+            </div>
+          </div>
+        `;
+      });
+      html += '</div>';
+      urgentDiv.innerHTML = html;
+    }
+
+    // Load recent activity
+    function loadRecentActivity() {
+      const container = document.getElementById('recentActivity');
+      
+      const activities = [
+        {time: "09:15", action: "Nueva reparación ingresada", client: "Juan Pérez", details: "iPhone 14 Pro - Pantalla rota"},
+        {time: "10:30", action: "Cita completada", client: "María González", details: "Samsung S23 - Cambio de batería"},
+        {time: "11:45", action: "Venta realizada", client: "Carlos López", details: "MacBook Air M2 - $1,299,990"},
+        {time: "12:20", action: "Reparación entregada", client: "Ana Silva", details: "iPad Air 5 - Puerto de carga"},
+        {time: "14:10", action: "Cliente nuevo registrado", client: "Laura Martínez", details: "Google Pixel 7 - Primer contacto"}
+      ];
+      
+      let html = '<div style="display: grid; gap: 12px;">';
+      activities.forEach(activity => {
+        html += `
+          <div style="display: flex; gap: 12px; padding: 12px; border-bottom: 1px solid var(--border);">
+            <div style="color: var(--text-muted); font-size: 13px; min-width: 60px;">${activity.time}</div>
+            <div style="flex: 1;">
+              <div style="font-weight: 500;">${activity.action}</div>
+              <div style="font-size: 13px; color: var(--text-muted);">${activity.client} - ${activity.details}</div>
+            </div>
+          </div>
+        `;
+      });
+      html += '</div>';
+      container.innerHTML = html;
+    }
+
+    // Render appointments table
+    function renderAppointmentsTable(list) {
+      const tbody = document.getElementById('appointmentsBody');
+      tbody.innerHTML = "";
+      
+      list.forEach(item => {
+        const tr = document.createElement('tr');
+        
+        // Determine status class
+        let statusClass = "";
+        let statusText = item.estado;
+        switch(item.estado) {
+          case "Confirmada": statusClass = "status-scheduled"; break;
+          case "Pendiente": statusClass = "status-pending"; break;
+          case "En Progreso": statusClass = "status-progress"; break;
+          case "Completada": statusClass = "status-completed"; break;
+        }
+        
+        tr.innerHTML = `
+          <td><strong>${item.hora}</strong></td>
+          <td>${item.cliente}</td>
+          <td>${item.telefono}</td>
+          <td>${item.dispositivo}</td>
+          <td>${item.problema}</td>
+          <td>${item.tecnico}</td>
+          <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+          <td>
+            <button class="points-action" style="margin-right: 4px;" title="Editar">
+              <i data-lucide="edit-2"></i>
+            </button>
+            <button class="points-action" title="Confirmar">
+              <i data-lucide="check"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+      
+      // Re-initialize icons for new elements
+      lucide.createIcons();
+    }
+
+    // Render repairs table
+    function renderRepairsTable(list) {
+      const tbody = document.getElementById('repairsBody');
+      tbody.innerHTML = "";
+      
+      list.forEach(item => {
+        const tr = document.createElement('tr');
+        
+        // Determine status class
+        let statusClass = "";
+        let statusText = "";
+        switch(item.estado) {
+          case "Pendiente": statusClass = "status-pending"; statusText = "Pendiente"; break;
+          case "En Progreso": statusClass = "status-progress"; statusText = "En Progreso"; break;
+          case "Completado": statusClass = "status-completed"; statusText = "Completado"; break;
+          case "Entregado": statusClass = "status-delivered"; statusText = "Entregado"; break;
+        }
+        
+        // Determine priority class
+        let priorityClass = "";
+        switch(item.prioridad) {
+          case "Alta": priorityClass = "priority-high"; break;
+          case "Media": priorityClass = "priority-medium"; break;
+          case "Baja": priorityClass = "priority-low"; break;
+        }
+        
+        tr.innerHTML = `
+          <td><strong>${item.id}</strong></td>
+          <td>${item.cliente}</td>
+          <td>${item.dispositivo}</td>
+          <td>${item.problema}</td>
+          <td>${item.fechaIngreso}</td>
+          <td>${item.dias} días</td>
+          <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+          <td class="${priorityClass}">${item.prioridad}</td>
+          <td>
+            <button class="points-action" title="Actualizar estado">
+              <i data-lucide="refresh-cw"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+      
+      // Re-initialize icons for new elements
+      lucide.createIcons();
+    }
+
+    // Render sales table
+    function renderSalesTable() {
+      const tbody = document.getElementById('salesBody');
+      tbody.innerHTML = "";
+      
+      salesData.forEach(item => {
+        const tr = document.createElement('tr');
+        const statusClass = item.estado === "Completada" ? "status-completed" : "status-pending";
+        
+        tr.innerHTML = `
+          <td><strong>${item.id}</strong></td>
+          <td>${item.cliente}</td>
+          <td>${item.productos}</td>
+          <td><strong>${item.total}</strong></td>
+          <td>${item.fecha}</td>
+          <td>${item.vendedor}</td>
+          <td><span class="status-badge ${statusClass}">${item.estado}</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Render inventory table
+    function renderInventoryTable(list) {
+      const tbody = document.getElementById('inventoryBody');
+      tbody.innerHTML = "";
+      
+      list.forEach(item => {
+        const tr = document.createElement('tr');
+        
+        // Determine stock status
+        let stockStatus = "";
+        let stockText = "";
+        const stockPercentage = (item.stock / item.minimo) * 100;
+        
+        if (item.stock < item.minimo) {
+          stockStatus = "status-low";
+          stockText = "Bajo";
+        } else if (stockPercentage < 150) {
+          stockStatus = "status-medium";
+          stockText = "Medio";
+        } else {
+          stockStatus = "status-good";
+          stockText = "Bueno";
+        }
+        
+        tr.innerHTML = `
+          <td><strong>${item.producto}</strong></td>
+          <td>${item.categoria}</td>
+          <td>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-weight: 600;">${item.stock} unidades</span>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: ${Math.min(stockPercentage, 100)}%; background: ${item.stock < item.minimo ? '#dc2626' : (stockPercentage < 150 ? '#f59e0b' : '#059669')};"></div>
+              </div>
+            </div>
+          </td>
+          <td>${item.minimo} unidades</td>
+          <td>${item.precio}</td>
+          <td><strong>${item.valor}</strong></td>
+          <td><span class="status-badge ${stockStatus}">${stockText}</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Render clients table
+    function renderClientsTable() {
+      const tbody = document.getElementById('clientsBody');
+      tbody.innerHTML = "";
+      
+      clientsData.forEach(item => {
+        const tr = document.createElement('tr');
+        
+        // Determine points badge color
+        let pointsClass = "status-medium";
+        if (item.puntos > 2000) pointsClass = "status-good";
+        if (item.puntos < 300) pointsClass = "status-low";
+        
+        tr.innerHTML = `
+          <td><strong>${item.nombre}</strong></td>
+          <td>${item.telefono}</td>
+          <td>${item.email}</td>
+          <td>${item.tipo}</td>
+          <td><strong>${item.compras}</strong></td>
+          <td>${item.reparaciones}</td>
+          <td><span class="status-badge ${pointsClass}">${item.puntos} pts</span></td>
+          <td>${item.ultimaVisita}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Render points management table
+    function renderPointsTable() {
+      const tbody = document.getElementById('pointsBody');
+      tbody.innerHTML = "";
+      
+      pointsData.forEach(item => {
+        const tr = document.createElement('tr');
+        
+        // Determine points level
+        let pointsLevel = "Medio";
+        if (item.puntosActuales > 2000) pointsLevel = "Alto";
+        if (item.puntosActuales < 300) pointsLevel = "Bajo";
+        
+        tr.innerHTML = `
+          <td><strong>${item.cliente}</strong></td>
+          <td>${item.email}</td>
+          <td>${item.telefono}</td>
+          <td><strong style="color: ${item.puntosActuales > 2000 ? '#059669' : (item.puntosActuales < 300 ? '#dc2626' : '#d97706')};">${item.puntosActuales}</strong></td>
+          <td>${item.puntosAcumulados}</td>
+          <td>${item.ultimaActualizacion}</td>
+          <td>
+            <button class="points-action" style="margin-right: 4px;" onclick="addPoints('${item.cliente}')" title="Agregar puntos">
+              <i data-lucide="plus"></i>
+            </button>
+            <button class="points-action" onclick="redeemPoints('${item.cliente}')" title="Redimir puntos">
+              <i data-lucide="minus"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Sort table
+    function sortTable(key, dataType) {
+      if (lastSortKey === key) {
+        lastSortDir = -lastSortDir;
+      } else {
+        lastSortDir = 1;
+      }
+      lastSortKey = key;
+      
+      let listToSort;
+      switch(dataType) {
+        case 'repairs':
+          listToSort = currentRepairsList;
+          break;
+        case 'appointments':
+          listToSort = currentAppointmentsList;
+          break;
+        case 'inventory':
+          listToSort = currentInventoryList;
+          break;
+        default:
+          return;
+      }
+      
+      listToSort.sort((a, b) => {
+        let va = a[key], vb = b[key];
+        
+        // Handle special cases for sorting
+        if (key === 'total' || key === 'precio' || key === 'valor' || key === 'compras') {
+          va = parseFloat(va.replace(/[^\d]/g, ''));
+          vb = parseFloat(vb.replace(/[^\d]/g, ''));
+        } else if (key === 'dias') {
+          va = parseInt(va);
+          vb = parseInt(vb);
+        } else if (key === 'stock') {
+          va = a.stock;
+          vb = b.stock;
+        } else if (key === 'hora') {
+          // Convert time to minutes for sorting
+          const [ha, ma] = va.split(':').map(Number);
+          const [hb, mb] = vb.split(':').map(Number);
+          va = ha * 60 + ma;
+          vb = hb * 60 + mb;
+        }
+        
+        if (va === vb) return 0;
+        return (va < vb ? -1 : 1) * lastSortDir;
+      });
+      
+      // Re-render the appropriate table
+      switch(dataType) {
+        case 'repairs':
+          renderRepairsTable(listToSort);
+          break;
+        case 'appointments':
+          renderAppointmentsTable(listToSort);
+          break;
+        case 'inventory':
+          renderInventoryTable(listToSort);
+          break;
+      }
+      
+      // Update sort indicators
+      document.querySelectorAll('th').forEach(th => {
+        th.classList.remove('sort-asc', 'sort-desc');
+        if (th.dataset.key === key) {
+          th.classList.add(lastSortDir === 1 ? 'sort-asc' : 'sort-desc');
+        }
+      });
+    }
+
+    // Filter appointments table
+    function filterAppointmentsTable(filter) {
+      const chips = document.querySelectorAll('#appointmentChips .chip');
+      chips.forEach(chip => chip.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      if (filter === 'Todas') {
+        currentAppointmentsList = [...appointmentsData];
+      } else {
+        currentAppointmentsList = appointmentsData.filter(item => item.estado === filter);
+      }
+      
+      renderAppointmentsTable(currentAppointmentsList);
+    }
+
+    // Filter repairs table
+    function filterRepairsTable(filter) {
+      const chips = document.querySelectorAll('#repairChips .chip');
+      chips.forEach(chip => chip.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      if (filter === 'Todos') {
+        currentRepairsList = [...repairsData];
+      } else {
+        currentRepairsList = repairsData.filter(item => item.estado === filter);
+      }
+      
+      renderRepairsTable(currentRepairsList);
+    }
+
+    // Filter inventory table
+    function filterInventoryTable(filter) {
+      const chips = document.querySelectorAll('#inventoryChips .chip');
+      chips.forEach(chip => chip.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      if (filter === 'Todos') {
+        currentInventoryList = [...inventoryData];
+      } else {
+        currentInventoryList = inventoryData.filter(item => item.categoria === filter);
+      }
+      
+      renderInventoryTable(currentInventoryList);
+    }
+
+    // Initialize charts
+    function initCharts() {
+      // Daily revenue chart
+      const ctxDailyRevenue = document.getElementById('chartDailyRevenue').getContext('2d');
+      new Chart(ctxDailyRevenue, {
+        type: 'bar',
+        data: {
+          labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+          datasets: [{
+            label: 'Ingresos ($)',
+            data: [850000, 920000, 780000, 1100000, 1250000, 450000, 320000],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            title: { display: true, text: 'Ingresos Diarios (Esta Semana)' }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: function(value) {
+                  return '$' + (value / 1000).toFixed(0) + 'K';
+                }
+              }
+            }
+          }
+        }
+      });
+
+      // Repair status chart
+      const ctxRepairStatus = document.getElementById('chartRepairStatus').getContext('2d');
+      new Chart(ctxRepairStatus, {
+        type: 'doughnut',
+        data: {
+          labels: ['Pendientes', 'En Progreso', 'Completados', 'Entregados'],
+          datasets: [{
+            data: [
+              repairsData.filter(r => r.estado === 'Pendiente').length,
+              repairsData.filter(r => r.estado === 'En Progreso').length,
+              repairsData.filter(r => r.estado === 'Completado').length,
+              repairsData.filter(r => r.estado === 'Entregado').length
+            ],
+            backgroundColor: ['#f59e0b', '#3b82f6', '#059669', '#0d9488']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom' },
+            title: { display: true, text: 'Estado de Reparaciones' }
+          }
+        }
+      });
+
+      // Revenue trend chart (Analytics)
+      const ctxRevenueTrend = document.getElementById('chartRevenueTrend').getContext('2d');
+      new Chart(ctxRevenueTrend, {
+        type: 'line',
+        data: {
+          labels: ['Oct', 'Nov', 'Dic', 'Ene', 'Feb', 'Mar'],
+          datasets: [{
+            label: 'Ventas ($)',
+            data: [6500000, 7200000, 10500000, 8250000, 0, 0],
+            borderColor: '#1e40af',
+            backgroundColor: 'rgba(30, 64, 175, 0.1)',
+            tension: 0.3,
+            fill: true
+          }, {
+            label: 'Servicio Técnico ($)',
+            data: [1200000, 1350000, 1850000, 1550000, 0, 0],
+            borderColor: '#7c3aed',
+            backgroundColor: 'rgba(124, 58, 237, 0.1)',
+            tension: 0.3,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            title: { display: true, text: 'Tendencia de Ingresos (últimos 6 meses)' }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: function(value) {
+                  return '$' + (value / 1000000).toFixed(1) + 'M';
+                }
+              }
+            }
+          }
+        }
+      });
+
+      // Device types chart (Analytics)
+      const ctxDeviceTypes = document.getElementById('chartDeviceTypes').getContext('2d');
+      new Chart(ctxDeviceTypes, {
+        type: 'pie',
+        data: {
+          labels: ['iPhone', 'Samsung', 'MacBook', 'Otros Celulares', 'Windows Laptops', 'Tablets'],
+          datasets: [{
+            data: [35, 25, 15, 10, 10, 5],
+            backgroundColor: ['#3b82f6', '#059669', '#7c3aed', '#f59e0b', '#dc2626', '#db2777']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom' },
+            title: { display: true, text: 'Tipos de Dispositivos en Reparación' }
+          }
+        }
+      });
+
+      // Customer acquisition chart (Analytics)
+      const ctxCustomerAcquisition = document.getElementById('chartCustomerAcquisition').getContext('2d');
+      new Chart(ctxCustomerAcquisition, {
+        type: 'bar',
+        data: {
+          labels: ['Referidos', 'Redes Sociales', 'Búsqueda Web', 'Walk-in', 'Anuncios'],
+          datasets: [{
+            label: 'Clientes Nuevos',
+            data: [15, 22, 18, 30, 12],
+            backgroundColor: '#059669'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            title: { display: true, text: 'Adquisición de Clientes (Último Mes)' }
+          },
+          scales: {
+            y: { beginAtZero: true, title: { display: true, text: 'Número de Clientes' } }
+          }
+        }
+      });
+
+      // Repair time chart (Analytics)
+      const ctxRepairTime = document.getElementById('chartRepairTime').getContext('2d');
+      new Chart(ctxRepairTime, {
+        type: 'line',
+        data: {
+          labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4', 'Sem 5', 'Sem 6'],
+          datasets: [{
+            label: 'Tiempo Promedio (días)',
+            data: [4.2, 3.8, 3.5, 3.2, 3.0, 2.8],
+            borderColor: '#7c3aed',
+            backgroundColor: 'rgba(124, 58, 237, 0.1)',
+            tension: 0.3,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            title: { display: true, text: 'Tiempo Promedio de Reparación (Semanas)' }
+          },
+          scales: {
+            y: { 
+              beginAtZero: true,
+              title: { display: true, text: 'Días' }
+            }
+          }
+        }
+      });
+    }
+
+    // Add points function
+    function addPoints(clientName) {
+      const points = prompt(`Agregar puntos a ${clientName}:`, "100");
+      if (points && !isNaN(points)) {
+        alert(`${points} puntos agregados a ${clientName}`);
+        // In a real app, you would update the database here
+      }
+    }
+
+    // Redeem points function
+    function redeemPoints(clientName) {
+      const points = prompt(`Redimir puntos de ${clientName}:`, "100");
+      if (points && !isNaN(points)) {
+        alert(`${points} puntos redimidos de ${clientName}`);
+        // In a real app, you would update the database here
+      }
+    }
+
+    // Export to Excel function
+    function exportToExcel() {
+      // Create workbook with multiple sheets
+      const wb = XLSX.utils.book_new();
+      
+      // Appointments sheet
+      const appointmentsSheet = XLSX.utils.json_to_sheet(appointmentsData.map(item => ({
+        Hora: item.hora,
+        Cliente: item.cliente,
+        Teléfono: item.telefono,
+        Dispositivo: item.dispositivo,
+        Problema: item.problema,
+        Técnico: item.tecnico,
+        Estado: item.estado
+      })));
+      XLSX.utils.book_append_sheet(wb, appointmentsSheet, "Citas");
+      
+      // Repairs sheet
+      const repairsSheet = XLSX.utils.json_to_sheet(repairsData.map(item => ({
+        ID: item.id,
+        Cliente: item.cliente,
+        Dispositivo: item.dispositivo,
+        Problema: item.problema,
+        'Fecha Ingreso': item.fechaIngreso,
+        Estado: item.estado,
+        Prioridad: item.prioridad,
+        'Días en Taller': item.dias
+      })));
+      XLSX.utils.book_append_sheet(wb, repairsSheet, "Reparaciones");
+      
+      // Sales sheet
+      const salesSheet = XLSX.utils.json_to_sheet(salesData.map(item => ({
+        'ID Venta': item.id,
+        Cliente: item.cliente,
+        Productos: item.productos,
+        Total: item.total,
+        Fecha: item.fecha,
+        Vendedor: item.vendedor,
+        Estado: item.estado
+      })));
+      XLSX.utils.book_append_sheet(wb, salesSheet, "Ventas");
+      
+      // Points sheet
+      const pointsSheet = XLSX.utils.json_to_sheet(pointsData.map(item => ({
+        Cliente: item.cliente,
+        Email: item.email,
+        Teléfono: item.telefono,
+        'Puntos Actuales': item.puntosActuales,
+        'Puntos Acumulados': item.puntosAcumulados,
+        'Última Actualización': item.ultimaActualizacion
+      })));
+      XLSX.utils.book_append_sheet(wb, pointsSheet, "Puntos");
+      
+      // Generate Excel file and trigger download
+      XLSX.writeFile(wb, "reporte_completo_" + new Date().toISOString().slice(0,10) + ".xlsx");
+    }
+
+    // Report generation functions
+    function generateSalesReport() {
+      alert("Generando reporte de ventas...");
+      // In a real app, this would generate a detailed sales report
+    }
+
+    function generateRepairsReport() {
+      alert("Generando reporte de reparaciones...");
+      // In a real app, this would generate a detailed repairs report
+    }
+
+    function generateInventoryReport() {
+      alert("Generando reporte de inventario...");
+      // In a real app, this would generate a detailed inventory report
+    }
+
+    function generateClientsReport() {
+      alert("Generando reporte de clientes...");
+      // In a real app, this would generate a detailed clients report
+    }
+
+    // Toggle accordion in summary cards
+    function toggleAccordion(type) {
+      const accordion = document.getElementById(`accordion-${type}`);
+      const isOpen = accordion.classList.contains('open');
+      
+      // Close all accordions
+      document.querySelectorAll('.accordion').forEach(acc => {
+        acc.classList.remove('open');
+      });
+      
+      // Open the clicked one if it was closed
+      if (!isOpen) {
+        let items = [];
+        let title = "";
+        
+        switch(type) {
+          case 'appointments':
+            items = appointmentsData.slice(0, 3);
+            title = "Próximas Citas";
+            break;
+          case 'repairs':
+            items = repairsData.filter(r => r.estado === "En Progreso").slice(0, 3);
+            title = "Reparaciones en Progreso";
+            break;
+          case 'revenue':
+            items = salesData.filter(s => s.fecha === "15/01/2025").slice(0, 3);
+            title = "Ventas de Hoy";
+            break;
+          case 'clients':
+            // Sample new clients
+            items = [
+              {nombre: "Laura Martínez", fecha: "15/01/2025"},
+              {nombre: "David Torres", fecha: "14/01/2025"},
+              {nombre: "Elena Castro", fecha: "13/01/2025"}
+            ];
+            title = "Clientes Nuevos Recientes";
+            break;
+        }
+        
+        if (items.length > 0) {
+          accordion.innerHTML = `
+            <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);">
+              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">${title}:</div>
+              <ul>
+                ${items.map(item => `
+                  <li>${item.nombre || item.cliente}${item.fecha ? ` (${item.fecha})` : ''}${item.dispositivo ? ` - ${item.dispositivo}` : ''}</li>
+                `).join('')}
+              </ul>
+            </div>
+          `;
+        } else {
+          accordion.innerHTML = `
+            <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);">
+              <div style="font-size: 12px; color: var(--text-muted); text-align: center;">No hay items</div>
+            </div>
+          `;
+        }
+        
+        accordion.classList.add('open');
+      }
+    }
+
+    // Initialize the application
+    function init() {
+      initStats();
+      loadTodayAppointments();
+      loadUrgentRepairs();
+      loadRecentActivity();
+      renderAppointmentsTable(appointmentsData);
+      renderRepairsTable(repairsData);
+      renderSalesTable();
+      renderInventoryTable(inventoryData);
+      renderClientsTable();
+      renderPointsTable();
+      initCharts();
+      
+      // Set up event listeners
+      document.querySelectorAll('.nav-item, .nav-btn').forEach(el => {
+        el.addEventListener('click', () => {
+          const tabId = el.dataset.tab;
+          
+          // Update active nav items
+          document.querySelectorAll('.nav-item, .nav-btn').forEach(item => {
+            item.classList.remove('active');
+          });
+          el.classList.add('active');
+          
+          // Update active tab
+          document.querySelectorAll('.tab').forEach(tab => {
+            tab.classList.remove('active');
+          });
+          document.getElementById(`tab-${tabId}`).classList.add('active');
+          
+          // Update title
+          const titles = {
+            dashboard: 'Dashboard Administrativo',
+            citas: 'Citas del Día',
+            reparaciones: 'Gestión de Reparaciones',
+            ventas: 'Ventas y Transacciones',
+            inventario: 'Control de Inventario',
+            clientes: 'Base de Clientes',
+            puntos: 'Gestión de Puntos',
+            analitica: 'Análitica y Métricas',
+            reportes: 'Reportes y Exportaciones'
+          };
+          document.getElementById('title').textContent = titles[tabId];
+        });
+      });
+      
+      // Set up table sorting
+      document.querySelectorAll('#tab-reparaciones th[data-key]').forEach(th => {
+        th.addEventListener('click', () => sortTable(th.dataset.key, 'repairs'));
+      });
+      
+      document.querySelectorAll('#tab-citas th[data-key]').forEach(th => {
+        th.addEventListener('click', () => sortTable(th.dataset.key, 'appointments'));
+      });
+      
+      document.querySelectorAll('#tab-inventario th[data-key]').forEach(th => {
+        th.addEventListener('click', () => sortTable(th.dataset.key, 'inventory'));
+      });
+      
+      // Set up filtering
+      document.querySelectorAll('#appointmentChips .chip').forEach(chip => {
+        chip.addEventListener('click', (e) => filterAppointmentsTable(e.target.dataset.filter));
+      });
+      
+      document.querySelectorAll('#repairChips .chip').forEach(chip => {
+        chip.addEventListener('click', (e) => filterRepairsTable(e.target.dataset.filter));
+      });
+      
+      document.querySelectorAll('#inventoryChips .chip').forEach(chip => {
+        chip.addEventListener('click', (e) => filterInventoryTable(e.target.dataset.filter));
+      });
+      
+      // Set up Excel export button
+      document.getElementById('exportExcelBtn').addEventListener('click', exportToExcel);
+      
+      // Set up hamburger menu
+      document.getElementById('hamburgerBtn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.getElementById('dropdownMenu').classList.toggle('active');
+      });
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', () => {
+        document.getElementById('dropdownMenu').classList.remove('active');
+      });
+      
+      // Set up accordion for summary cards
+      document.querySelectorAll('.stat-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const type = card.classList.contains('appointments') ? 'appointments' :
+                       card.classList.contains('repairs') ? 'repairs' :
+                       card.classList.contains('revenue') ? 'revenue' :
+                       card.classList.contains('clients') ? 'clients' : '';
+          if (type) toggleAccordion(type);
+        });
+      });
+    }
+
+    // Start the application
+    init();
+  </script>
+</body>
+</html>
