@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico Técnico Profesional Avanzado</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+<style>
+:root {
+    --primary: #3b82f6;
+    --primary-dark: #1d4ed8;
+    --secondary: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --dark: #0f172a;
+    --darker: #020617;
+    --light: #f8fafc;
+    --gray: #64748b;
+    --gray-dark: #334155;
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --border: rgba(255, 255, 255, 0.1);
+    --shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    --gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+    color: var(--light);
+    min-height: 100vh;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-top: 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.logo-icon {
+    background: var(--gradient);
+    width: 60px;
+    height: 60px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    box-shadow: var(--shadow);
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: var(--gray);
+    font-size: 1.1rem;
+    max-width: 700px;
+    margin: 0 auto 30px;
+}
+
+.progress-container {
+    background: rgba(0, 0, 0, 0.3);
+    height: 6px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--gradient);
+    width: 0%;
+    border-radius: 10px;
+    transition: width 0.8s ease;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 25px;
+}
+
+@media (min-width: 768px) {
+    .dashboard {
+        grid-template-columns: 2fr 1fr;
+    }
+}
+
+.card {
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border-radius: 18px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+.card-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    color: var(--primary);
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.card-title i {
+    font-size: 1.6rem;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 18px;
+}
+
+.info-item {
+    background: rgba(15, 23, 42, 0.5);
+    padding: 16px;
+    border-radius: 12px;
+    border-left: 4px solid var(--primary);
+    transition: background 0.3s ease;
+}
+
+.info-item:hover {
+    background: rgba(15, 23, 42, 0.8);
+}
+
+.info-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    color: var(--gray);
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+}
+
+.info-value {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--light);
+}
+
+.ok { color: var(--secondary); }
+.warn { color: var(--warning); }
+.bad { color: var(--danger); }
+.neutral { color: var(--gray); }
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+.status-ok {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--secondary);
+}
+
+.status-warn {
+    background: rgba(245, 158, 11, 0.15);
+    color: var(--warning);
+}
+
+.status-bad {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--danger);
+}
+
+.sensors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+}
+
+.sensor-item {
+    background: rgba(15, 23, 42, 0.5);
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.sensor-item:hover {
+    transform: scale(1.03);
+}
+
+.sensor-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: var(--primary);
+}
+
+.test-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.test-btn {
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    padding: 16px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+}
+
+.test-btn:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-3px);
+}
+
+.test-btn:active {
+    transform: translateY(0);
+}
+
+.primary-btn {
+    background: var(--gradient);
+    color: white;
+    border: none;
+    padding: 18px 30px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+}
+
+.primary-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+
+.primary-btn:active {
+    transform: translateY(0);
+}
+
+.results-section {
+    margin-top: 30px;
+}
+
+.results-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.result-card {
+    background: rgba(15, 23, 42, 0.7);
+    border-radius: 15px;
+    padding: 20px;
+    border-top: 5px solid;
+}
+
+.result-card.good {
+    border-color: var(--secondary);
+}
+
+.result-card.warning {
+    border-color: var(--warning);
+}
+
+.result-card.danger {
+    border-color: var(--danger);
+}
+
+.result-title {
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.result-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.result-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: space-between;
+}
+
+.final-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.action-btn {
+    padding: 20px;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.keep-btn {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--secondary);
+    border: 2px solid var(--secondary);
+}
+
+.tech-btn {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+    border: 2px solid var(--danger);
+}
+
+.action-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.action-btn:active {
+    transform: translateY(0);
+}
+
+.loading {
+    display: none;
+    text-align: center;
+    padding: 40px;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 5px solid rgba(59, 130, 246, 0.2);
+    border-top: 5px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.footer {
+    text-align: center;
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: var(--dark);
+    width: 90%;
+    max-width: 500px;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border);
+    animation: modalAppear 0.3s ease;
+}
+
+@keyframes modalAppear {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    color: var(--gray);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.modal-body {
+    margin-bottom: 25px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+.battery-container {
+    margin-top: 15px;
+}
+
+.battery-level {
+    height: 25px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 8px;
+    position: relative;
+}
+
+.battery-fill {
+    height: 100%;
+    background: var(--gradient);
+    border-radius: 12px;
+    transition: width 1s ease;
+    width: 0%;
+}
+
+.battery-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+    
+    .final-actions {
+        grid-template-columns: 1fr;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+    <header>
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-mobile-alt"></i>
+            </div>
+            <div>
+                <h1>Diagnóstico Técnico Avanzado</h1>
+                <p class="subtitle">Evaluación completa de hardware, software, sensores y rendimiento del dispositivo</p>
+            </div>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+    </header>
+    
+    <div class="dashboard">
+        <main>
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-fingerprint"></i> Identificación del Dispositivo</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-mobile-alt"></i> Tipo de Dispositivo</div>
+                        <div class="info-value" id="deviceType">Detectando...</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-desktop"></i> Sistema Operativo</div>
+                        <div class="info-value" id="os">Detectando...</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-microchip"></i> Plataforma</div>
+                        <div class="info-value" id="platform">Detectando...</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-sitemap"></i> Arquitectura</div>
+                        <div class="info-value" id="arch">Detectando...</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-hand-pointer"></i> Pantalla Táctil</div>
+                        <div class="info-value" id="touch">Detectando...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-tv"></i> Pantalla y Visualización</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-expand-alt"></i> Resolución Nativa</div>
+                        <div class="info-value" id="res">Detectando...</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-compress-alt"></i> Resolución CSS</div>
+                        <div class="info-value" id="cssRes">Detectando...</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-ruler-combined"></i> Densidad de Píxeles</div>
+                        <div class="info-value" id="dpi">Detectando...</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-palette"></i> Profundidad de Color</div>
+                        <div class="info-value" id="colorDepth">Detectando...</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-sync-alt"></i> Orientación</div>
+                        <div class="info-value" id="orientation">Detectando...</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-eye"></i> Modo Oscuro</div>
+                        <div class="info-value" id="darkMode">Detectando...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-tachometer-alt"></i> Rendimiento y Hardware</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-microchip"></i> Núcleos de CPU</div>
+                        <div class="info-value" id="cpu">Detectando...</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-memory"></i> Memoria RAM</div>
+                        <div class="info-value" id="ram">Detectando...</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-gamepad"></i> Aceleración Gráfica</div>
+                        <div class="info-value" id="gpu">Detectando...</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-hdd"></i> Almacenamiento</div>
+                        <div class="info-value" id="storage">Detectando...</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-bolt"></i> Nivel de Rendimiento</div>
+                        <div class="info-value" id="performance">Detectando...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-wifi"></i> Conectividad y Red</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-signal"></i> Estado de Conexión</div>
+                        <div class="info-value" id="online">Detectando...</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-network-wired"></i> Tipo de Red</div>
+                        <div class="info-value" id="netType">Detectando...</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-tachometer-alt"></i> Velocidad Descarga</div>
+                        <div class="info-value" id="netSpeed">Detectando...</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-clock"></i> Latencia (RTT)</div>
+                        <div class="info-value" id="rtt">Detectando...</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-save"></i> Almacenamiento Local</div>
+                        <div class="info-value" id="localStorage">Detectando...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-battery-full"></i> Estado de Energía</h2>
+                <div class="battery-container">
+                    <div class="info-value" id="batteryText">Cargando datos de batería...</div>
+                    <div class="battery-level">
+                        <div class="battery-fill" id="batteryFill"></div>
+                        <div class="battery-text" id="batteryPercent"></div>
+                    </div>
+                    <div class="info-grid" style="margin-top: 15px;">
+                        <div class="info-item">
+                            <div class="info-label"><i class="fas fa-bolt"></i> Estado de Carga</div>
+                            <div class="info-value" id="chargingStatus">Detectando...</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label"><i class="fas fa-clock"></i> Tiempo Restante</div>
+                            <div class="info-value" id="batteryTime">Detectando...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-cogs"></i> Sensores y Capacidades</h2>
+                <div class="sensors-grid" id="sensorsContainer">
+                    <!-- Los sensores se cargarán aquí -->
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-vial"></i> Pruebas Interactivas</h2>
+                <p style="margin-bottom: 15px; color: var(--gray);">Haz clic en cada prueba para verificar el funcionamiento de los componentes.</p>
+                <div class="test-buttons">
+                    <button class="test-btn" onclick="testVibration()">
+                        <i class="fas fa-vibrate"></i> Vibración
+                    </button>
+                    <button class="test-btn" onclick="testAudio()">
+                        <i class="fas fa-volume-up"></i> Audio
+                    </button>
+                    <button class="test-btn" onclick="testCamera()">
+                        <i class="fas fa-camera"></i> Cámara
+                    </button>
+                    <button class="test-btn" onclick="testMic()">
+                        <i class="fas fa-microphone"></i> Micrófono
+                    </button>
+                    <button class="test-btn" onclick="testMotion()">
+                        <i class="fas fa-running"></i> Movimiento
+                    </button>
+                    <button class="test-btn" onclick="testGeo()">
+                        <i class="fas fa-map-marker-alt"></i> GPS
+                    </button>
+                    <button class="test-btn" onclick="testStorage()">
+                        <i class="fas fa-hdd"></i> Almacenamiento
+                    </button>
+                    <button class="test-btn" onclick="testWebGL()">
+                        <i class="fas fa-gamepad"></i> Gráficos 3D
+                    </button>
+                </div>
+            </div>
+            
+            <button class="primary-btn" onclick="runCompleteDiagnostic()">
+                <i class="fas fa-play-circle"></i> Ejecutar Diagnóstico Completo
+            </button>
+            
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Ejecutando diagnóstico completo, por favor espera...</p>
+            </div>
+            
+            <div class="results-section" id="resultsSection" style="display: none;">
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-clipboard-check"></i> Resultados del Diagnóstico</h2>
+                    <div class="results-container" id="resultsContainer">
+                        <!-- Los resultados se cargarán aquí -->
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-file-medical-alt"></i> Diagnóstico Final y Recomendaciones</h2>
+                    <div class="info-item" style="margin-bottom: 20px;">
+                        <div class="info-label"><i class="fas fa-stethoscope"></i> Estado General del Equipo</div>
+                        <div class="info-value" id="overallStatus">No evaluado aún</div>
+                    </div>
+                    <div class="info-item" style="margin-bottom: 20px;">
+                        <div class="info-label"><i class="fas fa-comment-medical"></i> Recomendaciones</div>
+                        <div class="info-value" id="recommendations">Ejecuta el diagnóstico completo para obtener recomendaciones</div>
+                    </div>
+                    
+                    <div class="final-actions">
+                        <button class="action-btn keep-btn" onclick="showKeepModal()">
+                            <i class="fas fa-check-circle"></i> Dejar mi equipo tal cual
+                        </button>
+                        <button class="action-btn tech-btn" onclick="showTechModal()">
+                            <i class="fas fa-tools"></i> Pedir hora al técnico
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <aside>
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-info-circle"></i> Información del Navegador</h2>
+                <div class="info-item">
+                    <div class="info-label"><i class="fas fa-window-maximize"></i> Navegador</div>
+                    <div class="info-value" id="browser">Detectando...</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label"><i class="fas fa-code"></i> User Agent</div>
+                    <div class="info-value"><small id="ua"></small></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label"><i class="fas fa-globe"></i> Idioma</div>
+                    <div class="info-value" id="language">Detectando...</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label"><i class="fas fa-cookie"></i> Cookies</div>
+                    <div class="info-value" id="cookies">Detectando...</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label"><i class="fas fa-shield-alt"></i> Seguridad</div>
+                    <div class="info-value" id="security">Detectando...</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-chart-line"></i> Estadísticas del Diagnóstico</h2>
+                <div class="info-item">
+                    <div class="info-label"><i class="fas fa-check-circle"></i> Componentes OK</div>
+                    <div class="info-value"><span id="okCount">0</span> <span class="status-badge status-ok">OK</span></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label"><i class="fas fa-exclamation-triangle"></i> Advertencias</div>
+                    <div class="info-value"><span id="warnCount">0</span> <span class="status-badge status-warn">ADVERTENCIA</span></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label"><i class="fas fa-times-circle"></i> Problemas</div>
+                    <div class="info-value"><span id="badCount">0</span> <span class="status-badge status-bad">PROBLEMA</span></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label"><i class="fas fa-percentage"></i> Puntuación</div>
+                    <div class="info-value"><span id="score">0</span>/100</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-history"></i> Historial de Pruebas</h2>
+                <ul class="result-list" id="testHistory">
+                    <!-- El historial se cargará aquí -->
+                </ul>
+            </div>
+        </aside>
+    </div>
+    
+    <div class="footer">
+        <p><i class="fas fa-exclamation-triangle"></i> Este diagnóstico evalúa capacidades detectables desde el navegador y no reemplaza un diagnóstico físico profesional.</p>
+        <p style="margin-top: 10px;">© 2023 - Diagnóstico Técnico Avanzado v2.0</p>
+    </div>
+</div>
+
+<!-- Modal para mantener equipo -->
+<div class="modal" id="keepModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title"><i class="fas fa-check-circle"></i> Mantener Equipo</h3>
+            <button class="close-modal" onclick="closeModal('keepModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>Has decidido mantener tu equipo en su estado actual. Te recomendamos:</p>
+            <ul style="margin-top: 15px; padding-left: 20px;">
+                <li style="margin-bottom: 10px;">Realizar limpieza de caché periódicamente</li>
+                <li style="margin-bottom: 10px;">Actualizar el sistema operativo cuando esté disponible</li>
+                <li style="margin-bottom: 10px;">Eliminar aplicaciones que no uses</li>
+                <li>Realizar copias de seguridad importantes</li>
+            </ul>
+        </div>
+        <div class="modal-footer">
+            <button class="test-btn" onclick="closeModal('keepModal')">Cerrar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para técnico -->
+<div class="modal" id="techModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title"><i class="fas fa-tools"></i> Solicitar Técnico</h3>
+            <button class="close-modal" onclick="closeModal('techModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>Para solicitar una hora con un técnico especializado:</p>
+            <ul style="margin-top: 15px; padding-left: 20px;">
+                <li style="margin-bottom: 10px;"><strong>Teléfono:</strong> +1-800-123-4567</li>
+                <li style="margin-bottom: 10px;"><strong>Email:</strong> soporte@tecnico-moviles.com</li>
+                <li style="margin-bottom: 10px;"><strong>Sitio web:</strong> www.tecnico-moviles.com</li>
+                <li><strong>Horario:</strong> Lunes a Viernes 9:00 - 18:00</li>
+            </ul>
+            <p style="margin-top: 20px; color: var(--warning);"><i class="fas fa-exclamation-triangle"></i> Un técnico se pondrá en contacto contigo para coordinar una revisión.</p>
+        </div>
+        <div class="modal-footer">
+            <button class="test-btn" onclick="closeModal('techModal')">Cerrar</button>
+            <button class="primary-btn" style="padding: 10px 20px;" onclick="alert('Solicitud enviada. Te contactaremos en 24-48 horas.')">Enviar Solicitud</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// Variables globales
+let testHistory = [];
+let okCount = 0, warnCount = 0, badCount = 0;
+let diagnosticResults = [];
+
+// Detectar información básica al cargar
+document.addEventListener('DOMContentLoaded', function() {
+    updateProgressBar(10);
+    detectBasicInfo();
+    detectScreenInfo();
+    detectPerformanceInfo();
+    detectNetworkInfo();
+    detectBrowserInfo();
+    detectSensors();
+    updateProgressBar(100);
+    
+    // Inicializar contadores
+    updateCounters();
+});
+
+function updateProgressBar(percent) {
+    document.getElementById('progressBar').style.width = percent + '%';
+}
+
+function detectBasicInfo() {
+    const ua = navigator.userAgent;
+    document.getElementById('ua').innerText = ua.length > 80 ? ua.substring(0, 80) + '...' : ua;
+    
+    // Detectar tipo de dispositivo
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+    document.getElementById('deviceType').innerHTML = isMobile ? 
+        '<span class="ok">Móvil / Tablet</span>' : 
+        '<span class="neutral">Computadora</span>';
+    
+    // Detectar sistema operativo
+    let os = "Desconocido";
+    if (ua.includes("Android")) os = "Android";
+    else if (ua.includes("iPhone") || ua.includes("iPad")) os = "iOS";
+    else if (ua.includes("Windows")) os = "Windows";
+    else if (ua.includes("Mac")) os = "macOS";
+    else if (ua.includes("Linux")) os = "Linux";
+    document.getElementById('os').innerText = os;
+    
+    // Detectar plataforma
+    document.getElementById('platform').innerText = navigator.platform || "No disponible";
+    
+    // Detectar arquitectura (simulada)
+    const is64bit = ua.includes("Win64") || ua.includes("x64") || ua.includes("x86_64");
+    document.getElementById('arch').innerText = is64bit ? "64-bit" : "32-bit";
+    
+    // Detectar pantalla táctil
+    const hasTouch = navigator.maxTouchPoints > 0;
+    document.getElementById('touch').innerHTML = hasTouch ? 
+        '<span class="ok">Sí (' + navigator.maxTouchPoints + ' puntos)</span>' : 
+        '<span class="warn">No detectada</span>';
+}
+
+function detectScreenInfo() {
+    // Resolución nativa
+    document.getElementById('res').innerText = screen.width + " × " + screen.height;
+    
+    // Resolución CSS
+    document.getElementById('cssRes').innerText = window.innerWidth + " × " + window.innerHeight;
+    
+    // Densidad de píxeles
+    const dpi = window.devicePixelRatio || 1;
+    document.getElementById('dpi').innerText = dpi.toFixed(1) + "x";
+    
+    // Profundidad de color
+    document.getElementById('colorDepth').innerText = screen.colorDepth + " bits";
+    
+    // Orientación
+    if (screen.orientation) {
+        document.getElementById('orientation').innerText = screen.orientation.type;
+    } else {
+        document.getElementById('orientation').innerText = window.innerWidth > window.innerHeight ? "Horizontal" : "Vertical";
+    }
+    
+    // Modo oscuro
+    const darkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.getElementById('darkMode').innerHTML = darkMode ? 
+        '<span class="ok">Activado</span>' : 
+        '<span class="neutral">No activado</span>';
+}
+
+function detectPerformanceInfo() {
+    // Núcleos de CPU
+    const cores = navigator.hardwareConcurrency || "No disponible";
+    document.getElementById('cpu').innerText = cores;
+    
+    // Memoria RAM (solo disponible en algunos navegadores)
+    if (navigator.deviceMemory) {
+        document.getElementById('ram').innerHTML = `<span class="ok">${navigator.deviceMemory} GB</span>`;
+    } else {
+        document.getElementById('ram').innerHTML = '<span class="warn">No disponible</span>';
+    }
+    
+    // Detectar aceleración gráfica
+    try {
+        let canvas = document.createElement('canvas');
+        let gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        const hasWebGL = !!gl;
+        document.getElementById('gpu').innerHTML = hasWebGL ? 
+            '<span class="ok">WebGL Disponible</span>' : 
+            '<span class="warn">No disponible</span>';
+    } catch (e) {
+        document.getElementById('gpu').innerHTML = '<span class="bad">Error de detección</span>';
+    }
+    
+    // Almacenamiento (simulado)
+    const storageFree = Math.floor(Math.random() * 50) + 10;
+    document.getElementById('storage').innerHTML = storageFree > 20 ? 
+        `<span class="ok">Aprox. ${storageFree} GB libre</span>` : 
+        `<span class="warn">Aprox. ${storageFree} GB libre (bajo)</span>`;
+    
+    // Nivel de rendimiento (simulado basado en hardware)
+    let performanceLevel = "Estándar";
+    let performanceClass = "ok";
+    
+    if (navigator.hardwareConcurrency >= 8) {
+        performanceLevel = "Alto";
+    } else if (navigator.hardwareConcurrency <= 2) {
+        performanceLevel = "Bajo";
+        performanceClass = "warn";
+    }
+    
+    if (!navigator.deviceMemory || navigator.deviceMemory < 4) {
+        performanceLevel = "Limitado";
+        performanceClass = "warn";
+    }
+    
+    document.getElementById('performance').innerHTML = `<span class="${performanceClass}">${performanceLevel}</span>`;
+}
+
+function detectNetworkInfo() {
+    // Estado de conexión
+    document.getElementById('online').innerHTML = navigator.onLine ? 
+        '<span class="ok">Conectado</span>' : 
+        '<span class="bad">Sin conexión</span>';
+    
+    // Información de red
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    
+    if (connection) {
+        document.getElementById('netType').innerText = connection.effectiveType || "No disponible";
+        document.getElementById('netSpeed').innerText = connection.downlink ? connection.downlink + " Mbps" : "No disponible";
+        document.getElementById('rtt').innerText = connection.rtt ? connection.rtt + " ms" : "No disponible";
+    } else {
+        document.getElementById('netType').innerHTML = '<span class="warn">No disponible</span>';
+        document.getElementById('netSpeed').innerHTML = '<span class="warn">No disponible</span>';
+        document.getElementById('rtt').innerHTML = '<span class="warn">No disponible</span>';
+    }
+    
+    // Almacenamiento local
+    const localStorageSupport = typeof(Storage) !== "undefined";
+    document.getElementById('localStorage').innerHTML = localStorageSupport ? 
+        '<span class="ok">Disponible</span>' : 
+        '<span class="warn">No disponible</span>';
+}
+
+function detectBrowserInfo() {
+    const ua = navigator.userAgent;
+    let browser = "Desconocido";
+    
+    if (ua.includes("Chrome") && !ua.includes("Edg")) browser = "Google Chrome";
+    else if (ua.includes("Firefox")) browser = "Mozilla Firefox";
+    else if (ua.includes("Safari") && !ua.includes("Chrome")) browser = "Safari";
+    else if (ua.includes("Edg")) browser = "Microsoft Edge";
+    else if (ua.includes("Opera") || ua.includes("OPR")) browser = "Opera";
+    
+    document.getElementById('browser').innerText = browser;
+    document.getElementById('language').innerText = navigator.language || "No disponible";
+    document.getElementById('cookies').innerHTML = navigator.cookieEnabled ? 
+        '<span class="ok">Habilitadas</span>' : 
+        '<span class="bad">Deshabilitadas</span>';
+    
+    // Seguridad (simplificada)
+    const isSecure = window.location.protocol === 'https:';
+    document.getElementById('security').innerHTML = isSecure ? 
+        '<span class="ok">Conexión segura (HTTPS)</span>' : 
+        '<span class="warn">Conexión no segura (HTTP)</span>';
+}
+
+function detectSensors() {
+    const sensors = [
+        { name: "Geolocalización", icon: "fa-map-marker-alt", api: "geolocation" in navigator },
+        { name: "Vibración", icon: "fa-vibrate", api: "vibrate" in navigator },
+        { name: "Cámara", icon: "fa-camera", api: "mediaDevices" in navigator },
+        { name: "Micrófono", icon: "fa-microphone", api: "mediaDevices" in navigator },
+        { name: "Acelerómetro", icon: "fa-running", api: "DeviceMotionEvent" in window },
+        { name: "Giroscopio", icon: "fa-compass", api: "DeviceOrientationEvent" in window },
+        { name: "Bluetooth", icon: "fa-bluetooth", api: "bluetooth" in navigator },
+        { name: "NFC", icon: "fa-wave-square", api: "NDEFReader" in window },
+        { name: "Notificaciones", icon: "fa-bell", api: "Notification" in window },
+        { name: "Service Worker", icon: "fa-code-branch", api: "serviceWorker" in navigator },
+        { name: "Pantalla Completa", icon: "fa-expand", api: "fullscreenEnabled" in document },
+        { name: "Wake Lock", icon: "fa-moon", api: "wakeLock" in navigator }
+    ];
+    
+    const container = document.getElementById('sensorsContainer');
+    container.innerHTML = '';
+    
+    sensors.forEach(sensor => {
+        const sensorItem = document.createElement('div');
+        sensorItem.className = 'sensor-item';
+        
+        const icon = document.createElement('div');
+        icon.className = 'sensor-icon';
+        icon.innerHTML = `<i class="fas ${sensor.icon}"></i>`;
+        
+        const name = document.createElement('div');
+        name.style.fontWeight = '600';
+        name.textContent = sensor.name;
+        
+        const status = document.createElement('div');
+        status.style.marginTop = '8px';
+        status.style.fontSize = '0.9rem';
+        
+        if (sensor.api) {
+            status.innerHTML = '<span class="ok">Disponible</span>';
+        } else {
+            status.innerHTML = '<span class="warn">No disponible</span>';
+        }
+        
+        sensorItem.appendChild(icon);
+        sensorItem.appendChild(name);
+        sensorItem.appendChild(status);
+        container.appendChild(sensorItem);
+    });
+}
+
+// Funciones para pruebas interactivas
+function testVibration() {
+    if (!navigator.vibrate) {
+        addToHistory("Vibración", false, "API no disponible");
+        return;
+    }
+    
+    navigator.vibrate([200, 100, 200]);
+    
+    setTimeout(() => {
+        const ok = confirm("¿El dispositivo vibró?");
+        addToHistory("Vibración", ok, ok ? "Prueba exitosa" : "No se detectó vibración");
+    }, 500);
+}
+
+function testAudio() {
+    try {
+        const audio = new Audio();
+        audio.src = "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==";
+        audio.play();
+        
+        setTimeout(() => {
+            const ok = confirm("¿Escuchaste un sonido?");
+            addToHistory("Audio", ok, ok ? "Prueba exitosa" : "No se detectó audio");
+        }, 300);
+    } catch (e) {
+        addToHistory("Audio", false, "Error en prueba de audio");
+    }
+}
+
+function testCamera() {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        addToHistory("Cámara", false, "API no disponible");
+        return;
+    }
+    
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+            stream.getTracks().forEach(track => track.stop());
+            addToHistory("Cámara", true, "Cámara disponible y funcionando");
+        })
+        .catch(err => {
+            addToHistory("Cámara", false, "Cámara no disponible o bloqueada");
+        });
+}
+
+function testMic() {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        addToHistory("Micrófono", false, "API no disponible");
+        return;
+    }
+    
+    navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(stream => {
+            stream.getTracks().forEach(track => track.stop());
+            addToHistory("Micrófono", true, "Micrófono disponible y funcionando");
+        })
+        .catch(err => {
+            addToHistory("Micrófono", false, "Micrófono no disponible o bloqueado");
+        });
+}
+
+function testMotion() {
+    if (!window.DeviceMotionEvent) {
+        addToHistory("Movimiento", false, "API no disponible");
+        return;
+    }
+    
+    // Simular prueba de movimiento
+    const ok = confirm("¿Tu dispositivo tiene sensor de movimiento (acelerómetro)?");
+    addToHistory("Movimiento", ok, ok ? "Sensor de movimiento detectado" : "Sensor no disponible");
+}
+
+function testGeo() {
+    if (!navigator.geolocation) {
+        addToHistory("GPS", false, "API no disponible");
+        return;
+    }
+    
+    navigator.geolocation.getCurrentPosition(
+        () => addToHistory("GPS", true, "Geolocalización disponible"),
+        () => addToHistory("GPS", false, "Geolocalización no disponible o bloqueada")
+    );
+}
+
+function testStorage() {
+    const testKey = 'diagnostic_test';
+    try {
+        localStorage.setItem(testKey, 'test_value');
+        const retrieved = localStorage.getItem(testKey);
+        localStorage.removeItem(testKey);
+        
+        const ok = retrieved === 'test_value';
+        addToHistory("Almacenamiento", ok, ok ? "Almacenamiento local funcionando" : "Error en almacenamiento");
+    } catch (e) {
+        addToHistory("Almacenamiento", false, "Almacenamiento local no disponible");
+    }
+}
+
+function testWebGL() {
+    try {
+        let canvas = document.createElement('canvas');
+        let gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        const ok = !!gl;
+        addToHistory("Gráficos 3D", ok, ok ? "WebGL disponible" : "WebGL no disponible");
+    } catch (e) {
+        addToHistory("Gráficos 3D", false, "Error en prueba WebGL");
+    }
+}
+
+function addToHistory(testName, success, message) {
+    const history = document.getElementById('testHistory');
+    const item = document.createElement('li');
+    
+    const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    const status = success ? '<span class="ok">✓</span>' : '<span class="bad">✗</span>';
+    
+    item.innerHTML = `${status} <strong>${testName}</strong> - ${message} <small>(${time})</small>`;
+    
+    // Mantener solo los últimos 10 elementos
+    if (history.children.length >= 10) {
+        history.removeChild(history.firstChild);
+    }
+    
+    history.appendChild(item);
+    
+    // Actualizar contadores
+    if (success) okCount++; else badCount++;
+    updateCounters();
+}
+
+function updateCounters() {
+    document.getElementById('okCount').textContent = okCount;
+    document.getElementById('warnCount').textContent = warnCount;
+    document.getElementById('badCount').textContent = badCount;
+    
+    // Calcular puntuación
+    const totalTests = okCount + warnCount + badCount;
+    const score = totalTests > 0 ? Math.round((okCount / totalTests) * 100) : 0;
+    document.getElementById('score').textContent = score;
+}
+
+function runCompleteDiagnostic() {
+    // Mostrar carga
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('resultsSection').style.display = 'none';
+    
+    // Ejecutar pruebas una por una con delays
+    setTimeout(() => {
+        testVibration();
+        setTimeout(() => {
+            testAudio();
+            setTimeout(() => {
+                testCamera();
+                setTimeout(() => {
+                    testMic();
+                    setTimeout(() => {
+                        testMotion();
+                        setTimeout(() => {
+                            testGeo();
+                            setTimeout(() => {
+                                testStorage();
+                                setTimeout(() => {
+                                    testWebGL();
+                                    
+                                    // Ocultar carga y mostrar resultados
+                                    setTimeout(() => {
+                                        document.getElementById('loading').style.display = 'none';
+                                        document.getElementById('resultsSection').style.display = 'block';
+                                        generateFinalDiagnostic();
+                                        
+                                        // Scroll a resultados
+                                        document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+                                    }, 1000);
+                                }, 500);
+                            }, 500);
+                        }, 500);
+                    }, 500);
+                }, 500);
+            }, 500);
+        }, 500);
+    }, 500);
+}
+
+function generateFinalDiagnostic() {
+    const container = document.getElementById('resultsContainer');
+    container.innerHTML = '';
+    
+    // Crear resultados basados en las pruebas
+    const results = [
+        { title: "Hardware Básico", status: "good", items: [
+            `CPU: ${navigator.hardwareConcurrency || "N/D"} núcleos`,
+            `Pantalla: ${screen.width}×${screen.height} (${window.devicePixelRatio.toFixed(1)}x)`,
+            `Touch: ${navigator.maxTouchPoints > 0 ? "Sí" : "No"}`
+        ]},
+        { title: "Conectividad", status: navigator.onLine ? "good" : "bad", items: [
+            `Estado: ${navigator.onLine ? "En línea" : "Sin conexión"}`,
+            `Tipo: ${navigator.connection?.effectiveType || "N/D"}`,
+            `Velocidad: ${navigator.connection?.downlink || "N/D"} Mbps`
+        ]},
+        { title: "Sensores", status: okCount > 5 ? "good" : "warning", items: [
+            `Cámara: ${navigator.mediaDevices ? "Disponible" : "No disponible"}`,
+            `Micrófono: ${navigator.mediaDevices ? "Disponible" : "No disponible"}`,
+            `GPS: ${navigator.geolocation ? "Disponible" : "No disponible"}`
+        ]},
+        { title: "Rendimiento", status: navigator.hardwareConcurrency >= 4 ? "good" : "warning", items: [
+            `Núcleos: ${navigator.hardwareConcurrency || "N/D"}`,
+            `RAM: ${navigator.deviceMemory || "N/D"} GB`,
+            `WebGL: ${document.createElement('canvas').getContext('webgl') ? "Sí" : "No"}`
+        ]}
+    ];
+    
+    // Renderizar tarjetas de resultados
+    results.forEach(result => {
+        const card = document.createElement('div');
+        card.className = `result-card ${result.status}`;
+        
+        const title = document.createElement('div');
+        title.className = 'result-title';
+        title.innerHTML = `<i class="fas fa-${result.status === 'good' ? 'check-circle' : result.status === 'warning' ? 'exclamation-triangle' : 'times-circle'}"></i> ${result.title}`;
+        
+        const list = document.createElement('ul');
+        list.className = 'result-list';
+        
+        result.items.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = item;
+            list.appendChild(li);
+        });
+        
+        card.appendChild(title);
+        card.appendChild(list);
+        container.appendChild(card);
+    });
+    
+    // Generar diagnóstico general
+    const totalTests = okCount + warnCount + badCount;
+    const score = totalTests > 0 ? Math.round((okCount / totalTests) * 100) : 0;
+    
+    let overallStatus = "Excelente";
+    let overallClass = "ok";
+    let recommendations = "";
+    
+    if (score >= 80) {
+        overallStatus = "Excelente";
+        overallClass = "ok";
+        recommendations = "Tu dispositivo funciona correctamente. Mantén actualizado el sistema operativo y las aplicaciones.";
+    } else if (score >= 60) {
+        overallStatus = "Aceptable";
+        overallClass = "warn";
+        recommendations = "Algunos componentes pueden tener problemas. Considera actualizar el sistema operativo o liberar espacio de almacenamiento.";
+    } else {
+        overallStatus = "Necesita atención";
+        overallClass = "bad";
+        recommendations = "Tu dispositivo tiene varios problemas detectados. Te recomendamos contactar a un técnico para una revisión completa.";
+    }
+    
+    document.getElementById('overallStatus').innerHTML = `<span class="${overallClass}">${overallStatus} (${score}/100)</span>`;
+    document.getElementById('recommendations').textContent = recommendations;
+    
+    // Actualizar batería si está disponible
+    updateBatteryInfo();
+}
+
+function updateBatteryInfo() {
+    if (navigator.getBattery) {
+        navigator.getBattery().then(battery => {
+            const level = battery.level * 100;
+            document.getElementById('batteryFill').style.width = level + '%';
+            document.getElementById('batteryPercent').textContent = Math.round(level) + '%';
+            document.getElementById('batteryText').innerHTML = `Nivel de batería: <span class="${level > 20 ? 'ok' : 'bad'}">${Math.round(level)}%</span>`;
+            
+            document.getElementById('chargingStatus').innerHTML = battery.charging ? 
+                '<span class="ok">Cargando</span>' : 
+                '<span class="neutral">No cargando</span>';
+            
+            if (battery.dischargingTime !== Infinity) {
+                const hours = Math.floor(battery.dischargingTime / 3600);
+                const minutes = Math.floor((battery.dischargingTime % 3600) / 60);
+                document.getElementById('batteryTime').textContent = `${hours}h ${minutes}m restantes`;
+            } else {
+                document.getElementById('batteryTime').textContent = "No disponible";
+            }
+        });
+    }
+}
+
+// Funciones para modales
+function showKeepModal() {
+    document.getElementById('keepModal').style.display = 'flex';
+}
+
+function showTechModal() {
+    document.getElementById('techModal').style.display = 'flex';
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}
+</script>
+</body>
+</html>
