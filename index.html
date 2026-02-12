@@ -2,10 +2,12 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GIF Fondo con Redirección</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#000000">
+    <title>Splash</title>
     <style>
-        /* Reset completo */
         * {
             margin: 0;
             padding: 0;
@@ -14,325 +16,50 @@
 
         html, body {
             width: 100%;
-            height: 100vh;
-            overflow: hidden; /* Elimina scrollbars */
-            font-family: 'Arial', sans-serif;
-        }
-
-        /* Contenedor del GIF de fondo */
-        .gif-background {
+            height: 100%;
+            background: #000;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
             overflow: hidden;
         }
 
-        .gif-background img {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            object-fit: cover; /* Cubre todo el espacio sin deformarse */
-        }
-
-        /* Overlay oscuro para mejorar visibilidad del texto */
-        .overlay {
+        .splash {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: rgba(0, 0, 0, 0.4); /* Oscurece ligeramente el GIF */
-            z-index: 5;
+            background: #000;
         }
 
-        /* Contenido superior - Timer */
-        .timer-container {
-            position: fixed;
-            top: 30px;
-            right: 30px;
-            z-index: 20;
-        }
-
-        .timer {
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 12px 28px;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            letter-spacing: 1px;
-        }
-
-        /* Contenido inferior - Botón y mensaje */
-        .content-bottom {
-            position: fixed;
-            bottom: 40px;
-            left: 0;
+        video {
             width: 100%;
-            display: flex;
-            justify-content: center;
-            z-index: 20;
-            padding: 0 20px;
-        }
-
-        .message-box {
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 20px 35px;
-            border-radius: 60px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            gap: 25px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
-        }
-
-        .message-text {
-            font-size: 1.2rem;
-        }
-
-        .message-text strong {
-            color: #ffaa00;
-            font-size: 1.4rem;
-            margin: 0 5px;
-        }
-
-        .redirect-btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: linear-gradient(135deg, #ff6b6b, #ee5253);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            border: none;
-            box-shadow: 0 4px 15px rgba(238, 82, 83, 0.4);
-            letter-spacing: 0.5px;
-        }
-
-        .redirect-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 7px 25px rgba(238, 82, 83, 0.6);
-        }
-
-        /* Loading message */
-        .loading {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 1.3rem;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 18px 35px;
-            border-radius: 50px;
-            z-index: 30;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        /* Responsive para móviles */
-        @media (max-width: 768px) {
-            .timer-container {
-                top: 20px;
-                right: 20px;
-            }
-            
-            .timer {
-                padding: 8px 20px;
-                font-size: 1rem;
-            }
-            
-            .message-box {
-                padding: 15px 25px;
-                gap: 15px;
-                border-radius: 40px;
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .message-text {
-                font-size: 1rem;
-            }
-            
-            .message-text strong {
-                font-size: 1.2rem;
-            }
-            
-            .redirect-btn {
-                padding: 10px 25px;
-                font-size: 1rem;
-            }
-            
-            .loading {
-                font-size: 1.1rem;
-                padding: 15px 25px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .timer-container {
-                top: 15px;
-                right: 15px;
-            }
-            
-            .timer {
-                padding: 6px 16px;
-                font-size: 0.9rem;
-            }
-            
-            .message-box {
-                padding: 12px 20px;
-            }
-            
-            .content-bottom {
-                bottom: 25px;
-            }
-        }
-
-        /* Evita selección accidental */
-        .no-select {
-            user-select: none;
-            -webkit-user-select: none;
+            height: 100%;
+            object-fit: cover;
         }
     </style>
 </head>
 <body>
-    <!-- GIF de fondo -->
-    <div class="gif-background">
-        <img src="logo.gif" alt="Logo animado" id="bgGif">
-    </div>
-    
-    <!-- Overlay oscuro para legibilidad -->
-    <div class="overlay"></div>
-    
-    <!-- Timer en esquina superior derecha -->
-    <div class="timer-container">
-        <div class="timer" id="timer">Redirigiendo en 5s</div>
-    </div>
-    
-    <!-- Mensaje de carga (se oculta cuando el GIF carga) -->
-    <div class="loading" id="loading">Cargando GIF...</div>
-    
-    <!-- Contenido inferior con mensaje y botón -->
-    <div class="content-bottom">
-        <div class="message-box">
-            <span class="message-text">Redirigiendo en <strong id="contador">5</strong> segundos</span>
-            <a href="index3.html" class="redirect-btn" id="btnRedirigir">Entrar ahora →</a>
-        </div>
+    <div class="splash">
+        <video autoplay muted playsinline preload="auto">
+            <source src="intro.mp4" type="video/mp4">
+        </video>
     </div>
 
     <script>
-        // CONFIGURACIÓN
-        const TIEMPO_REDIRECCION = 5; // segundos
-        const URL_REDIRECCION = "index3.html"; // Archivo local
-        
-        let tiempoRestante = TIEMPO_REDIRECCION;
-        
-        // Elementos del DOM
-        const gifImg = document.getElementById('bgGif');
-        const loading = document.getElementById('loading');
-        const timerEl = document.getElementById('timer');
-        const contadorEl = document.getElementById('contador');
-        const btnRedirigir = document.getElementById('btnRedirigir');
-        
-        console.log("🎬 Iniciando página con GIF de fondo...");
-        
-        // ===========================================
-        // 1. MANEJAR CARGA DEL GIF
-        // ===========================================
-        
-        // Cuando el GIF se carga correctamente
-        gifImg.onload = function() {
-            console.log("✅ GIF cargado correctamente");
-            loading.style.display = "none";
-        };
-        
-        // Error al cargar el GIF
-        gifImg.onerror = function() {
-            console.error("❌ Error cargando el GIF");
-            loading.innerHTML = "Error al cargar el GIF - Redirigiendo pronto...";
-            loading.style.backgroundColor = "rgba(200, 50, 50, 0.9)";
-            
-            // Opcional: usar un color de fondo como fallback
-            document.querySelector('.gif-background').style.backgroundColor = "#333";
-        };
-        
-        // ===========================================
-        // 2. SISTEMA DE REDIRECCIÓN
-        // ===========================================
-        
-        // Actualizar contador cada segundo
-        const intervalo = setInterval(() => {
-            tiempoRestante--;
-            
-            // Actualizar elementos visuales
-            if (timerEl) timerEl.textContent = `Redirigiendo en ${tiempoRestante}s`;
-            if (contadorEl) contadorEl.textContent = tiempoRestante;
-            
-            // Redirigir cuando llegue a 0
-            if (tiempoRestante <= 0) {
-                clearInterval(intervalo);
-                redirigir();
-            }
-        }, 1000);
-        
-        // Función de redirección
-        function redirigir() {
-            console.log("🔄 Redirigiendo a:", URL_REDIRECCION);
-            window.location.href = URL_REDIRECCION;
-        }
-        
-        // Botón de redirección manual
-        btnRedirigir.addEventListener('click', (e) => {
-            e.preventDefault();
-            clearInterval(intervalo); // Detener contador
-            window.location.href = btnRedirigir.href;
+        // Redirigir después de 5 segundos
+        setTimeout(() => {
+            window.location.href = 'index3.html';
+        }, 5000);
+
+        // Redirigir al tocar la pantalla
+        document.body.addEventListener('touchstart', () => {
+            window.location.href = 'index3.html';
         });
-        
-        // ===========================================
-        // 3. MEJORAS DE RENDIMIENTO
-        // ===========================================
-        
-        // Precargar la página de destino para redirección más rápida
-        const preconnect = document.createElement('link');
-        preconnect.rel = 'prefetch';
-        preconnect.href = URL_REDIRECCION;
-        document.head.appendChild(preconnect);
-        
-        // Precargar el GIF también (si está en el head)
-        const preloadGif = document.createElement('link');
-        preloadGif.rel = 'preload';
-        preloadGif.as = 'image';
-        preloadGif.href = 'logo.gif';
-        document.head.appendChild(preloadGif);
-        
-        console.log("⏱️ Redirección en", TIEMPO_REDIRECCION, "segundos");
-        
-        // Si el usuario hace clic en el GIF, también puede redirigir (opcional)
-        gifImg.addEventListener('click', function() {
-            clearInterval(intervalo);
-            window.location.href = URL_REDIRECCION;
+
+        // Redirigir cuando el video termina
+        document.querySelector('video').addEventListener('ended', () => {
+            window.location.href = 'index3.html';
         });
-        
-        // Mostrar que el GIF es interactivo (opcional)
-        gifImg.style.cursor = "pointer";
     </script>
 </body>
 </html>
