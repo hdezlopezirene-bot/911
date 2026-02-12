@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Video Fondo con Redirección</title>
+    <title>GIF Fondo con Redirección</title>
     <style>
         /* Reset completo */
         * {
@@ -19,8 +19,8 @@
             font-family: 'Arial', sans-serif;
         }
 
-        /* Contenedor del video de fondo */
-        .video-background {
+        /* Contenedor del GIF de fondo */
+        .gif-background {
             position: fixed;
             top: 0;
             left: 0;
@@ -30,7 +30,7 @@
             overflow: hidden;
         }
 
-        .video-background video {
+        .gif-background img {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -49,7 +49,7 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: rgba(0, 0, 0, 0.4); /* Oscurece ligeramente el video */
+            background-color: rgba(0, 0, 0, 0.4); /* Oscurece ligeramente el GIF */
             z-index: 5;
         }
 
@@ -214,14 +214,9 @@
     </style>
 </head>
 <body>
-    <!-- Video de fondo -->
-    <div class="video-background">
-        <video id="bgVideo" autoplay muted loop playsinline preload="auto" disablepictureinpicture>
-            <!-- TU VIDEO AQUÍ -->
-            <source src="https://hdezlopezirene-bot.github.io/911/intro.mp4" type="video/mp4">
-            <!-- Mensaje si no carga -->
-            Tu navegador no soporta videos HTML5.
-        </video>
+    <!-- GIF de fondo -->
+    <div class="gif-background">
+        <img src="logo.gif" alt="Logo animado" id="bgGif">
     </div>
     
     <!-- Overlay oscuro para legibilidad -->
@@ -232,8 +227,8 @@
         <div class="timer" id="timer">Redirigiendo en 5s</div>
     </div>
     
-    <!-- Mensaje de carga (se oculta cuando el video empieza) -->
-    <div class="loading" id="loading">Cargando video...</div>
+    <!-- Mensaje de carga (se oculta cuando el GIF carga) -->
+    <div class="loading" id="loading">Cargando GIF...</div>
     
     <!-- Contenido inferior con mensaje y botón -->
     <div class="content-bottom">
@@ -251,48 +246,33 @@
         let tiempoRestante = TIEMPO_REDIRECCION;
         
         // Elementos del DOM
-        const video = document.getElementById('bgVideo');
+        const gifImg = document.getElementById('bgGif');
         const loading = document.getElementById('loading');
         const timerEl = document.getElementById('timer');
         const contadorEl = document.getElementById('contador');
         const btnRedirigir = document.getElementById('btnRedirigir');
         
-        console.log("🎬 Iniciando página con video de fondo...");
+        console.log("🎬 Iniciando página con GIF de fondo...");
         
         // ===========================================
-        // 1. FORZAR REPRODUCCIÓN AUTOMÁTICA
+        // 1. MANEJAR CARGA DEL GIF
         // ===========================================
-        function reproducirVideo() {
-            video.play()
-                .then(() => {
-                    console.log("✅ Video reproduciéndose automáticamente");
-                    loading.style.display = "none";
-                })
-                .catch(error => {
-                    console.log("⚠️ Error en autoplay:", error);
-                    loading.innerHTML = "Haz clic en la pantalla para reproducir";
-                    loading.style.cursor = "pointer";
-                    
-                    // Reproducir al hacer clic en cualquier parte
-                    document.body.addEventListener('click', function playOnClick() {
-                        video.play();
-                        loading.style.display = "none";
-                        document.body.removeEventListener('click', playOnClick);
-                    }, { once: true });
-                });
-        }
         
-        // Iniciar reproducción
-        reproducirVideo();
-        
-        // También intentar cuando el video esté cargado
-        video.addEventListener('canplay', reproducirVideo);
-        
-        // Ocultar loading cuando el video realmente se reproduce
-        video.addEventListener('playing', () => {
-            console.log("▶️ Video en reproducción");
+        // Cuando el GIF se carga correctamente
+        gifImg.onload = function() {
+            console.log("✅ GIF cargado correctamente");
             loading.style.display = "none";
-        });
+        };
+        
+        // Error al cargar el GIF
+        gifImg.onerror = function() {
+            console.error("❌ Error cargando el GIF");
+            loading.innerHTML = "Error al cargar el GIF - Redirigiendo pronto...";
+            loading.style.backgroundColor = "rgba(200, 50, 50, 0.9)";
+            
+            // Opcional: usar un color de fondo como fallback
+            document.querySelector('.gif-background').style.backgroundColor = "#333";
+        };
         
         // ===========================================
         // 2. SISTEMA DE REDIRECCIÓN
@@ -327,16 +307,8 @@
         });
         
         // ===========================================
-        // 3. MANEJO DE ERRORES
+        // 3. MEJORAS DE RENDIMIENTO
         // ===========================================
-        
-        // Error al cargar video
-        video.addEventListener('error', (e) => {
-            console.error("❌ Error cargando video:", e);
-            loading.innerHTML = "Error al cargar el video - Redirigiendo pronto...";
-            
-            // Aún así redirigimos después del tiempo
-        });
         
         // Precargar la página de destino para redirección más rápida
         const preconnect = document.createElement('link');
@@ -344,7 +316,23 @@
         preconnect.href = URL_REDIRECCION;
         document.head.appendChild(preconnect);
         
+        // Precargar el GIF también (si está en el head)
+        const preloadGif = document.createElement('link');
+        preloadGif.rel = 'preload';
+        preloadGif.as = 'image';
+        preloadGif.href = 'logo.gif';
+        document.head.appendChild(preloadGif);
+        
         console.log("⏱️ Redirección en", TIEMPO_REDIRECCION, "segundos");
+        
+        // Si el usuario hace clic en el GIF, también puede redirigir (opcional)
+        gifImg.addEventListener('click', function() {
+            clearInterval(intervalo);
+            window.location.href = URL_REDIRECCION;
+        });
+        
+        // Mostrar que el GIF es interactivo (opcional)
+        gifImg.style.cursor = "pointer";
     </script>
 </body>
 </html>
