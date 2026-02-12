@@ -28,23 +28,21 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             background: #000;
         }
 
-        img, video {
+        video {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Cubre toda la pantalla */
+            object-fit: cover;
         }
     </style>
 </head>
 <body>
     <div class="splash">
-        <!-- GIF a pantalla completa -->
-        <img src="ini.gif" alt="" id="splashMedia">
+        <video autoplay muted playsinline preload="auto">
+            <source src="intro.mp4" type="video/mp4">
+        </video>
     </div>
 
     <script>
@@ -58,13 +56,10 @@
             window.location.href = 'index3.html';
         });
 
-        // Si el GIF no carga, igual redirige
-        document.getElementById('splashMedia').onerror = () => {
-            console.log('Error cargando GIF');
-            setTimeout(() => {
-                window.location.href = 'index3.html';
-            }, 5000);
-        };
+        // Redirigir cuando el video termina
+        document.querySelector('video').addEventListener('ended', () => {
+            window.location.href = 'index3.html';
+        });
     </script>
 </body>
 </html>
