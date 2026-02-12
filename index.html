@@ -1,0 +1,1853 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>911repair - App Cliente</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@900&display=swap" rel="stylesheet">
+    <style>
+        /* Variables y Reset - Tema Azul */
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #3b82f6;
+            --secondary: #0ea5e9;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(30, 58, 138, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(30, 58, 138, 0.15);
+            --radius: 12px;
+            --radius-lg: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+            padding-bottom: 80px; /* Espacio para menú inferior */
+            position: relative;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            line-height: 1.2;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header con Menú Hamburguesa y Buscador */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: white;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .logo-text p {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Barra de Búsqueda Superior */
+        .search-bar-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-form {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 50px;
+            padding: 5px 5px 5px 20px;
+            box-shadow: var(--shadow);
+            border: 2px solid transparent;
+            transition: var(--transition);
+        }
+
+        .search-form:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px 0;
+            border: none;
+            outline: none;
+            font-size: 0.95rem;
+            background: transparent;
+            color: var(--dark);
+        }
+
+        .search-input::placeholder {
+            color: var(--gray);
+        }
+
+        .search-button {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-button:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            transform: scale(1.05);
+        }
+
+        .search-results-count {
+            margin-top: 10px;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Menú Hamburguesa Superior Derecho */
+        .hamburger-menu {
+            width: 30px;
+            height: 24px;
+            position: relative;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger-menu span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: white;
+            border-radius: 2px;
+            position: absolute;
+            transition: var(--transition);
+        }
+
+        .hamburger-menu span:nth-child(1) {
+            top: 0;
+        }
+
+        .hamburger-menu span:nth-child(2) {
+            top: 10px;
+        }
+
+        .hamburger-menu span:nth-child(3) {
+            top: 20px;
+        }
+
+        .hamburger-menu.active span:nth-child(1) {
+            transform: rotate(45deg);
+            top: 10px;
+        }
+
+        .hamburger-menu.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-menu.active span:nth-child(3) {
+            transform: rotate(-45deg);
+            top: 10px;
+        }
+
+        /* Menú Lateral Derecho */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100%;
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            box-shadow: -5px 0 25px rgba(30, 58, 138, 0.15);
+            z-index: 1000;
+            transition: var(--transition);
+            padding: 80px 30px 30px;
+            overflow-y: auto;
+        }
+
+        .side-menu.active {
+            right: 0;
+        }
+
+        .side-menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.5);
+            z-index: 999;
+        }
+
+        .side-menu-overlay.active {
+            display: block;
+        }
+
+        .user-profile {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .menu-items {
+            list-style: none;
+        }
+
+        .menu-items li {
+            margin-bottom: 10px;
+        }
+
+        .menu-items a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: var(--radius);
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .menu-items a:hover {
+            background-color: #e0f2fe;
+            color: var(--primary);
+            border-color: var(--primary-light);
+        }
+
+        .menu-items a i {
+            width: 24px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        /* Contenido Principal */
+        .main-content {
+            padding: 20px 0;
+            min-height: calc(100vh - 140px);
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Sección Inicio */
+        .welcome-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        }
+
+        .welcome-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Carrusel de Publicidad en Movimiento */
+        .ads-carousel {
+            background: linear-gradient(135deg, #ffffff, #f0f9ff);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            border: 2px solid #dbeafe;
+            overflow: hidden;
+            position: relative;
+            height: 180px;
+        }
+
+        .ads-track {
+            display: flex;
+            animation: slideAds 30s linear infinite;
+            gap: 30px;
+            width: calc(300% + 60px);
+        }
+
+        @keyframes slideAds {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-33.333% - 20px)); }
+        }
+
+        .ad-slide {
+            flex: 0 0 calc(33.333% - 20px);
+            background: white;
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--primary-light);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: var(--transition);
+        }
+
+        .ad-slide:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .ad-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-light), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .ad-content h4 {
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+        }
+
+        .ad-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--warning), #fbbf24);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            border-radius: var(--radius);
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 2px solid #dbeafe;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-light);
+        }
+
+        .stat-card i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 5px;
+        }
+
+        /* Descuentos y Ofertas */
+        .offers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .offer-card {
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 2px solid #dbeafe;
+        }
+
+        .offer-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-light);
+        }
+
+        .offer-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, var(--warning), #fbbf24);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            z-index: 1;
+        }
+
+        .offer-img {
+            height: 160px;
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--primary);
+            position: relative;
+        }
+
+        .offer-content {
+            padding: 20px;
+        }
+
+        .offer-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .offer-price {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .current-price {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .old-price {
+            font-size: 1rem;
+            color: var(--gray);
+            text-decoration: line-through;
+        }
+
+        /* Marketplace */
+        .marketplace-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .marketplace-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .product-card {
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 2px solid #dbeafe;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-light);
+        }
+
+        .product-img {
+            height: 180px;
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: var(--primary);
+        }
+
+        .product-content {
+            padding: 20px;
+        }
+
+        .product-category {
+            display: inline-block;
+            background: #e0f2fe;
+            color: var(--primary-dark);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        /* Puntos y Recompensas */
+        .points-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .points-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        }
+
+        .points-value {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin: 15px 0;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .rewards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .reward-card {
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            border-radius: var(--radius);
+            padding: 25px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 2px solid transparent;
+            transition: var(--transition);
+        }
+
+        .reward-card:hover {
+            border-color: var(--accent);
+            transform: scale(1.05);
+        }
+
+        .reward-points {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent), #0891b2);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        /* Reparaciones - Con Imágenes */
+        .repairs-list {
+            margin-top: 20px;
+        }
+
+        .repair-item {
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            border: 2px solid #dbeafe;
+            transition: var(--transition);
+        }
+
+        .repair-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-light);
+        }
+
+        .repair-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0f2fe;
+        }
+
+        .repair-status {
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-pending {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            color: #92400e;
+        }
+
+        .status-in-progress {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            color: #1e40af;
+        }
+
+        .status-completed {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            color: #065f46;
+        }
+
+        .repair-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .repair-image {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            height: 150px;
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+        }
+
+        .repair-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .repair-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .image-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.8);
+            color: white;
+            padding: 8px;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        .repair-progress {
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e0f2fe;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+
+        /* Perfil */
+        .profile-card {
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 25px;
+            text-align: center;
+            border: 2px solid #dbeafe;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        /* Menú Inferior Fijo */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            box-shadow: 0 -4px 20px rgba(30, 58, 138, 0.1);
+            z-index: 100;
+            padding: 10px 0;
+            border-top: 2px solid #dbeafe;
+        }
+
+        .nav-items {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            list-style: none;
+            padding: 0 10px;
+        }
+
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+
+        .nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            color: var(--gray);
+            text-decoration: none;
+            padding: 10px 5px;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(14, 165, 233, 0.1));
+            transform: translateY(-5px);
+        }
+
+        .nav-link i {
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .nav-link.active i {
+            transform: scale(1.1);
+        }
+
+        .nav-text {
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .nav-badge {
+            position: absolute;
+            top: -5px;
+            right: 0;
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+            color: white;
+            font-size: 0.7rem;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        /* Botones */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            box-shadow: var(--shadow);
+            gap: 8px;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .side-menu {
+                width: 280px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .offers-grid,
+            .marketplace-grid,
+            .rewards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .ads-track {
+                animation: slideAds 20s linear infinite;
+            }
+            
+            .ad-slide {
+                flex: 0 0 calc(50% - 15px);
+            }
+            
+            .search-bar-container {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid,
+            .offers-grid,
+            .marketplace-grid,
+            .rewards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-text {
+                display: none;
+            }
+            
+            .nav-link i {
+                font-size: 1.8rem;
+            }
+            
+            .ads-track {
+                animation: slideAds 15s linear infinite;
+            }
+            
+            .ad-slide {
+                flex: 0 0 calc(100% - 20px);
+            }
+            
+            .repair-images {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo-text p {
+                display: none;
+            }
+            
+            .search-button span {
+                display: none;
+            }
+            
+            .search-button i {
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header con Menú Hamburguesa y Buscador -->
+    <header class="app-header">
+        <div class="container header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    911
+                </div>
+                <div class="logo-text">
+                    <h1>911repair</h1>
+                    <p>App Cliente</p>
+                </div>
+            </div>
+            
+            <div class="hamburger-menu" id="hamburgerMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <!-- Barra de Búsqueda -->
+        <div class="container search-bar-container">
+            <div class="search-form">
+                <input type="text" class="search-input" id="searchInput" placeholder="Buscar productos, reparaciones, ofertas..." autocomplete="off">
+                <button class="search-button" id="searchButton">
+                    <i class="fas fa-search"></i>
+                    <span>Buscar</span>
+                </button>
+            </div>
+            <div id="searchResultsCount" class="search-results-count"></div>
+        </div>
+    </header>
+
+    <!-- Menú Lateral Derecho -->
+    <div class="side-menu-overlay" id="sideMenuOverlay"></div>
+    <nav class="side-menu" id="sideMenu">
+        <div class="user-profile">
+            <div class="user-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <h3>Bienvenido, Cliente</h3>
+            <p>Nivel: VIP Gold</p>
+        </div>
+        
+        <ul class="menu-items">
+            <li><a href="#"><i class="fas fa-cog"></i> Configuración</a></li>
+            <li><a href="#"><i class="fas fa-question-circle"></i> Ayuda</a></li>
+            <li><a href="#"><i class="fas fa-file-contract"></i> Términos</a></li>
+            <li><a href="#"><i class="fas fa-shield-alt"></i> Privacidad</a></li>
+            <li><a href="#"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+        </ul>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <main class="main-content container">
+        <!-- Sección Inicio -->
+        <section id="inicio" class="content-section active">
+            <div class="welcome-card">
+                <h2>¡Bienvenido de nuevo!</h2>
+                <p>Ofertas exclusivas y puntos esperando por ti</p>
+            </div>
+            
+            <!-- Carrusel de Publicidad en Movimiento -->
+            <div class="ads-carousel">
+                <div class="ads-track" id="adsTrack">
+                    <!-- Las publicidades se cargarán dinámicamente -->
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-star"></i>
+                    <div class="stat-value">1,250</div>
+                    <p>Puntos Acumulados</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-tools"></i>
+                    <div class="stat-value">3</div>
+                    <p>Reparaciones Activas</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-tag"></i>
+                    <div class="stat-value">5</div>
+                    <p>Descuentos Activos</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-crown"></i>
+                    <div class="stat-value">VIP Gold</div>
+                    <p>Tu Nivel Actual</p>
+                </div>
+            </div>
+            
+            <h3 style="margin-bottom: 20px; color: var(--primary-dark);">🔥 Ofertas Destacadas</h3>
+            <div class="offers-grid">
+                <!-- Ofertas dinámicas se cargarán aquí -->
+            </div>
+        </section>
+
+        <!-- Sección Marketplace -->
+        <section id="marketplace" class="content-section">
+            <div class="marketplace-header">
+                <h2 style="color: var(--primary-dark);">
+                    <i class="fas fa-store"></i> Marketplace 911
+                </h2>
+            </div>
+            
+            <div class="marketplace-grid">
+                <!-- Productos dinámicos se cargarán aquí -->
+            </div>
+        </section>
+
+        <!-- Sección Puntos -->
+        <section id="puntos" class="content-section">
+            <div class="points-card">
+                <h2>Tus Puntos 911</h2>
+                <div class="points-value">1,250</div>
+                <p>¡Sigue acumulando para alcanzar nuevos beneficios!</p>
+            </div>
+            
+            <h3 style="margin-bottom: 20px; color: var(--primary-dark);">🎁 Recompensas Disponibles</h3>
+            <div class="rewards-grid">
+                <!-- Recompensas dinámicas se cargarán aquí -->
+            </div>
+        </section>
+
+        <!-- Sección Reparaciones - CON IMÁGENES -->
+        <section id="reparaciones" class="content-section">
+            <h2 style="margin-bottom: 25px; color: var(--primary-dark);">
+                <i class="fas fa-tools"></i> Mis Reparaciones
+            </h2>
+            
+            <div class="repairs-list">
+                <!-- Reparaciones dinámicas con imágenes se cargarán aquí -->
+            </div>
+            
+            <button class="btn" style="margin-top: 20px;">
+                <i class="fas fa-plus-circle"></i> Nueva Reparación
+            </button>
+        </section>
+
+        <!-- Sección Perfil -->
+        <section id="perfil" class="content-section">
+            <div class="profile-card">
+                <div class="profile-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h2 style="margin-bottom: 10px;">Carlos López</h2>
+                <p style="color: var(--gray); margin-bottom: 20px;">cliente@email.com</p>
+                
+                <div style="background: #e0f2fe; padding: 20px; border-radius: var(--radius); margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 15px; color: var(--primary-dark);">Información del Cliente</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div>
+                            <p style="color: var(--gray); font-size: 0.9rem;">Teléfono</p>
+                            <p style="font-weight: 600;">+56 9 1234 5678</p>
+                        </div>
+                        <div>
+                            <p style="color: var(--gray); font-size: 0.9rem;">Miembro desde</p>
+                            <p style="font-weight: 600;">Enero 2023</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-outline">
+                    <i class="fas fa-edit"></i> Editar Perfil
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Menú Inferior Fijo -->
+    <nav class="bottom-nav">
+        <ul class="nav-items">
+            <li class="nav-item">
+                <a href="#inicio" class="nav-link active" data-section="inicio">
+                    <i class="fas fa-home"></i>
+                    <span class="nav-text">Inicio</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#marketplace" class="nav-link" data-section="marketplace">
+                    <i class="fas fa-store"></i>
+                    <span class="nav-text">Tienda</span>
+                    <span class="nav-badge">3</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#puntos" class="nav-link" data-section="puntos">
+                    <i class="fas fa-star"></i>
+                    <span class="nav-text">Puntos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#reparaciones" class="nav-link" data-section="reparaciones">
+                    <i class="fas fa-tools"></i>
+                    <span class="nav-text">Reparaciones</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#perfil" class="nav-link" data-section="perfil">
+                    <i class="fas fa-user"></i>
+                    <span class="nav-text">Perfil</span>
+                </a>
+            </li>
+            <!-- Nuevo icono de estetoscopio para diagnóstico -->
+            <li class="nav-item">
+                <a href="javi.html" class="nav-link" target="_blank">
+                    <i class="fas fa-stethoscope"></i>
+                    <span class="nav-text">Diagnóstico</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <script>
+        // Datos de ejemplo
+        const adsData = [
+            {
+                id: 1,
+                title: "¡50% OFF! VIP Gold",
+                description: "Clientes VIP Gold obtienen 50% descuento en accesorios este mes",
+                icon: "fas fa-crown",
+                badge: "EXCLUSIVO"
+            },
+            {
+                id: 2,
+                title: "Envío Gratis",
+                description: "Compras sobre $30.000 tienen envío gratis por 24 horas",
+                icon: "fas fa-shipping-fast",
+                badge: "LIMITADO"
+            },
+            {
+                id: 3,
+                title: "Puntos Dobles",
+                description: "Acumula el doble de puntos en reparaciones esta semana",
+                icon: "fas fa-star",
+                badge: "PROMO"
+            },
+            {
+                id: 4,
+                title: "Mantenimiento Gratis",
+                description: "Clientes frecuentes: 1er mantenimiento anual gratis",
+                icon: "fas fa-spray-can",
+                badge: "VIP"
+            },
+            {
+                id: 5,
+                title: "Garantía Extendida",
+                description: "6 meses extra de garantía en todas las reparaciones",
+                icon: "fas fa-shield-alt",
+                badge: "SEGURO"
+            }
+        ];
+
+        const offersData = [
+            {
+                id: 1,
+                title: "Cambio de Pantalla iPhone 13",
+                description: "Pantalla original con garantía de 6 meses",
+                price: 89990,
+                oldPrice: 109990,
+                discount: "20% OFF",
+                icon: "fas fa-mobile-alt"
+            },
+            {
+                id: 2,
+                title: "Kit Reparación Premium",
+                description: "Herramientas profesionales completas",
+                price: 24990,
+                oldPrice: 34990,
+                discount: "30% OFF",
+                icon: "fas fa-tools"
+            },
+            {
+                id: 3,
+                title: "Protector Pantalla 3D",
+                description: "Vidrio templado 9H para cualquier modelo",
+                price: 4990,
+                oldPrice: 7990,
+                discount: "40% OFF",
+                icon: "fas fa-shield-alt"
+            },
+            {
+                id: 4,
+                title: "Batería iPhone 12 Pro Max",
+                description: "Original con capacidad aumentada",
+                price: 34990,
+                oldPrice: 44990,
+                discount: "25% OFF",
+                icon: "fas fa-battery-full"
+            }
+        ];
+
+        const productsData = [
+            {
+                id: 1,
+                name: "AirPods Pro 2",
+                category: "Audífonos",
+                price: 249990,
+                icon: "fas fa-headphones",
+                stock: 5
+            },
+            {
+                id: 2,
+                name: "Cargador MagSafe",
+                category: "Accesorios",
+                price: 29990,
+                icon: "fas fa-bolt",
+                stock: 12
+            },
+            {
+                id: 3,
+                name: "Funda iPhone 14",
+                category: "Fundas",
+                price: 14990,
+                icon: "fas fa-mobile",
+                stock: 8
+            },
+            {
+                id: 4,
+                name: "Apple Watch Series 8",
+                category: "Relojes",
+                price: 399990,
+                icon: "fas fa-clock",
+                stock: 3
+            },
+            {
+                id: 5,
+                name: "iPad Air 5",
+                category: "Tablets",
+                price: 599990,
+                icon: "fas fa-tablet-alt",
+                stock: 4
+            },
+            {
+                id: 6,
+                name: "Cable USB-C Original",
+                category: "Cables",
+                price: 9990,
+                icon: "fas fa-plug",
+                stock: 25
+            }
+        ];
+
+        const rewardsData = [
+            {
+                id: 1,
+                name: "10% Descuento",
+                points: 100,
+                description: "En tu próxima reparación",
+                icon: "fas fa-percentage"
+            },
+            {
+                id: 2,
+                name: "Protector Gratis",
+                points: 50,
+                description: "Vidrio templado 3D",
+                icon: "fas fa-gift"
+            },
+            {
+                id: 3,
+                name: "Envío Gratis",
+                points: 75,
+                description: "Para compras online",
+                icon: "fas fa-shipping-fast"
+            },
+            {
+                id: 4,
+                name: "Limpieza Profesional",
+                points: 200,
+                description: "Limpieza interna completa",
+                icon: "fas fa-spray-can"
+            }
+        ];
+
+        const repairsData = [
+            {
+                id: 1,
+                device: "iPhone 13 Pro",
+                problem: "Pantalla rota",
+                date: "15 Nov 2023",
+                status: "completed",
+                statusText: "Completada",
+                progress: 100,
+                images: [
+                    { label: "Estado inicial", color: "#3b82f6" },
+                    { label: "Proceso de reparación", color: "#0ea5e9" },
+                    { label: "Resultado final", color: "#06b6d4" }
+                ]
+            },
+            {
+                id: 2,
+                device: "Samsung S22",
+                problem: "Batería no carga",
+                date: "18 Nov 2023",
+                status: "in-progress",
+                statusText: "En Proceso",
+                progress: 65,
+                images: [
+                    { label: "Diagnóstico", color: "#3b82f6" },
+                    { label: "Cambio de batería", color: "#0ea5e9" },
+                    { label: "Pruebas finales", color: "#06b6d4" }
+                ]
+            },
+            {
+                id: 3,
+                device: "iPad Air 4",
+                problem: "Cámara no funciona",
+                date: "20 Nov 2023",
+                status: "pending",
+                statusText: "Pendiente",
+                progress: 20,
+                images: [
+                    { label: "Recepción", color: "#3b82f6" },
+                    { label: "Esperando repuestos", color: "#0ea5e9" },
+                    { label: "Por comenzar", color: "#06b6d4" }
+                ]
+            }
+        ];
+
+        // Variables globales
+        let currentSection = 'inicio';
+        let userPoints = 1250;
+        let filteredProducts = [...productsData];
+        let isSearching = false;
+
+        // Menú Hamburguesa
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        const sideMenu = document.getElementById('sideMenu');
+        const sideMenuOverlay = document.getElementById('sideMenuOverlay');
+        
+        hamburgerMenu.addEventListener('click', toggleSideMenu);
+        sideMenuOverlay.addEventListener('click', toggleSideMenu);
+        
+        function toggleSideMenu() {
+            hamburgerMenu.classList.toggle('active');
+            sideMenu.classList.toggle('active');
+            sideMenuOverlay.classList.toggle('active');
+        }
+
+        // Menú Inferior - Cambio de Secciones
+        const navLinks = document.querySelectorAll('.nav-link:not([href="javi.html"])');
+        const contentSections = document.querySelectorAll('.content-section');
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetSection = this.getAttribute('data-section');
+                
+                // Remover clase active de todos los enlaces
+                document.querySelectorAll('.nav-link').forEach(navLink => {
+                    navLink.classList.remove('active');
+                });
+                
+                // Agregar clase active al enlace clickeado
+                this.classList.add('active');
+                
+                // Ocultar todas las secciones
+                contentSections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Mostrar la sección seleccionada
+                document.getElementById(targetSection).classList.add('active');
+                currentSection = targetSection;
+                
+                // Cargar contenido dinámico si es necesario
+                loadSectionContent(targetSection);
+            });
+        });
+
+        // Función de búsqueda
+        function performSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const query = searchInput.value.trim().toLowerCase();
+            
+            if (query.length === 0) {
+                // Si no hay query, restaurar productos originales
+                filteredProducts = [...productsData];
+                document.getElementById('searchResultsCount').innerHTML = '';
+            } else {
+                // Filtrar productos
+                filteredProducts = productsData.filter(product => 
+                    product.name.toLowerCase().includes(query) || 
+                    product.category.toLowerCase().includes(query)
+                );
+                
+                // Mostrar resultados de búsqueda
+                const resultCount = filteredProducts.length;
+                document.getElementById('searchResultsCount').innerHTML = 
+                    `🔍 ${resultCount} ${resultCount === 1 ? 'producto encontrado' : 'productos encontrados'}`;
+                
+                // Cambiar a la sección de marketplace y mostrar resultados filtrados
+                if (currentSection !== 'marketplace') {
+                    // Simular click en marketplace
+                    document.querySelector('.nav-link[data-section="marketplace"]').click();
+                } else {
+                    // Si ya estamos en marketplace, recargar productos filtrados
+                    loadProducts();
+                }
+            }
+            
+            // Si estamos en marketplace, recargar productos
+            if (currentSection === 'marketplace') {
+                loadProducts();
+            }
+        }
+
+        // Event listeners para búsqueda
+        document.getElementById('searchButton').addEventListener('click', performSearch);
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        // Limpiar búsqueda al hacer clic en home
+        document.querySelector('.nav-link[data-section="inicio"]').addEventListener('click', function() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('searchResultsCount').innerHTML = '';
+            filteredProducts = [...productsData];
+        });
+
+        // Cargar contenido dinámico según la sección
+        function loadSectionContent(sectionId) {
+            switch(sectionId) {
+                case 'inicio':
+                    loadAds();
+                    loadOffers();
+                    break;
+                case 'marketplace':
+                    loadProducts();
+                    break;
+                case 'puntos':
+                    loadRewards();
+                    break;
+                case 'reparaciones':
+                    loadRepairs();
+                    break;
+            }
+        }
+
+        // Cargar publicidades en movimiento
+        function loadAds() {
+            const adsTrack = document.getElementById('adsTrack');
+            adsTrack.innerHTML = '';
+            
+            // Duplicar los anuncios para crear efecto de carrusel infinito
+            const duplicatedAds = [...adsData, ...adsData, ...adsData];
+            
+            duplicatedAds.forEach(ad => {
+                const adSlide = document.createElement('div');
+                adSlide.className = 'ad-slide';
+                adSlide.innerHTML = `
+                    <div class="ad-icon">
+                        <i class="${ad.icon}"></i>
+                    </div>
+                    <div class="ad-content">
+                        <h4>${ad.title}</h4>
+                        <p style="color: var(--gray); font-size: 0.9rem;">${ad.description}</p>
+                        <span class="ad-badge">${ad.badge}</span>
+                    </div>
+                `;
+                adsTrack.appendChild(adSlide);
+            });
+        }
+
+        // Cargar ofertas
+        function loadOffers() {
+            const offersGrid = document.querySelector('#inicio .offers-grid');
+            offersGrid.innerHTML = '';
+            
+            offersData.forEach(offer => {
+                const offerCard = document.createElement('div');
+                offerCard.className = 'offer-card';
+                offerCard.innerHTML = `
+                    <div class="offer-img">
+                        <div class="offer-badge">${offer.discount}</div>
+                        <i class="${offer.icon}"></i>
+                    </div>
+                    <div class="offer-content">
+                        <h3 class="offer-title">${offer.title}</h3>
+                        <p style="color: var(--gray); font-size: 0.9rem; margin-bottom: 15px;">${offer.description}</p>
+                        <div class="offer-price">
+                            <span class="current-price">$${offer.price.toLocaleString('es-CL')}</span>
+                            <span class="old-price">$${offer.oldPrice.toLocaleString('es-CL')}</span>
+                        </div>
+                        <button class="btn" onclick="claimOffer(${offer.id})" style="margin-top: 10px;">
+                            <i class="fas fa-shopping-cart"></i> Obtener Oferta
+                        </button>
+                    </div>
+                `;
+                offersGrid.appendChild(offerCard);
+            });
+        }
+
+        // Cargar productos del marketplace (filtrados o completos)
+        function loadProducts() {
+            const marketplaceGrid = document.querySelector('#marketplace .marketplace-grid');
+            marketplaceGrid.innerHTML = '';
+            
+            const productsToShow = filteredProducts.length > 0 ? filteredProducts : productsData;
+            
+            if (productsToShow.length === 0) {
+                marketplaceGrid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 40px; background: white; border-radius: var(--radius); border: 2px dashed #dbeafe;">
+                        <i class="fas fa-search" style="font-size: 3rem; color: var(--gray); margin-bottom: 15px;"></i>
+                        <h3 style="color: var(--gray); margin-bottom: 10px;">No se encontraron productos</h3>
+                        <p style="color: var(--gray);">Intenta con otros términos de búsqueda</p>
+                        <button class="btn" style="margin-top: 20px; width: auto;" onclick="clearSearch()">
+                            <i class="fas fa-times"></i> Limpiar búsqueda
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            productsToShow.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <div class="product-img">
+                        <i class="${product.icon}"></i>
+                    </div>
+                    <div class="product-content">
+                        <span class="product-category">${product.category}</span>
+                        <h3 class="product-title">${product.name}</h3>
+                        <p style="color: var(--gray); font-size: 0.9rem; margin-bottom: 10px;">
+                            <i class="fas fa-box" style="margin-right: 5px;"></i> Stock: ${product.stock}
+                        </p>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+                            <div>
+                                <span style="font-size: 1.3rem; font-weight: 800; color: var(--primary);">
+                                    $${product.price.toLocaleString('es-CL')}
+                                </span>
+                            </div>
+                            <button class="btn" onclick="addToCart(${product.id})" style="width: auto; padding: 8px 16px;">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                marketplaceGrid.appendChild(productCard);
+            });
+        }
+
+        // Limpiar búsqueda
+        window.clearSearch = function() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('searchResultsCount').innerHTML = '';
+            filteredProducts = [...productsData];
+            loadProducts();
+        };
+
+        // Cargar recompensas
+        function loadRewards() {
+            const rewardsGrid = document.querySelector('#puntos .rewards-grid');
+            rewardsGrid.innerHTML = '';
+            
+            rewardsData.forEach(reward => {
+                const rewardCard = document.createElement('div');
+                rewardCard.className = 'reward-card';
+                rewardCard.innerHTML = `
+                    <i class="${reward.icon}" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 15px;"></i>
+                    <h3 style="margin-bottom: 10px; font-size: 1.1rem;">${reward.name}</h3>
+                    <p style="color: var(--gray); font-size: 0.9rem; margin-bottom: 15px;">${reward.description}</p>
+                    <span class="reward-points">${reward.points} pts</span>
+                    <button class="btn ${userPoints >= reward.points ? '' : 'btn-outline'}" 
+                            onclick="claimReward(${reward.id})" 
+                            ${userPoints < reward.points ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}
+                            style="margin-top: 15px;">
+                        <i class="fas fa-gift"></i> Canjear
+                    </button>
+                `;
+                rewardsGrid.appendChild(rewardCard);
+            });
+        }
+
+        // Cargar reparaciones CON IMÁGENES
+        function loadRepairs() {
+            const repairsList = document.querySelector('#reparaciones .repairs-list');
+            repairsList.innerHTML = '';
+            
+            repairsData.forEach(repair => {
+                const repairItem = document.createElement('div');
+                repairItem.className = 'repair-item';
+                
+                let imagesHTML = '';
+                repair.images.forEach((image, index) => {
+                    imagesHTML += `
+                        <div class="repair-image">
+                            <div style="width: 100%; height: 100%; background: linear-gradient(135deg, ${image.color}, ${image.color}80); display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                            <div class="image-label">${image.label}</div>
+                        </div>
+                    `;
+                });
+                
+                repairItem.innerHTML = `
+                    <div class="repair-header">
+                        <div>
+                            <h3 style="margin-bottom: 5px;">${repair.device}</h3>
+                            <p style="color: var(--gray); font-size: 0.9rem;">${repair.problem}</p>
+                            <p style="color: var(--gray); font-size: 0.8rem; margin-top: 5px;">
+                                <i class="fas fa-calendar-alt"></i> ${repair.date}
+                            </p>
+                        </div>
+                        <div>
+                            <span class="repair-status status-${repair.status}">
+                                <i class="fas fa-${repair.status === 'completed' ? 'check-circle' : repair.status === 'in-progress' ? 'sync-alt' : 'clock'}"></i>
+                                ${repair.statusText}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="repair-images">
+                        ${imagesHTML}
+                    </div>
+                    
+                    <div class="repair-progress">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="font-size: 0.9rem; color: var(--gray);">Progreso</span>
+                            <span style="font-weight: 600; color: var(--primary);">${repair.progress}%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${repair.progress}%;"></div>
+                        </div>
+                        <p style="color: var(--gray); font-size: 0.8rem; margin-top: 5px;">
+                            ${repair.status === 'completed' ? 'Reparación completada exitosamente' : 
+                              repair.status === 'in-progress' ? 'Reparación en proceso' : 
+                              'Esperando para comenzar reparación'}
+                        </p>
+                    </div>
+                `;
+                repairsList.appendChild(repairItem);
+            });
+        }
+
+        // Funciones para interacciones
+        function claimOffer(offerId) {
+            const offer = offersData.find(o => o.id === offerId);
+            if (offer) {
+                showNotification(`¡Oferta "${offer.title}" reclamada!`, 'success');
+                // Aquí iría la lógica para agregar al carrito o procesar la oferta
+            }
+        }
+
+        function addToCart(productId) {
+            const product = productsData.find(p => p.id === productId);
+            if (product) {
+                showNotification(`${product.name} agregado al carrito`, 'success');
+                // Actualizar badge del carrito
+                const badge = document.querySelector('.nav-badge');
+                const currentCount = parseInt(badge.textContent) || 0;
+                badge.textContent = currentCount + 1;
+                // Aquí iría la lógica para agregar al carrito
+            }
+        }
+
+        function claimReward(rewardId) {
+            const reward = rewardsData.find(r => r.id === rewardId);
+            if (reward && userPoints >= reward.points) {
+                userPoints -= reward.points;
+                showNotification(`¡Recompensa "${reward.name}" canjeada!`, 'success');
+                updatePointsDisplay();
+                loadRewards();
+            } else {
+                showNotification('No tienes suficientes puntos', 'error');
+            }
+        }
+
+        function updatePointsDisplay() {
+            const pointsElement = document.querySelector('.points-value');
+            if (pointsElement) {
+                pointsElement.textContent = userPoints.toLocaleString('es-CL');
+            }
+            
+            const statPoints = document.querySelector('.stat-card:nth-child(1) .stat-value');
+            if (statPoints) {
+                statPoints.textContent = userPoints.toLocaleString('es-CL');
+            }
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 80px;
+                right: 20px;
+                background: linear-gradient(135deg, ${type === 'success' ? 'var(--success)' : 'var(--danger)'}, ${type === 'success' ? '#059669' : '#dc2626'});
+                color: white;
+                padding: 15px 25px;
+                border-radius: var(--radius);
+                box-shadow: var(--shadow-lg);
+                z-index: 10000;
+                animation: slideInRight 0.3s ease;
+                max-width: 300px;
+            `;
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                    <div>
+                        <strong>${type === 'success' ? '¡Éxito!' : '¡Atención!'}</strong>
+                        <p style="margin: 5px 0 0; font-size: 0.9rem;">${message}</p>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(notification);
+            
+            // Remover notificación después de 3 segundos
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease forwards';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Agregar animación CSS para notificaciones
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOutRight {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Cargar contenido inicial
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAds();
+            loadOffers();
+            loadProducts();
+            loadRewards();
+            loadRepairs();
+            
+            // Actualizar puntos cada 30 segundos (simulación)
+            setInterval(() => {
+                userPoints += Math.floor(Math.random() * 10) + 1;
+                updatePointsDisplay();
+            }, 30000);
+            
+            // Pausar carrusel al hacer hover
+            const adsTrack = document.getElementById('adsTrack');
+            const adsCarousel = document.querySelector('.ads-carousel');
+            
+            adsCarousel.addEventListener('mouseenter', () => {
+                adsTrack.style.animationPlayState = 'paused';
+            });
+            
+            adsCarousel.addEventListener('mouseleave', () => {
+                adsTrack.style.animationPlayState = 'running';
+            });
+        });
+    </script>
+</body>
+</html>
