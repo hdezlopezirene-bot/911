@@ -1,70 +1,1033 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#000000">
-    <title>Splash</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html, body {
-            width: 100%;
-            height: 100%;
-            background: #000;
-            position: fixed;
-            overflow: hidden;
-        }
-
-        .splash {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #000;
-        }
-
-        img, video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Cubre toda la pantalla */
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carnicería Moderna - Sistema de Gestión</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #3498db;
+      --secondary: #2980b9;
+      --accent: #1abc9c;
+      --bg: #ffffff;
+      --surface: #f8f9fa;
+      --text: #2c3e50;
+      --text-light: #7f8c8d;
+      --error: #e74c3c;
+      --success: #27ae60;
+      --warning: #f39c12;
+      --border: #e1e5e9;
+      --shadow: rgba(52, 152, 219, 0.1);
+    }
+    
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+    }
+    
+    html, body {
+      height: 100%;
+      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+    
+    /* PANTALLA DE LOGIN */
+    .login-screen {
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--bg);
+      padding: 20px;
+    }
+    
+    .login-container {
+      width: 100%;
+      max-width: 450px;
+      background: var(--bg);
+      border-radius: 16px;
+      padding: 30px 25px;
+      box-shadow: 0 10px 30px var(--shadow);
+      border: 1px solid var(--border);
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .logo {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 32px;
+      font-weight: 700;
+      margin: 0 auto 15px;
+    }
+    
+    h1 { 
+      font-size: 24px; 
+      color: var(--text); 
+      margin-bottom: 8px;
+    }
+    
+    .subtitle {
+      font-size: 16px;
+      color: var(--text-light);
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--text);
+      font-size: 14px;
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      font-size: 16px;
+      background: var(--bg);
+      color: var(--text);
+      transition: all 0.3s;
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    }
+    
+    .password-container {
+      position: relative;
+    }
+    
+    .toggle-password {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-light);
+      cursor: pointer;
+      font-size: 16px;
+      padding: 5px;
+    }
+    
+    .btn-login {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+    }
+    
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+    }
+    
+    .btn-login:active {
+      transform: translateY(0);
+    }
+    
+    .error-message {
+      color: var(--error);
+      font-size: 14px;
+      text-align: center;
+      margin-top: 15px;
+      min-height: 20px;
+      font-weight: 500;
+    }
+    
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      font-size: 20px;
+      color: var(--text);
+      cursor: pointer;
+      padding: 12px;
+      border-radius: 50%;
+      box-shadow: 0 4px 10px var(--shadow);
+      z-index: 100;
+    }
+    
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 14px;
+      color: var(--text-light);
+      width: 100%;
+    }
+    
+    /* PANEL PRINCIPAL */
+    .main-panel {
+      display: none;
+      min-height: 100vh;
+      width: 100%;
+      padding: 15px;
+      background-color: var(--bg);
+    }
+    
+    .user-info {
+      background: var(--surface);
+      padding: 12px 15px;
+      border-radius: 10px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 4px 10px var(--shadow);
+      margin-bottom: 20px;
+    }
+    
+    .logout-btn {
+      background: none;
+      border: none;
+      color: var(--error);
+      cursor: pointer;
+      font-size: 14px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      transition: background 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .logout-btn:hover {
+      background: rgba(231, 76, 60, 0.1);
+    }
+    
+    .main-header {
+      text-align: center;
+      margin: 20px auto 30px;
+      max-width: 600px;
+    }
+    
+    .main-logo {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 28px;
+      font-weight: 700;
+      margin: 0 auto 12px;
+    }
+    
+    /* Grid de módulos */
+    .modules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    
+    .module-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      padding: 20px 15px;
+      text-align: center;
+      box-shadow: 0 4px 10px var(--shadow);
+      aspect-ratio: 1;
+      position: relative;
+    }
+    
+    .module-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px var(--shadow);
+      border-color: var(--primary);
+    }
+    
+    .module-card i {
+      font-size: 28px;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    
+    .module-card .title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    
+    /* Indicador de permisos */
+    .permission-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+    
+    /* CRUD */
+    .crud {
+      width: 100%;
+      margin: 0 auto;
+      display: none;
+      padding: 15px;
+    }
+    
+    .crud.active {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .back-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 15px;
+      font-size: 14px;
+      color: var(--primary);
+      cursor: pointer;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s;
+    }
+    
+    .back-btn:hover {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .crud-title {
+      font-size: 22px;
+      margin-bottom: 20px;
+      color: var(--text);
+      text-align: center;
+    }
+    
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .form-row input, .form-row select {
+      flex: 1;
+      min-width: 150px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      background: var(--bg);
+      color: var(--text);
+    }
+    
+    .form-row button {
+      padding: 12px 20px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.3s;
+      white-space: nowrap;
+    }
+    
+    .form-row button:hover {
+      background: var(--secondary);
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--bg);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px var(--shadow);
+      border: 1px solid var(--border);
+    }
+    
+    th, td {
+      padding: 12px 15px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+    
+    th {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    
+    td {
+      font-size: 14px;
+    }
+    
+    .btn-sm {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-right: 5px;
+    }
+    
+    .btn-primary { 
+      background: var(--primary); 
+      color: #fff; 
+    }
+    
+    .btn-primary:hover {
+      background: var(--secondary);
+    }
+    
+    .btn-danger  { 
+      background: var(--error);   
+      color: #fff; 
+    }
+    
+    .btn-danger:hover {
+      background: #c53030;
+    }
+    
+    /* Estilos para elementos deshabilitados */
+    .module-card.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .module-card.disabled:hover {
+      transform: none;
+      box-shadow: 0 4px 10px var(--shadow);
+      border-color: var(--border);
+    }
+    
+    .access-denied {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--error);
+    }
+    
+    .access-denied i {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+    
+    .access-denied h2 {
+      margin-bottom: 15px;
+    }
+    
+    /* Media Queries para Responsividad */
+    @media (min-width: 768px) {
+      .login-container {
+        padding: 40px 35px;
+      }
+      
+      .logo {
+        width: 100px;
+        height: 100px;
+        font-size: 40px;
+      }
+      
+      h1 {
+        font-size: 28px;
+      }
+      
+      .subtitle {
+        font-size: 18px;
+      }
+      
+      .form-input {
+        padding: 18px;
+      }
+      
+      .btn-login {
+        padding: 18px;
+      }
+      
+      .main-panel {
+        padding: 20px;
+      }
+      
+      .user-info {
+        font-size: 16px;
+        padding: 15px 20px;
+      }
+      
+      .logout-btn {
+        font-size: 16px;
+      }
+      
+      .main-header {
+        margin: 40px auto 50px;
+      }
+      
+      .main-logo {
+        width: 80px;
+        height: 80px;
+        font-size: 32px;
+      }
+      
+      .modules-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 20px;
+      }
+      
+      .module-card {
+        padding: 25px 20px;
+      }
+      
+      .module-card i {
+        font-size: 32px;
+      }
+      
+      .module-card .title {
+        font-size: 16px;
+      }
+      
+      .crud {
+        padding: 20px;
+        max-width: 800px;
+      }
+      
+      .crud-title {
+        font-size: 24px;
+      }
+      
+      .form-row {
+        flex-wrap: nowrap;
+      }
+    }
+    
+    @media (min-width: 1200px) {
+      .modules-grid {
+        grid-template-columns: repeat(5, 1fr);
+        max-width: 1000px;
+        margin: 0 auto 30px;
+      }
+    }
+    
+    /* Estilos para tablas responsivas en móviles */
+    @media (max-width: 767px) {
+      table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+      
+      .form-row button {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="splash">
-        <!-- GIF a pantalla completa -->
-        <img src="ini.gif" alt="" id="splashMedia">
+  <!-- PANTALLA DE LOGIN -->
+  <div class="login-screen" id="loginScreen">
+    <button class="theme-toggle" onclick="toggleTheme()">
+      <i class="fas fa-moon"></i>
+    </button>
+
+    <div class="login-container">
+      <div class="header">
+        <div class="logo">CM</div>
+        <h1>Carnicería Moderna</h1>
+        <div class="subtitle">Sistema de Gestión Integral</div>
+      </div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label class="form-label" for="rutEmpresa">
+            <i class="fas fa-store"></i> RUT de la Carnicería
+          </label>
+          <input 
+            type="text" 
+            id="rutEmpresa" 
+            class="form-input" 
+            placeholder="12.345.678-9"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="rutPersonal">
+            <i class="fas fa-id-card"></i> RUT Personal
+          </label>
+          <input 
+            type="text" 
+            id="rutPersonal" 
+            class="form-input" 
+            placeholder="12.345.678-9"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">
+            <i class="fas fa-lock"></i> Contraseña
+          </label>
+          <div class="password-container">
+            <input 
+              type="password" 
+              id="password" 
+              class="form-input" 
+              placeholder="••••••••"
+              required
+            >
+            <button type="button" class="toggle-password" onclick="togglePassword()">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-login">
+          <i class="fas fa-sign-in-alt"></i> Acceder al Sistema
+        </button>
+
+        <div class="error-message" id="errorMessage"></div>
+      </form>
+      <a href="https://hdezlopezirene-bot.github.io/sapcarniceria/inventario.html">Entrar Directo</a>
     </div>
 
-    <script>
-        // Redirigir después de 5 segundos
-        setTimeout(() => {
-            window.location.href = 'index4.html';
-        }, 5000);
+    <div class="footer">
+      Sistema seguro - Carnicería Moderna © 2024
+    </div>
+  </div>
 
-        // Redirigir al tocar la pantalla
-        document.body.addEventListener('touchstart', () => {
-            window.location.href = 'index4.html';
-        });
+  <!-- PANEL PRINCIPAL -->
+  <div class="main-panel" id="mainPanel">
+    <div class="user-info">
+      <div>
+        <i class="fas fa-user"></i>
+        <span id="userDisplay">Usuario: -</span>
+      </div>
+      <button class="logout-btn" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i> Salir
+      </button>
+    </div>
 
-        // Si el GIF no carga, igual redirige
-        document.getElementById('splashMedia').onerror = () => {
-            console.log('Error cargando GIF');
-            setTimeout(() => {
-                window.location.href = 'index4.html';
-            }, 5000);
-        };
-    </script>
+    <div class="main-header">
+      <div class="main-logo">CM</div>
+      <h1>Carnicería Moderna</h1>
+      <div class="subtitle" id="locationDisplay">Sistema de Gestión de Inventario</div>
+    </div>
+
+    <!-- MÓDULOS DEL SISTEMA -->
+    <div class="modules-grid">
+      <div class="module-card" data-module="recepcionar" onclick="checkPermission('recepcionar')">
+        <i class="fas fa-truck-loading"></i>
+        <div class="title">Recepcionar</div>
+        <div class="permission-badge">Admin/Inv</div>
+      </div>
+      <div class="module-card" data-module="ubicar" onclick="checkPermission('ubicar')">
+        <i class="fas fa-warehouse"></i>
+        <div class="title">Ubicar</div>
+        <div class="permission-badge">Admin/Inv</div>
+      </div>
+      <div class="module-card" data-module="mover" onclick="checkPermission('mover')">
+        <i class="fas fa-exchange-alt"></i>
+        <div class="title">Mover</div>
+        <div class="permission-badge">Admin/Inv</div>
+      </div>
+      <div class="module-card" data-module="inventario" onclick="checkPermission('inventario')">
+        <i class="fas fa-boxes"></i>
+        <div class="title">Inventario</div>
+        <div class="permission-badge">Todos</div>
+      </div>
+      <div class="module-card" data-module="recuento" onclick="checkPermission('recuento')">
+        <i class="fas fa-clipboard-check"></i>
+        <div class="title">Recuento</div>
+        <div class="permission-badge">Admin/Inv</div>
+      </div>
+      <div class="module-card" data-module="checkUbicacion" onclick="checkPermission('checkUbicacion')">
+        <i class="fas fa-map-marker-alt"></i>
+        <div class="title">Check Ubicación</div>
+        <div class="permission-badge">Todos</div>
+      </div>
+      <div class="module-card" data-module="buscarProductos" onclick="checkPermission('buscarProductos')">
+        <i class="fas fa-search"></i>
+        <div class="title">Buscar Productos</div>
+        <div class="permission-badge">Todos</div>
+      </div>
+      <div class="module-card" data-module="picking" onclick="checkPermission('picking')">
+        <i class="fas fa-shopping-basket"></i>
+        <div class="title">Picking</div>
+        <div class="permission-badge">Admin/Vend</div>
+      </div>
+      <div class="module-card" data-module="devolucionesClientes" onclick="checkPermission('devolucionesClientes')">
+        <i class="fas fa-undo-alt"></i>
+        <div class="title">Devoluciones</div>
+        <div class="permission-badge">Admin/Vend</div>
+      </div>
+      <div class="module-card" data-module="reportes" onclick="checkPermission('reportes')">
+        <i class="fas fa-chart-bar"></i>
+        <div class="title">Reportes</div>
+        <div class="permission-badge">Admin</div>
+      </div>
+    </div>
+
+    <!-- MÓDULO DE RECEPCIÓN -->
+    <div id="recepcionar" class="crud">
+      <button class="back-btn" onclick="goBack()">
+        <i class="fas fa-arrow-left"></i> Volver al Panel
+      </button>
+      <h2 class="crud-title">Recepción de Mercancía</h2>
+      <div class="form-row">
+        <input type="text" id="rProducto" placeholder="Producto">
+        <input type="number" id="rCantidad" placeholder="Cantidad (kg)">
+        <button onclick="addRow('recepcionar')">
+          <i class="fas fa-plus"></i> Agregar
+        </button>
+      </div>
+      <table id="tblRecepcionar">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Producto</th>
+            <th>Cantidad (kg)</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    
+    <!-- PANTALLA DE ACCESO DENEGADO -->
+    <div id="accessDenied" class="crud">
+      <button class="back-btn" onclick="goBack()">
+        <i class="fas fa-arrow-left"></i> Volver al Panel
+      </button>
+      <div class="access-denied">
+        <i class="fas fa-ban"></i>
+        <h2>Acceso Denegado</h2>
+        <p>No tienes permisos suficientes para acceder a esta funcionalidad.</p>
+        <p>Contacta al administrador del sistema si necesitas acceso.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Base de datos de usuarios
+    const users = {
+      '123456789': {
+        name: 'Carnicería Moderna Centro',
+        users: {
+          '112233445': { password: 'carniceria123', name: 'Juan Pérez', role: 'Administrador' },
+          '223344556': { password: 'carniceria123', name: 'María García', role: 'Vendedor' },
+          '334455667': { password: 'carniceria123', name: 'Carlos López', role: 'Inventario' }
+        }
+      },
+      '987654321': {
+        name: 'Carnicería Premium',
+        users: {
+          '445566778': { password: 'premium456', name: 'Ana Martínez', role: 'Gerente' }
+        }
+      }
+    };
+
+    // Permisos por rol
+    const permissions = {
+      'Administrador': [
+        'recepcionar', 'ubicar', 'mover', 'inventario', 'recuento', 
+        'checkUbicacion', 'buscarProductos', 'picking', 'devolucionesClientes', 'reportes'
+      ],
+      'Vendedor': [
+        'inventario', 'checkUbicacion', 'buscarProductos', 'picking', 'devolucionesClientes'
+      ],
+      'Inventario': [
+        'recepcionar', 'ubicar', 'mover', 'inventario', 'recuento', 'checkUbicacion', 'buscarProductos'
+      ],
+      'Gerente': [
+        'recepcionar', 'ubicar', 'mover', 'inventario', 'recuento', 
+        'checkUbicacion', 'buscarProductos', 'picking', 'devolucionesClientes', 'reportes'
+      ]
+    };
+
+    // Elementos del DOM
+    const loginScreen = document.getElementById('loginScreen');
+    const mainPanel = document.getElementById('mainPanel');
+    const loginForm = document.getElementById('loginForm');
+    const errorMessage = document.getElementById('errorMessage');
+    const userDisplay = document.getElementById('userDisplay');
+    const locationDisplay = document.getElementById('locationDisplay');
+
+    // Variables de sesión
+    let currentUser = null;
+    let currentRole = null;
+    let currentLocation = null;
+
+    // Función para formatear RUT
+    function formatRut(rut) {
+      return rut.replace(/\./g, '').replace(/-/g, '').toUpperCase();
+    }
+
+    // Función para mostrar/ocultar contraseña
+    function togglePassword() {
+      const passwordInput = document.getElementById('password');
+      const toggleIcon = document.querySelector('.toggle-password i');
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleIcon.className = 'fas fa-eye-slash';
+      } else {
+        passwordInput.type = 'password';
+        toggleIcon.className = 'fas fa-eye';
+      }
+    }
+
+    // Función para cambiar tema
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+      const icon = document.querySelector('.theme-toggle i');
+      if (document.body.classList.contains('dark-mode')) {
+        icon.className = 'fas fa-sun';
+        document.documentElement.style.setProperty('--bg', '#121212');
+        document.documentElement.style.setProperty('--surface', '#252525');
+        document.documentElement.style.setProperty('--text', '#ffffff');
+        document.documentElement.style.setProperty('--text-light', '#aaaaaa');
+        document.documentElement.style.setProperty('--border', '#444444');
+      } else {
+        icon.className = 'fas fa-moon';
+        document.documentElement.style.setProperty('--bg', '#ffffff');
+        document.documentElement.style.setProperty('--surface', '#f8f9fa');
+        document.documentElement.style.setProperty('--text', '#2c3e50');
+        document.documentElement.style.setProperty('--text-light', '#7f8c8d');
+        document.documentElement.style.setProperty('--border', '#e1e5e9');
+      }
+    }
+
+    // Manejar el login
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const rutEmpresa = formatRut(document.getElementById('rutEmpresa').value);
+      const rutPersonal = formatRut(document.getElementById('rutPersonal').value);
+      const password = document.getElementById('password').value;
+
+      // Validar credenciales
+      if (users[rutEmpresa] && users[rutEmpresa].users[rutPersonal]) {
+        const user = users[rutEmpresa].users[rutPersonal];
+        
+        if (user.password === password) {
+          // Login exitoso
+          errorMessage.textContent = '';
+          errorMessage.style.color = 'var(--success)';
+          errorMessage.textContent = '✓ Acceso concedido, redirigiendo...';
+          
+          // Guardar información del usuario
+          currentUser = user.name;
+          currentRole = user.role;
+          currentLocation = users[rutEmpresa].name;
+          
+          // Mostrar información del usuario
+          userDisplay.textContent = `${user.name} (${user.role})`;
+          locationDisplay.textContent = users[rutEmpresa].name;
+          
+          // Configurar permisos según el rol
+          setupPermissions();
+          
+          // Cambiar a panel principal con transición
+          setTimeout(() => {
+            loginScreen.style.display = 'none';
+            mainPanel.style.display = 'block';
+          }, 1000);
+          
+        } else {
+          errorMessage.textContent = '❌ Contraseña incorrecta';
+          errorMessage.style.color = 'var(--error)';
+        }
+      } else {
+        errorMessage.textContent = '❌ RUT de empresa o personal no encontrado';
+        errorMessage.style.color = 'var(--error)';
+      }
+    });
+
+    // Configurar permisos según el rol del usuario
+    function setupPermissions() {
+      const cards = document.querySelectorAll('.module-card');
+      cards.forEach(card => {
+        const module = card.getAttribute('data-module');
+        
+        // Verificar si el usuario tiene permiso para este módulo
+        if (permissions[currentRole] && permissions[currentRole].includes(module)) {
+          card.classList.remove('disabled');
+        } else {
+          card.classList.add('disabled');
+        }
+      });
+    }
+
+    // Verificar permisos antes de abrir un módulo
+    function checkPermission(module) {
+      const card = document.querySelector(`.module-card[data-module="${module}"]`);
+      
+      if (card.classList.contains('disabled')) {
+        // Mostrar pantalla de acceso denegado
+        document.querySelector('.modules-grid').style.display = 'none';
+        document.querySelectorAll('.crud').forEach(c => c.classList.remove('active'));
+        document.getElementById('accessDenied').classList.add('active');
+      } else {
+        // Abrir el módulo
+        openCrud(module);
+      }
+    }
+
+    // Función para logout
+    function logout() {
+      if (confirm('¿Estás seguro de que deseas salir del sistema?')) {
+        mainPanel.style.display = 'none';
+        loginScreen.style.display = 'flex';
+        loginForm.reset();
+        errorMessage.textContent = '';
+        
+        // Limpiar datos de sesión
+        currentUser = null;
+        currentRole = null;
+        currentLocation = null;
+      }
+    }
+
+    // Funcionalidad del panel principal
+    const db = {
+      recepcionar: []
+    };
+
+    function openCrud(modulo) {
+      document.querySelector('.modules-grid').style.display = 'none';
+      document.querySelectorAll('.crud').forEach(c => c.classList.remove('active'));
+      document.getElementById(modulo).classList.add('active');
+      renderTable(modulo);
+    }
+
+    function goBack() {
+      document.querySelectorAll('.crud').forEach(c => c.classList.remove('active'));
+      document.querySelector('.modules-grid').style.display = 'grid';
+    }
+
+    function renderTable(modulo) {
+      const tbody = document.querySelector(`#tbl${modulo.charAt(0).toUpperCase() + modulo.slice(1)} tbody`);
+      if (!tbody) return;
+      
+      tbody.innerHTML = '';
+      db[modulo].forEach((row, idx) => {
+        tbody.insertAdjacentHTML('beforeend', `
+          <tr>
+            <td>${idx + 1}</td>
+            <td>${row.producto}</td>
+            <td>${row.cantidad}</td>
+            <td>
+              <button class="btn-primary btn-sm" onclick="editRow('${modulo}', ${idx})">
+                <i class="fas fa-edit"></i> Editar
+              </button>
+              <button class="btn-danger btn-sm" onclick="deleteRow('${modulo}', ${idx})">
+                <i class="fas fa-trash"></i> Eliminar
+              </button>
+            </td>
+          </tr>
+        `);
+      });
+    }
+
+    function addRow(modulo) {
+      const producto = document.getElementById('rProducto').value.trim();
+      const cantidad = document.getElementById('rCantidad').value.trim();
+      
+      if (!producto || !cantidad) {
+        alert('Completa todos los campos');
+        return;
+      }
+      
+      db[modulo].push({ producto, cantidad });
+      document.getElementById('rProducto').value = '';
+      document.getElementById('rCantidad').value = '';
+      renderTable(modulo);
+    }
+
+    function editRow(modulo, idx) {
+      const row = db[modulo][idx];
+      const producto = prompt('Producto:', row.producto);
+      const cantidad = prompt('Cantidad (kg):', row.cantidad);
+      
+      if (producto !== null && cantidad !== null) {
+        row.producto = producto;
+        row.cantidad = cantidad;
+        renderTable(modulo);
+      }
+    }
+
+    function deleteRow(modulo, idx) {
+      if (confirm('¿Eliminar registro?')) {
+        db[modulo].splice(idx, 1);
+        renderTable(modulo);
+      }
+    }
+
+    // Datos de ejemplo
+    window.addEventListener('DOMContentLoaded', () => {
+      db.recepcionar = [
+        { producto: 'Lomo Vacuno', cantidad: '50' },
+        { producto: 'Pechuga Pollo', cantidad: '30' },
+        { producto: 'Costillar Cerdo', cantidad: '25' }
+      ];
+    });
+
+    // Validación de RUT en tiempo real
+    document.getElementById('rutEmpresa').addEventListener('input', function(e) {
+      this.value = this.value.replace(/[^0-9kK\-\.]/g, '');
+    });
+
+    document.getElementById('rutPersonal').addEventListener('input', function(e) {
+      this.value = this.value.replace(/[^0-9kK\-\.]/g, '');
+    });
+  </script>
 </body>
 </html>
