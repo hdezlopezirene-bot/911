@@ -3,555 +3,728 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Taller IQ · Diagnóstico Profesional</title>
-    <!-- Font & refinada UI, sensación premium, client-friendly -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>911repair · Diagnóstico Profesional</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <style>
+        /* === MISMOS ESTILOS DE LA APP PRINCIPAL === */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --primary-soft: #eff6ff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --whatsapp: #25D366;
+            
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --border-light: #f1f5f9;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+            --shadow-md: 0 10px 15px -3px rgb(0 0 0 / 0.05);
+            
+            --radius: 20px;
+            --radius-sm: 12px;
+            --transition: all 0.2s ease;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --border-light: #1e293b;
+            --primary-soft: #1e293b;
+        }
+
         body {
-            background: #f8fafd;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-            color: #0a1e2f;
-            padding: 16px 12px;
-            max-width: 700px;
-            margin: 0 auto;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             line-height: 1.5;
+            min-height: 100vh;
+            padding: 16px;
+            transition: background 0.3s, color 0.3s;
+            font-size: 16px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         h1 {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 20px;
+            gap: 12px;
+            font-size: 1.6rem;
             font-weight: 600;
-            color: #0a4b7a;
-            background: rgba(10, 75, 122, 0.04);
-            padding: 14px 10px;
-            border-radius: 32px;
-            margin: 0 0 16px 0;
-            letter-spacing: -0.3px;
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(21, 101, 192, 0.15);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.01);
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border);
         }
 
-        /* Tarjetas con sombra suave, border-radius refinado */
-        .section {
-            border-radius: 24px;
-            padding: 18px 16px;
-            margin-bottom: 18px;
-            background: white;
-            box-shadow: 0 8px 20px -6px rgba(0, 20, 40, 0.06), 0 2px 4px -2px rgba(0,0,0,0.02);
-            border: 1px solid rgba(255,255,255,0.6);
-            backdrop-filter: blur(2px);
-            transition: transform 0.2s ease, box-shadow 0.25s;
-        }
-
-        .section:hover {
-            box-shadow: 0 16px 28px -10px rgba(21, 101, 192, 0.12);
-        }
-
-        /* Sutiles acentos de color en borde izquierdo */
-        .blue {
-            border-left: 5px solid #1e88e5;
-        }
-        .green {
-            border-left: 5px solid #43a047;
-        }
-        .orange {
-            border-left: 5px solid #fb8c00;
-        }
-        .gray {
-            border-left: 5px solid #546e7a;
-        }
-        .red {
-            border-left: 5px solid #e53935;
+        h1 i {
+            color: var(--primary);
+            font-size: 2rem;
         }
 
         h2 {
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 16px;
+            font-size: 1.2rem;
             font-weight: 600;
-            margin-bottom: 14px;
-            color: #0d3e63;
-            letter-spacing: -0.2px;
-            border-bottom: 1px dashed #e2eaf1;
-            padding-bottom: 10px;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
         }
 
-        p, li {
-            font-size: 14px;
-            margin-bottom: 6px;
+        h2 i {
+            color: var(--primary);
+            width: 28px;
+        }
+
+        /* === TARJETAS === */
+        .section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+
+        .section:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .section.blue { border-left: 4px solid var(--primary); }
+        .section.green { border-left: 4px solid var(--success); }
+        .section.orange { border-left: 4px solid var(--warning); }
+        .section.gray { border-left: 4px solid var(--text-muted); }
+        .section.red { border-left: 4px solid var(--danger); }
+
+        /* === INFORMACIÓN === */
+        .info-row {
             display: flex;
             align-items: baseline;
-            flex-wrap: wrap;
+            padding: 8px 0;
+            border-bottom: 1px dashed var(--border-light);
         }
 
-        p b, li b {
-            min-width: 110px;
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            min-width: 140px;
             font-weight: 600;
-            color: #2c3e4f;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
         }
 
-        /* badges de estado más atractivos */
+        .info-value {
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        /* === BADGES === */
         .ok, .bad, .warn {
             display: inline-block;
             padding: 4px 12px;
-            border-radius: 30px;
-            font-size: 12px;
+            border-radius: 40px;
+            font-size: 0.75rem;
             font-weight: 600;
-            letter-spacing: 0.2px;
-            background: #e8f5e9;
-            color: #1e5e2e;
-            border: 1px solid #a5d6a7;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.01);
+            margin-left: 8px;
+        }
+
+        .ok {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.3);
         }
 
         .bad {
-            background: #ffebee;
-            color: #b71c1c;
-            border-color: #ef9a9a;
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.3);
         }
 
         .warn {
-            background: #fff8e1;
-            color: #b7650e;
-            border-color: #ffe082;
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.3);
         }
 
-        /* Botones con jerarquía y tacto premium */
-        button {
-            width: 100%;
-            padding: 12px 10px;
-            border: none;
-            border-radius: 60px; /* pill shape */
-            background: #1565c0;
-            color: white;
-            font-size: 15px;
+        /* === BATERÍA === */
+        #battery {
+            font-size: 1.2rem;
             font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 12px;
-            border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 6px 14px rgba(21, 101, 192, 0.2);
-            transition: all 0.18s;
-            cursor: pointer;
-            letter-spacing: 0.2px;
-        }
-
-        button:active {
-            transform: scale(0.97);
-            box-shadow: 0 3px 6px rgba(21, 101, 192, 0.2);
-            background: #0d47a1;
-        }
-
-        /* botones secundarios dentro de tests – más ligeros */
-        .section.blue button {
-            background: #0d4b70;
-            box-shadow: 0 4px 10px rgba(13, 75, 112, 0.15);
-            margin-bottom: 4px;
-        }
-
-        .section.blue button:active {
-            background: #0a3e5c;
-        }
-
-        /* Canvas más estilizado, con transición */
-        canvas {
-            width: 100%;
-            height: 110px;
-            background: #ffffff;
-            border-radius: 20px;
-            border: 1px solid #e6edf4;
-            margin-top: 8px;
-            box-shadow: inset 0 2px 6px rgba(0,0,0,0.02);
-        }
-
-        #caps {
-            list-style: none;
-            margin: 6px 0 0 0;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 8px;
-        }
-
-        #caps li {
-            background: #f4f9fd;
-            padding: 8px 12px;
-            border-radius: 40px;
-            font-size: 12.5px;
+            background: var(--bg-primary);
+            padding: 16px;
+            border-radius: 60px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border: 1px solid #e3ecf3;
-            margin-bottom: 0;
+            border: 1px solid var(--border);
         }
 
-        .small {
-            font-size: 12px;
-            color: #5e7a93;
-            text-align: center;
+        /* === GRID DE CAPACIDADES === */
+        #caps {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
+        }
+
+        #caps li {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 10px 14px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* === BOTONES === */
+        button {
+            font-family: 'Inter', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border: 1px solid transparent;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--primary);
+            color: white;
+            width: 100%;
+            margin: 4px 0;
+        }
+
+        button:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .section.blue button {
+            background: var(--primary);
+        }
+
+        .section.gray button {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .section.gray button:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* === BOTÓN VOLVER === */
+        button:last-of-type {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
             margin-top: 24px;
-            padding-top: 16px;
-            border-top: 1px solid #dce5ec;
-            font-weight: 400;
         }
 
-        /* resultado de estrés / fps con estilo */
+        button:last-of-type:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* === CANVAS === */
+        canvas {
+            width: 100%;
+            height: 120px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            margin: 16px 0 8px;
+        }
+
+        /* === RESULTADOS === */
         #cpuResult, #fpsResult {
-            background: #f0f5fa;
-            padding: 12px 16px;
-            border-radius: 60px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #0f4b6e;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 16px 20px;
+            font-size: 0.95rem;
             margin-top: 16px;
-            border: 1px solid #cbdae5;
             text-align: center;
+            color: var(--text-primary);
         }
 
-        /* listas de evaluación final */
         #result {
             list-style: none;
-            margin-top: 6px;
         }
+
         #result li {
-            background: rgba(229, 57, 53, 0.04);
-            padding: 8px 14px;
-            border-radius: 50px;
-            margin-bottom: 8px;
-            border-left: 3px solid #e53935;
-            font-weight: 500;
-            color: #1d2f3f;
-        }
-
-        /* botón volver, más neutral */
-        button:last-of-type {
-            background: #f1f5f9;
-            color: #1e405e;
-            border: 1px solid #c0d0df;
-            box-shadow: none;
-            font-weight: 600;
-            margin-top: 18px;
-        }
-        button:last-of-type:active {
-            background: #e1e8f0;
-            transform: scale(0.98);
-        }
-
-        /* micro-interacción: íconos animados? lo hacemos con content */
-        h2:before {
-            content: "▍";
-            opacity: 0.8;
-            margin-right: 4px;
-            color: #1e88e5;
-            font-weight: 700;
-        }
-
-        /* adaptación para cliente: todo más limpio */
-        .section.orange p#battery {
-            font-size: 16px;
-            font-weight: 600;
-            background: #ffe9ce;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 40px;
             padding: 12px 18px;
-            border-radius: 100px;
-            color: #683c01;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #result li i {
+            color: var(--primary);
+            width: 20px;
+        }
+
+        /* === GRID DE BOTONES INTERACTIVOS === */
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .button-grid button {
+            margin: 0;
+        }
+
+        .button-grid button:last-child {
+            grid-column: span 2;
+        }
+
+        /* === FOOTER === */
+        .small {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 32px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 480px) {
+            .info-row {
+                flex-direction: column;
+                gap: 4px;
+            }
+            
+            .info-label {
+                min-width: auto;
+            }
+            
+            #caps {
+                grid-template-columns: 1fr;
+            }
+            
+            .button-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .button-grid button:last-child {
+                grid-column: span 1;
+            }
+            
+            h1 {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* === ANIMACIONES === */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .loading {
+            animation: pulse 1.5s infinite;
         }
     </style>
 </head>
-<body>
+<body data-theme="light">
+    <div class="container">
+        <h1>
+            <i class="fas fa-stethoscope"></i>
+            Diagnóstico Profesional
+        </h1>
 
-<h1>
-    <span style="font-size:26px;">🔧</span> Taller IQ · Diagnóstico Pro
-</h1>
+        <!-- IDENTIFICACIÓN DEL EQUIPO -->
+        <div class="section blue">
+            <h2><i class="fas fa-id-card"></i> Identificación del equipo</h2>
+            <div class="info-row">
+                <span class="info-label">Sistema operativo:</span>
+                <span class="info-value" id="os"></span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Plataforma:</span>
+                <span class="info-value" id="platform"></span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Núcleos CPU:</span>
+                <span class="info-value" id="cpu"></span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Memoria RAM:</span>
+                <span class="info-value" id="ram"></span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Pantalla:</span>
+                <span class="info-value" id="res"></span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Pantalla táctil:</span>
+                <span class="info-value" id="touch"></span>
+            </div>
+        </div>
 
-<!-- IDENTIFICACIÓN DEL EQUIPO · CARD REFINADA -->
-<div class="section blue">
-    <h2>🆔 Identificación del equipo</h2>
-    <p><b>Sistema operativo:</b> <span id="os"></span></p>
-    <p><b>Plataforma:</b> <span id="platform"></span></p>
-    <p><b>Núcleos CPU:</b> <span id="cpu"></span></p>
-    <p><b>Memoria RAM:</b> <span id="ram"></span></p>
-    <p><b>Pantalla:</b> <span id="res"></span></p>
-    <p><b>Pantalla táctil:</b> <span id="touch"></span></p>
-</div>
+        <!-- CONECTIVIDAD -->
+        <div class="section green">
+            <h2><i class="fas fa-wifi"></i> Estado de red</h2>
+            <div class="info-row">
+                <span class="info-label">Dispositivo online:</span>
+                <span class="info-value" id="online"></span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Tipo de conexión:</span>
+                <span class="info-value" id="netType"></span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Velocidad descarga:</span>
+                <span class="info-value" id="speed"></span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Latencia (RTT):</span>
+                <span class="info-value" id="rtt"></span>
+            </div>
+        </div>
 
-<!-- CONECTIVIDAD · CON ESTILO DE INDICADORES SUAVES -->
-<div class="section green">
-    <h2>🌐 Estado de red</h2>
-    <p><b>Dispositivo online:</b> <span id="online"></span></p>
-    <p><b>Tipo de conexión:</b> <span id="netType"></span></p>
-    <p><b>Velocidad descarga:</b> <span id="speed"></span></p>
-    <p><b>Latencia (RTT):</b> <span id="rtt"></span></p>
-</div>
+        <!-- BATERÍA -->
+        <div class="section orange">
+            <h2><i class="fas fa-battery-three-quarters"></i> Nivel de energía</h2>
+            <div id="battery">🔍 Cargando batería...</div>
+        </div>
 
-<!-- BATERÍA · DATO DESTACADO -->
-<div class="section orange">
-    <h2>🔋 Nivel de energía</h2>
-    <p id="battery">🔍 Cargando batería...</p>
-</div>
+        <!-- SENSORES Y CAPACIDADES -->
+        <div class="section gray">
+            <h2><i class="fas fa-microchip"></i> Sensores & APIs compatibles</h2>
+            <ul id="caps"></ul>
+        </div>
 
-<!-- SENSORES Y CAPACIDADES · EN FORMATO TAGS -->
-<div class="section gray">
-    <h2>🧠 Sensores & APIs compatibles</h2>
-    <ul id="caps"></ul>
-</div>
+        <!-- PRUEBA DE CPU -->
+        <div class="section gray">
+            <h2><i class="fas fa-microchip"></i> Estrés de CPU (5s)</h2>
+            <button onclick="cpuTest()">
+                <i class="fas fa-play"></i> Iniciar prueba de esfuerzo
+            </button>
+            <div id="cpuResult">— Pulsa para medir rendimiento —</div>
+        </div>
 
-<!-- PRUEBA DE CPU Y BENCHMARK CON DISEÑO CARD UNIFORME -->
-<div class="section gray">
-    <h2>🧪 Estrés de CPU (5s)</h2>
-    <button onclick="cpuTest()">⏯️ Iniciar prueba de esfuerzo</button>
-    <p id="cpuResult" style="background: #eaf0f6;">— Pulsa para medir rendimiento —</p>
-</div>
+        <!-- BENCHMARK GRÁFICO -->
+        <div class="section gray">
+            <h2><i class="fas fa-chart-line"></i> Benchmark gráfico</h2>
+            <button onclick="startBenchmark()">
+                <i class="fas fa-play"></i> Iniciar benchmark
+            </button>
+            <canvas id="bench" width="300" height="100"></canvas>
+            <div id="fpsResult">— Renderizado no iniciado —</div>
+        </div>
 
-<div class="section gray">
-    <h2>🎮 Benchmark gráfico</h2>
-    <button onclick="startBenchmark()">✨ Iniciar benchmark</button>
-    <canvas id="bench" width="300" height="100"></canvas>
-    <p id="fpsResult" style="background: #eaf0f6;">— Renderizado no iniciado —</p>
-</div>
+        <!-- PRUEBAS INTERACTIVAS -->
+        <div class="section blue">
+            <h2><i class="fas fa-gamepad"></i> Pruebas interactivas</h2>
+            <div class="button-grid">
+                <button onclick="testVibration()">
+                    <i class="fas fa-mobile-alt"></i> Vibración
+                </button>
+                <button onclick="testAudio()">
+                    <i class="fas fa-volume-up"></i> Audio
+                </button>
+                <button onclick="testCamera()">
+                    <i class="fas fa-camera"></i> Cámara
+                </button>
+                <button onclick="testMic()">
+                    <i class="fas fa-microphone"></i> Micrófono
+                </button>
+                <button onclick="testGPS()">
+                    <i class="fas fa-map-marker-alt"></i> GPS / Ubicación
+                </button>
+            </div>
+        </div>
 
-<!-- PRUEBAS INTERACTIVAS · BOTONES MÁS ATRACTIVOS -->
-<div class="section blue">
-    <h2>🧪 Pruebas interactivas</h2>
-    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-        <button onclick="testVibration()" style="flex: 1 0 calc(50% - 8px); margin-top: 0;">📳 Vibración</button>
-        <button onclick="testAudio()" style="flex: 1 0 calc(50% - 8px); margin-top: 0;">🔊 Audio</button>
-        <button onclick="testCamera()" style="flex: 1 0 calc(50% - 8px);">📸 Cámara</button>
-        <button onclick="testMic()" style="flex: 1 0 calc(50% - 8px);">🎤 Micrófono</button>
-        <button onclick="testGPS()" style="flex: 1 0 100%;">📍 GPS / Ubicación</button>
+        <!-- EVALUACIÓN TÉCNICA -->
+        <div class="section red">
+            <h2><i class="fas fa-clipboard-list"></i> Evaluación técnica · resumen</h2>
+            <ul id="result">
+                <li><i class="fas fa-info-circle"></i> Los resultados aparecerán aquí</li>
+            </ul>
+        </div>
+
+        <!-- BOTÓN VOLVER -->
+        <button onclick="volverApp()">
+            <i class="fas fa-arrow-left"></i> Volver al panel principal
+        </button>
+
+        <p class="small">
+            <i class="fas fa-microchip"></i> Diagnóstico inteligente en navegador · Los valores reflejan capacidades detectadas.<br>
+            No reemplaza un escaneo físico especializado.
+        </p>
     </div>
-</div>
 
-<!-- EVALUACIÓN TÉCNICA FINAL, RESULTADOS EN VIVO -->
-<div class="section red">
-    <h2>📋 Evaluación técnica · resumen</h2>
-    <ul id="result">
-        <li style="background: transparent; border-left-color: #90a4ae; color: #2c3e4f; list-style: none;">✅ Los resultados aparecerán aquí</li>
-    </ul>
-</div>
+    <script>
+        (function() {
+            // ========== IDENTIFICACIÓN ==========
+            const ua = navigator.userAgent;
+            const platform = navigator.platform || "—";
+            document.getElementById("platform").innerText = platform;
+            document.getElementById("cpu").innerText = navigator.hardwareConcurrency || "no disponible";
+            document.getElementById("ram").innerText = navigator.deviceMemory ? navigator.deviceMemory + " GB" : "no disponible";
+            document.getElementById("res").innerText = screen.width + " x " + screen.height;
+            
+            const touchSupport = navigator.maxTouchPoints > 0 ? 
+                '<span class="ok">✅ Sí · ' + navigator.maxTouchPoints + ' pts</span>' : 
+                '<span class="warn">⚠️ No detectada</span>';
+            document.getElementById("touch").innerHTML = touchSupport;
 
-<!-- BOTÓN DE RETORNO, ESTILO SECUNDARIO PERO ELEGANTE -->
-<button onclick="volverApp()">⬅ Volver al panel principal</button>
+            let os = "Desconocido";
+            if (ua.includes("Android")) os = "Android";
+            else if (ua.includes("iPhone") || ua.includes("iPad")) os = "iOS";
+            else if (ua.includes("Windows")) os = "Windows";
+            else if (ua.includes("Mac")) os = "macOS";
+            else if (ua.includes("Linux")) os = "Linux";
+            document.getElementById("os").innerText = os;
 
-<p class="small">
-    ⚡ Diagnóstico inteligente en navegador · Los valores reflejan capacidades detectadas.<br>
-    No reemplaza un escaneo físico especializado.
-</p>
+            // ========== RED ==========
+            document.getElementById("online").innerHTML = navigator.onLine ? 
+                '<span class="ok">🟢 Conectado</span>' : 
+                '<span class="bad">🔴 Sin conexión</span>';
 
-<script>
-    (function() {
-        // ------------------------------------------------------------
-        // IDENTIFICACIÓN PROFESIONAL · datos limpios y elegantes
-        // ------------------------------------------------------------
-        const ua = navigator.userAgent;
-        const platform = navigator.platform || "—";
-        document.getElementById("platform").innerText = platform;
-        document.getElementById("cpu").innerText = navigator.hardwareConcurrency || "no disponible";
-        document.getElementById("ram").innerText = navigator.deviceMemory ? navigator.deviceMemory + " GB" : "no disponible";
-        document.getElementById("res").innerText = screen.width + " x " + screen.height;
-        const touchSupport = navigator.maxTouchPoints > 0 ? 
-            '<span class="ok">✅ Sí · ' + navigator.maxTouchPoints + ' pts</span>' : 
-            '<span class="warn">⚠️ No detectada</span>';
-        document.getElementById("touch").innerHTML = touchSupport;
+            const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection || {};
+            document.getElementById("netType").innerText = conn.effectiveType ? conn.effectiveType.toUpperCase() : "N/D";
+            document.getElementById("speed").innerText = conn.downlink ? conn.downlink + " Mbps" : "N/D";
+            document.getElementById("rtt").innerText = conn.rtt ? conn.rtt + " ms" : "N/D";
 
-        let os = "Desconocido";
-        if (ua.includes("Android")) os = "Android 🤖";
-        else if (ua.includes("iPhone") || ua.includes("iPad")) os = "iOS 📱";
-        else if (ua.includes("Windows")) os = "Windows 💻";
-        else if (ua.includes("Mac")) os = "macOS 🍏";
-        else if (ua.includes("Linux")) os = "Linux 🐧";
-        document.getElementById("os").innerText = os;
-
-        // RED
-        document.getElementById("online").innerHTML = navigator.onLine ? 
-            '<span class="ok">🟢 Conectado</span>' : 
-            '<span class="bad">🔴 Sin conexión</span>';
-
-        const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection || {};
-        document.getElementById("netType").innerText = conn.effectiveType ? conn.effectiveType.toUpperCase() : "N/D";
-        document.getElementById("speed").innerText = conn.downlink ? conn.downlink + " Mbps" : "N/D";
-        document.getElementById("rtt").innerText = conn.rtt ? conn.rtt + " ms" : "N/D";
-
-        // BATERÍA · con diseño premium
-        if (navigator.getBattery) {
-            navigator.getBattery().then(b => {
-                let nivel = Math.round(b.level * 100);
-                let cargando = b.charging ? "⚡ En carga" : "🔋 Batería";
-                let colorClass = nivel > 20 ? 'ok' : 'warn';
-                document.getElementById("battery").innerHTML = 
-                    `<span style="display:flex; align-items:center; gap:8px"><span style="font-size:22px;">${nivel}%</span> 
-                    <span class="${colorClass}" style="font-size:13px;">${cargando}</span> 
-                    ${b.charging ? '🔌' : '📉'}</span>`;
-            });
-        } else {
-            document.getElementById("battery").innerHTML = '<span class="warn">No se puede medir batería</span>';
-        }
-
-        // ------------------------------------------------------------
-        // CAPACIDADES · UI tipo chips
-        // ------------------------------------------------------------
-        const capsList = document.getElementById("caps");
-        capsList.innerHTML = "";
-
-        const features = [
-            { name: "📍 Geolocalización", test: "geolocation" in navigator },
-            { name: "📳 Vibración", test: "vibrate" in navigator },
-            { name: "📸 Cámara", test: "mediaDevices" in navigator },
-            { name: "🎙️ Micrófono", test: "mediaDevices" in navigator },
-            { name: "📉 Acelerómetro", test: "DeviceMotionEvent" in window },
-            { name: "🧭 Giroscopio", test: "DeviceOrientationEvent" in window },
-            { name: "📡 Bluetooth", test: "bluetooth" in navigator },
-            { name: "🔌 USB", test: "usb" in navigator },
-            { name: "💳 NFC", test: "NDEFReader" in window },
-            { name: "🔔 Notificaciones", test: "Notification" in window },
-            { name: "⚙️ Service Worker", test: "serviceWorker" in navigator }
-        ];
-
-        features.forEach(f => {
-            let li = document.createElement("li");
-            li.innerHTML = `${f.name} ${f.test ? 
-                '<span class="ok">disponible</span>' : 
-                '<span class="warn">no disponible</span>'}`;
-            capsList.appendChild(li);
-        });
-
-        // ------------------------------------------------------------
-        // RESULTADOS DINÁMICOS (función addResult mejorada)
-        // ------------------------------------------------------------
-        window.addResult = function(name, status) {
-            const resultList = document.getElementById("result");
-            // Limpiar placeholder si existe
-            if (resultList.children.length === 1 && resultList.children[0].innerText.includes("aparecerán aquí")) {
-                resultList.innerHTML = "";
-            }
-            let li = document.createElement("li");
-            let statusIcon = '';
-            if (status.toLowerCase().includes('ok') || status.toLowerCase().includes('completado') || status === 'OK' || status === 'Ejecutada') {
-                statusIcon = '✅ ';
-            } else if (status.toLowerCase().includes('falla') || status.toLowerCase().includes('no')) {
-                statusIcon = '⚠️ ';
+            // ========== BATERÍA ==========
+            if (navigator.getBattery) {
+                navigator.getBattery().then(b => {
+                    let nivel = Math.round(b.level * 100);
+                    let cargando = b.charging ? "⚡ En carga" : "🔋 Batería";
+                    let colorClass = nivel > 20 ? 'ok' : 'warn';
+                    document.getElementById("battery").innerHTML = 
+                        `<span>${nivel}%</span>
+                        <span class="${colorClass}">${cargando}</span>
+                        ${b.charging ? '<i class="fas fa-bolt"></i>' : ''}`;
+                });
             } else {
-                statusIcon = '🔹 ';
+                document.getElementById("battery").innerHTML = '<span class="warn">No se puede medir batería</span>';
             }
-            li.innerHTML = `<span style="font-weight:600;">${name}</span>  ${statusIcon} ${status}`;
-            resultList.appendChild(li);
-        };
 
-        // cpu test con resultado más claro
-        window.cpuTest = function() {
-            const start = performance.now();
-            let count = 0;
-            document.getElementById("cpuResult").innerHTML = "⏳ Procesando durante 5 segundos...";
-            function heavy() {
-                while (performance.now() - start < 5000) {
-                    for (let i = 0; i < 150000; i++) {
-                        Math.sqrt(i * i * Math.random());
-                        count++;
+            // ========== CAPACIDADES ==========
+            const capsList = document.getElementById("caps");
+            capsList.innerHTML = "";
+
+            const features = [
+                { name: "Geolocalización", test: "geolocation" in navigator },
+                { name: "Vibración", test: "vibrate" in navigator },
+                { name: "Cámara", test: "mediaDevices" in navigator },
+                { name: "Micrófono", test: "mediaDevices" in navigator },
+                { name: "Acelerómetro", test: "DeviceMotionEvent" in window },
+                { name: "Giroscopio", test: "DeviceOrientationEvent" in window },
+                { name: "Bluetooth", test: "bluetooth" in navigator },
+                { name: "USB", test: "usb" in navigator },
+                { name: "NFC", test: "NDEFReader" in window },
+                { name: "Notificaciones", test: "Notification" in window },
+                { name: "Service Worker", test: "serviceWorker" in navigator }
+            ];
+
+            features.forEach(f => {
+                let li = document.createElement("li");
+                li.innerHTML = `${f.name} ${f.test ? 
+                    '<span class="ok">disponible</span>' : 
+                    '<span class="warn">no disponible</span>'}`;
+                capsList.appendChild(li);
+            });
+
+            // ========== RESULTADOS ==========
+            window.addResult = function(name, status) {
+                const resultList = document.getElementById("result");
+                if (resultList.children.length === 1 && resultList.children[0].innerText.includes("aparecerán aquí")) {
+                    resultList.innerHTML = "";
+                }
+                let li = document.createElement("li");
+                let icon = 'fa-check-circle';
+                if (status.toLowerCase().includes('falla') || status.toLowerCase().includes('no')) {
+                    icon = 'fa-exclamation-triangle';
+                } else if (status.toLowerCase().includes('ok') || status.toLowerCase().includes('completado')) {
+                    icon = 'fa-check-circle';
+                } else {
+                    icon = 'fa-info-circle';
+                }
+                li.innerHTML = `<i class="fas ${icon}"></i> <span style="font-weight:600;">${name}:</span> ${status}`;
+                resultList.appendChild(li);
+            };
+
+            // ========== CPU TEST ==========
+            window.cpuTest = function() {
+                const start = performance.now();
+                let count = 0;
+                document.getElementById("cpuResult").innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Procesando durante 5 segundos...';
+                
+                function heavy() {
+                    while (performance.now() - start < 5000) {
+                        for (let i = 0; i < 150000; i++) {
+                            Math.sqrt(i * i * Math.random());
+                            count++;
+                        }
+                    }
+                    const score = Math.round(count / 5);
+                    document.getElementById("cpuResult").innerHTML = `<i class="fas fa-microchip"></i> <strong>${score.toLocaleString()}</strong> operaciones/seg · estable`;
+                    addResult("CPU Stress Test", `Completado · ${score.toLocaleString()} ops/seg`);
+                }
+                setTimeout(heavy, 30);
+            };
+
+            // ========== BENCHMARK ==========
+            window.startBenchmark = function() {
+                const canvas = document.getElementById("bench");
+                const ctx = canvas.getContext("2d");
+                let frames = 0;
+                const start = performance.now();
+                canvas.width = canvas.clientWidth || 300;
+                canvas.height = canvas.clientHeight || 100;
+
+                function draw() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    
+                    // Fondo
+                    ctx.fillStyle = "var(--bg-primary)";
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    
+                    // Círculos aleatorios
+                    for (let i = 0; i < 12; i++) {
+                        ctx.fillStyle = `rgba(37, 99, 235, ${Math.random() * 0.5 + 0.3})`;
+                        ctx.beginPath();
+                        ctx.arc(
+                            Math.random() * canvas.width,
+                            Math.random() * canvas.height,
+                            Math.random() * 15 + 5,
+                            0,
+                            Math.PI * 2
+                        );
+                        ctx.fill();
+                    }
+                    
+                    // Texto
+                    ctx.fillStyle = "var(--text-primary)";
+                    ctx.font = "bold 12px 'Inter', sans-serif";
+                    ctx.fillText("Benchmark en curso...", 15, 30);
+                    
+                    frames++;
+                    
+                    if (performance.now() - start < 5000) {
+                        requestAnimationFrame(draw);
+                    } else {
+                        const fps = Math.round(frames / 5);
+                        document.getElementById("fpsResult").innerHTML = `<i class="fas fa-chart-line"></i> <strong>${fps}</strong> FPS promedio`;
+                        addResult("Benchmark gráfico", `Completado · ${fps} FPS`);
                     }
                 }
-                const score = Math.round(count / 5);
-                document.getElementById("cpuResult").innerHTML = `🧠 Rendimiento CPU: <strong style="font-size:1.4em;">${score.toLocaleString()}</strong> operaciones/seg · estable`;
-                addResult("CPU Stress Test", `Completado · ${score.toLocaleString()} ops/seg`);
-            }
-            setTimeout(heavy, 30);
-        };
+                draw();
+            };
 
-        window.startBenchmark = function() {
-            const canvas = document.getElementById("bench");
-            const ctx = canvas.getContext("2d");
-            let frames = 0;
-            const start = performance.now();
-            canvas.width = canvas.clientWidth || 300;
-            canvas.height = canvas.clientHeight || 100;
-
-            function draw() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                // degradado de fondo sutil
-                ctx.fillStyle = "#f0f7fc";
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                for (let i = 0; i < 8; i++) {
-                    ctx.fillStyle = `rgba(21, 101, 192, ${Math.random() * 0.5 + 0.3})`;
-                    ctx.beginPath();
-                    ctx.arc(
-                        Math.random() * canvas.width,
-                        Math.random() * canvas.height,
-                        Math.random() * 12 + 3,
-                        0,
-                        Math.PI * 2
-                    );
-                    ctx.fill();
+            // ========== PRUEBAS INTERACTIVAS ==========
+            window.testVibration = function() {
+                if (!navigator.vibrate) { 
+                    addResult("Vibración", "No soportada"); 
+                    return; 
                 }
-                ctx.fillStyle = "#1565c0";
-                ctx.font = "bold 11px 'Inter', sans-serif";
-                ctx.fillText("🔹 Benchmark en curso...", 12, 25);
-                frames++;
-                if (performance.now() - start < 5000) {
-                    requestAnimationFrame(draw);
-                } else {
-                    const fps = Math.round(frames / 5);
-                    document.getElementById("fpsResult").innerHTML = `🎯 FPS promedio: <span style="font-size:1.6rem; font-weight:700;">${fps}</span> fps`;
-                    addResult("Benchmark gráfico", `Completado · ${fps} FPS`);
+                navigator.vibrate([200, 100, 200]);
+                addResult("Vibración", "Ejecutada (patrón 200ms)");
+            };
+
+            window.testAudio = function() {
+                const audio = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
+                audio.play().catch(() => addResult("Audio", "Falló reproducción"))
+                    .then(() => addResult("Audio", "Sonido emitido"));
+            };
+
+            window.testCamera = function() {
+                if (!navigator.mediaDevices) { 
+                    addResult("Cámara", "API no disponible"); 
+                    return; 
                 }
-            }
-            draw();
-        };
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(stream => { 
+                        stream.getTracks().forEach(t => t.stop()); 
+                        addResult("Cámara", "OK · Permiso concedido"); 
+                    })
+                    .catch(() => addResult("Cámara", "Falla o denegado"));
+            };
 
-        // Pruebas funcionales con feedback elegante
-        window.testVibration = function() {
-            if (!navigator.vibrate) { addResult("Vibración", "No soportada"); alert("El dispositivo no admite vibración."); return; }
-            navigator.vibrate([200, 100, 200]);
-            addResult("Vibración", "Ejecutada (patrón 200ms)");
-        };
+            window.testMic = function() {
+                if (!navigator.mediaDevices) { 
+                    addResult("Micrófono", "API no disponible"); 
+                    return; 
+                }
+                navigator.mediaDevices.getUserMedia({ audio: true })
+                    .then(stream => { 
+                        stream.getTracks().forEach(t => t.stop()); 
+                        addResult("Micrófono", "OK · Micrófono funcional"); 
+                    })
+                    .catch(() => addResult("Micrófono", "Falla o sin permisos"));
+            };
 
-        window.testAudio = function() {
-            const audio = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
-            audio.play().catch(e => addResult("Audio", "Falló reproducción")).then(() => addResult("Audio", "Sonido emitido"));
-        };
+            window.testGPS = function() {
+                if (!navigator.geolocation) { 
+                    addResult("GPS", "No soportado"); 
+                    return; 
+                }
+                navigator.geolocation.getCurrentPosition(
+                    () => addResult("GPS", "OK · Ubicación obtenida"),
+                    () => addResult("GPS", "Falla · Sin permiso o timeout")
+                );
+            };
 
-        window.testCamera = function() {
-            if (!navigator.mediaDevices) { addResult("Cámara", "API no disponible"); return; }
-            navigator.mediaDevices.getUserMedia({ video: true })
-                .then(stream => { stream.getTracks().forEach(t => t.stop()); addResult("Cámara", "OK · Permiso concedido"); })
-                .catch(() => addResult("Cámara", "Falla o denegado"));
-        };
+            // ========== VOLVER ==========
+            window.volverApp = function() {
+                if (confirm("¿Volver a la aplicación principal?")) {
+                    window.location.href = "index.html"; 
+                }
+            };
 
-        window.testMic = function() {
-            if (!navigator.mediaDevices) { addResult("Micrófono", "API no disponible"); return; }
-            navigator.mediaDevices.getUserMedia({ audio: true })
-                .then(stream => { stream.getTracks().forEach(t => t.stop()); addResult("Micrófono", "OK · Micrófono funcional"); })
-                .catch(() => addResult("Micrófono", "Falla o sin permisos"));
-        };
-
-        window.testGPS = function() {
-            if (!navigator.geolocation) { addResult("GPS", "No soportado"); return; }
-            navigator.geolocation.getCurrentPosition(
-                () => addResult("GPS", "OK · Ubicación obtenida"),
-                () => addResult("GPS", "Falla · Sin permiso o timeout")
-            );
-        };
-
-        window.volverApp = function() {
-            // simula retorno, pero sin perder la elegancia: podria ser index
-            if (confirm("¿Volver a la aplicación principal?")) {
-                window.location.href = "index.html"; 
-            }
-        };
-
-        // Pequeño detalle: añadir resultado inicial amigable
-        addResult("Sistema", "Diagnóstico listo · Interactúa con las pruebas");
-    })();
-</script>
-
+            // ========== INICIO ==========
+            addResult("Sistema", "Diagnóstico listo · Interactúa con las pruebas");
+        })();
+    </script>
 </body>
 </html>
